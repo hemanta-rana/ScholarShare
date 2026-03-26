@@ -7,6 +7,7 @@
     <groupId>com.ScholarShare</groupId>
     <artifactId>SholarShare</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <properties>
         <maven.compiler.source>25</maven.compiler.source>
@@ -82,7 +83,7 @@
                             <artifactId>${project.artifactId}</artifactId>
                             <type>war</type>
                             <properties>
-                                <context>/learning-logs</context>
+                                <context>/scholarShare</context>
                             </properties>
                         </deployable>
                     </deployables>
