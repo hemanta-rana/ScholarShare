@@ -1,0 +1,311 @@
+/* GLOBAL RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+}
+
+body {
+    background: #e9e5da;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+/* MAIN CONTAINER */
+.container {
+    display: flex;
+    max-width: 1200px;
+    width: 100%;
+    background: transparent;
+    border-radius: 2rem;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    align-items: stretch;
+}
+
+/* RIGHT PANEL (IMAGE) */
+.right {
+    flex: 1;
+    background: #36454F;
+    border-radius: 2rem;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    min-height: 100%;
+}
+
+/* IMAGE FULL COVER */
+.right-image {
+    width: 100%;
+    height: 100%;
+    object-fit: scale-down;
+    border-radius: 2rem;
+}
+
+/* LEFT PANEL (FORM AREA) */
+.left {
+    flex: 1;
+    background: #F5DEB3;
+    border-radius: .5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5rem;
+    box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+}
+
+/* FORM CARD */
+.login-card {
+    background: white;
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 420px;
+    padding: 1rem 1rem;
+    box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s;
+}
+
+/* HEADINGS */
+.login-card h2 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #1e2a32;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.3px;
+    text-align: center;
+}
+
+.login-card .welcome-text {
+    text-align: center;
+    color: #5c6f7e;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+ }
+
+/* LOGO */
+.shield-icon {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 0.8rem;
+}
+
+
+/* FORM LAYOUT */
+
+/* Two inputs in one row */
+.form-group-row {
+    display: flex;
+    gap: 0.8rem;
+    flex-direction: row;
+    margin-bottom: .5rem;
+}
+
+.form-group-row .input-group {
+    flex: 1;
+}
+
+/* Input group style */
+.input-group {
+    margin-bottom: .5rem;
+    position: relative;
+}
+
+/* Inputs */
+.input-group input {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    border-radius: 2.2rem;
+    border: 1.5px solid #e2e8f0;
+    background: #fefefe;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: #36454F;
+    box-shadow: 0 0 0 3px rgba(54, 69, 79, 0.15);
+}
+
+/* PASSWORD FIELD */
+.password-wrap {
+    position: relative;
+}
+
+.eye-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* PASSWORD STRENGTH */
+.strength-bar-wrap {
+    height: 6px;
+    background: #e5e7eb;
+    border-radius: 5px;
+    margin-top: 0.3rem;
+    overflow: hidden;
+}
+
+.strength-bar {
+    height: 100%;
+    width: 0%;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.strength-label {
+    font-size: 0.75rem;
+    margin-top: 0.3rem;
+}
+
+/* TERMS CHECKBOX */
+.terms-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    margin: 1rem 0;
+    color: #4b5d6b;
+}
+
+.terms-check input {
+    margin-top: 3px;
+}
+
+.terms-check a {
+    color: #36454F;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.terms-check a:hover {
+    text-decoration: underline;
+}
+
+/* BUTTON */
+.btn-primary {
+    background: #36454F;
+    border: none;
+    width: 100%;
+    padding: 0.9rem;
+    border-radius: 2.5rem;
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+.btn-primary:hover {
+    background: #25343d;
+    transform: scale(0.98);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+
+}
+
+/* LOGIN LINK */
+.register-link {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #3e5a66;
+}
+
+.register-link a {
+    color: #36454F;
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: 0.3rem;
+    border-bottom: 1px dotted #36454F;
+
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+    color: #1f2e36;
+    border-bottom-style: solid;
+}
+
+/* RESPONSIVE */
+@media (max-width: 850px) {
+    .container {
+        flex-direction: column;
+        max-width: 550px;
+    }
+    .right, .left {
+        width: 100%;
+    }
+    .main-icon {
+        width: 85px;
+        height: 85px;
+        font-size: 3.5rem;
+    }
+    .left h1 {
+        font-size: 1.8rem;
+    }
+    .login-card {
+        padding: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 0.8rem;
+    }
+    .login-card h2 {
+        font-size: 1.6rem;
+    }
+    .feature-badge {
+        padding: 0.4rem 0.9rem;
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 850px) {
+    .container {
+        flex-direction: column;
+        max-width: 550px;
+    }
+
+    .right {
+        height: 220px; /* fixed height for banner-style image */
+        min-height: unset;
+    }
+
+    .right-image {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .left {
+        padding: 1.5rem;
+    }
+}
+/* small animation for subtle delight */
+.right, .left {
+    transition: transform 0.2s ease, box-shadow 0.2s;
+}
+.container:hover .right {
+    transform: translateY(-3px);
+}
+.container:hover .left {
+    transform: translateY(-3px);
+}
+
