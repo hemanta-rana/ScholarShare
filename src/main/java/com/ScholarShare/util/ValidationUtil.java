@@ -2,6 +2,7 @@ package com.ScholarShare.util;
 
 import java.util.regex.Pattern;
 
+
 public class ValidationUtil {
 
     // check for null or empty string value
@@ -26,4 +27,10 @@ public class ValidationUtil {
     public static boolean doPasswordsMatch(String password, String retypePassword) {
         return password != null && password.equals(retypePassword);
     }
+
+    public static boolean isValidPhone(String phone) {
+        if (phone.isEmpty()) return false;
+        return phone.matches("^\\+?[0-9]{10,15}$");
+    }
+
 }
