@@ -4,60 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>ScholarPass | Secure Login</title>
-    <!-- Font Awesome 6 (free icons) -->
-    <link rel="stylesheet" href="../css/Login.css">
+    <link rel="stylesheet" href="../../css/home.css">
+    <link rel="stylesheet" href="../../css/Login.css">
 </head>
+
 <body>
+    <!-- TopNavBar -->
+    <header class="app-header">
+        <nav class="nav-container max-w-7xl">
+            <div class="nav-logo">ScholarShare</div>
+            <div class="nav-links">
+                <a class="nav-link active" href="Home.html">Home</a>
+                <a class="nav-link" href="#">How It Works</a>
+                <a class="nav-link" href="#">About</a>
+                <a class="nav-link" href="#">Contact</a>
+            </div>
+            <div class="nav-button">
+            </div>
+        </nav>
+    </header>
 
-<div class="container">
-    <!-- LEFT SECTION: PRIMARY COLOR #36454F with brand messaging & features -->
-    <div class="left">
-<!--        <div class="left-content">-->
-            <img src="../Images/Login_left%20image.png" alt="Learning Illustration" class="left-image">
-
-<!--        </div>-->
-    </div>
-
-    <!-- RIGHT SECTION: SECONDARY COLOR #F5DEB3 as background, login card white -->
-    <div class="right">
-        <div class="login-card">
-            <h2>Welcome Back</h2>
-            <p class="welcome-text">Sign in to access your dashboard</p>
-
-            <form action="#" method="post">
-                <!-- Email field -->
-                <div class="input-group">
-                    <input type="email" placeholder="Email address" required>
-                </div>
-
-                <!-- Password field -->
-                <div class="input-group">
-                    <input type="password" placeholder="Password" required>
-                </div>
-
-                <a href="#" class="forgot-link">Forgot Password?</a>
-
-                <button type="submit" class="btn-primary">
-                    <i class="fas fa-arrow-right-to-bracket"></i> Sign In
-                </button>
-            </form>
-
-            <!-- or continue with Google (enhanced with icon and subtle box) -->
-            <div class="or-divider">
-                <hr><span>or continue with</span><hr>
+    <div class="login-wrapper">
+        <div class="container">
+            <!-- LEFT SECTION: PRIMARY COLOR #36454F with brand messaging & features -->
+            <div class="left">
+                <!--        <div class="left-content">-->
+                <img src="../../Images/Login_left%20image.png" alt="Learning Illustration" class="left-image" onerror="this.src='../../images/hero.png'">
+                <!--        </div>-->
             </div>
 
-            <a href="#" class="google-continue">
-                <i class="fab fa-google"></i> Google
-            </a>
+            <!-- RIGHT SECTION: SECONDARY COLOR #F5DEB3 as background, login card white -->
+            <div class="right">
+                <div class="login-card">
+                    <h2>Welcome Back</h2>
+                    <p class="welcome-text">Sign in to access your dashboard</p>
 
-            <div class="register-link">
-                Don't have an account? <a href="#">Register</a>
+                    <form action="#" method="post">
+                        <!-- Email field -->
+                        <div class="input-group">
+                            <input type="email" placeholder="Email address" required>
+                        </div>
+
+                        <!-- Password field -->
+                        <div class="input-group">
+                            <input type="password" placeholder="Password" required>
+                        </div>
+
+                        <a href="#" class="forgot-link">Forgot Password?</a>
+
+                        <!-- Note: changed button class to login-submit-btn to avoid conflict with home.css btn-primary -->
+                        <button type="submit" class="login-submit-btn">
+                            <svg class="material-symbols-outlined" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1rem;height:1rem;"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg> 
+                            Sign In
+                        </button>
+                    </form>
+
+
+                    <div class="register-link">
+                        Don't have an account? <a href="#">Register</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-<!-- optional note: no external image needed, fully functional design with primary #36454F and secondary #F5DEB3 -->
 </body>
 </html>
