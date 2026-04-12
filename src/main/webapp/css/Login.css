@@ -1,0 +1,285 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+}
+
+body {
+    background: #e9e5da;  /* soft neutral to complement wheat */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 1.5rem;
+}
+
+/* MAIN CONTAINER - similar layout as reference */
+.container {
+    display: flex;
+    max-width: 1200px;
+    width: 100%;
+    background: transparent;
+    border-radius: 2rem;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    align-items: stretch;
+}
+/* LEFT PANEL FIX */
+.left {
+    flex: 1;
+    background: #36454F;
+    border-radius: 2rem;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    min-height: 300px; /* ensures good height on small screens */
+}
+
+/* IMAGE FULL COVER */
+.left-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2rem;
+}
+
+
+
+/* RIGHT PANEL — secondary color #F5DEB3 (wheat) background */
+.right {
+    flex: 1;
+    background: #F5DEB3;   /* secondary color base */
+    border-radius: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+}
+
+/* white card inside for contrast & readability */
+.login-card {
+    background: white;
+    border-radius: 1.8rem;
+    width: 100%;
+    max-width: 420px;
+    padding: 2.3rem 2rem;
+    box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s;
+}
+
+.login-card h2 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #1e2a32;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.3px;
+}
+
+.login-card .welcome-text {
+    color: #5c6f7e;
+    margin-bottom: 1.8rem;
+    font-size: 0.9rem;
+}
+
+/* input styling */
+.input-group {
+    margin-bottom: 1.2rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    border-radius: 2.2rem;
+    border: 1.5px solid #e2e8f0;
+    background: #fefefe;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: #36454F;
+    box-shadow: 0 0 0 3px rgba(54, 69, 79, 0.15);
+}
+
+.forgot-link {
+    display: block;
+    text-align: right;
+    font-size: 0.75rem;
+    margin-top: -0.5rem;
+    margin-bottom: 1.5rem;
+    color: #36454F;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+    color: #1f2e36;
+}
+
+/* primary button (charcoal) */
+.btn-primary {
+    background: #36454F;
+    border: none;
+    width: 100%;
+    padding: 0.9rem;
+    border-radius: 2.5rem;
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+.btn-primary i {
+    font-size: 1rem;
+}
+
+.btn-primary:hover {
+    background: #25343d;
+    transform: scale(0.98);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* OR divider */
+.or-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 1.5rem 0;
+    color: #8b9aab;
+    font-size: 0.75rem;
+}
+
+.or-divider hr {
+    flex: 1;
+    border: none;
+    height: 1px;
+    background: #e2e8f0;
+}
+
+/* google continue link with subtle icon */
+.google-continue {
+    text-align: center;
+    background: #f8fafc;
+    border-radius: 2.5rem;
+    padding: 0.7rem;
+    transition: 0.2s;
+    border: 1px solid #e9edf2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: #2c3e44;
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-bottom: 1.6rem;
+}
+
+.google-continue i {
+    color: #db4437;
+    font-size: 1.1rem;
+}
+
+.google-continue:hover {
+    background: #ffffff;
+    border-color: #36454F;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+
+.register-link {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #3e5a66;
+}
+
+.register-link a {
+    color: #36454F;
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: 0.3rem;
+    border-bottom: 1px dotted #36454F;
+}
+
+.register-link a:hover {
+    color: #1f2e36;
+    border-bottom-style: solid;
+}
+
+/* responsiveness (similar to reference) */
+@media (max-width: 850px) {
+    .container {
+        flex-direction: column;
+        max-width: 550px;
+    }
+    .left, .right {
+        width: 100%;
+    }
+
+    .main-icon {
+        width: 85px;
+        height: 85px;
+        font-size: 3.5rem;
+    }
+    .left h1 {
+        font-size: 1.8rem;
+    }
+    .login-card {
+        padding: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 0.8rem;
+    }
+    .login-card h2 {
+        font-size: 1.6rem;
+    }
+    .feature-badge {
+        padding: 0.4rem 0.9rem;
+        font-size: 0.7rem;
+    }
+}
+@media (max-width: 850px) {
+    .container {
+        flex-direction: column;
+        max-width: 550px;
+    }
+
+    .left {
+        height: 220px; /* fixed height for banner-style image */
+        min-height: unset;
+    }
+
+    .left-image {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .right {
+        padding: 1.5rem;
+    }
+}
+/* small animation for subtle delight */
+.left, .right {
+    transition: transform 0.2s ease, box-shadow 0.2s;
+}
+.container:hover .left {
+    transform: translateY(-3px);
+}
+.container:hover .right {
+    transform: translateY(-3px);
+}
