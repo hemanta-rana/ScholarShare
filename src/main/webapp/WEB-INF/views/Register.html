@@ -5,12 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>ScholarPass | Create Account</title>
 
-    <!-- CSS JS (for validation, password strength, toggle, etc.) -->
+    <link rel="stylesheet" href="../../css/home.css">
     <link rel="stylesheet" href="../../css/Register.css">
     <script src="../../js/Register.js" defer></script>
 </head>
 <body>
 
+    <!-- TopNavBar -->
+    <header class="app-header">
+        <nav class="nav-container max-w-7xl">
+            <div class="nav-logo">ScholarShare</div>
+            <div class="nav-links">
+                <a class="nav-link" href="Home.html">Home</a>
+                <a class="nav-link" href="#">How It Works</a>
+                <a class="nav-link" href="#">About</a>
+                <a class="nav-link" href="#">Contact</a>
+            </div>
+            <div class="nav-button">
+            </div>
+        </nav>
+    </header>
+
+<div class="register-wrapper">
 <div class="container">
 
     <!-- LEFT SECTION -->
@@ -79,7 +95,7 @@
                 </label>
 
                 <!-- Submit -->
-                <button type="submit" class="btn-primary">
+                <button type="submit" class="register-submit-btn">
                     Create Account
                 </button>
 
@@ -87,7 +103,7 @@
 
             <!-- Login Redirect -->
             <div class="register-link">
-                Already have an account? <a href="#">Sign In</a>
+                Already have an account? <a href="Login.html">Sign In</a>
             </div>
 
         </div>
@@ -95,10 +111,30 @@
 
     <!-- RIGHT SECTION (UNCHANGED IMAGE SIDE) -->
     <div class="right">
-        <img src="../../images/Login_pic.webp" alt="Learning Illustration" class="right-image">
+        <img src="../../Images/Login_left%20image.png" alt="Learning Illustration" class="right-image">
     </div>
 
 </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const wrapper = document.querySelector('.login-wrapper') || document.querySelector('.register-wrapper');
+    if (wrapper) wrapper.classList.add('page-flip-in');
 
+    document.querySelectorAll('a').forEach(link => {
+        if (link.href.includes('Login.html') || link.href.includes('Register.html')) {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = e.currentTarget.href;
+                if (wrapper) {
+                    wrapper.classList.remove('page-flip-in');
+                    wrapper.classList.add('page-flip-out');
+                }
+                setTimeout(() => window.location.href = target, 400);
+            });
+        }
+    });
+});
+</script>
 </body>
 </html>

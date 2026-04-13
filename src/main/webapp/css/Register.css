@@ -1,17 +1,20 @@
-/* GLOBAL RESET */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
 }
 
 body {
-    background: #e9e5da;
+    background: #f6fafd;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.register-wrapper {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    min-height: calc(100vh - 80px);
     padding: 1rem;
 }
 
@@ -52,7 +55,7 @@ body {
 /* LEFT PANEL (FORM AREA) */
 .left {
     flex: 1;
-    background: #F5DEB3;
+    background: #cae6fd;
     border-radius: .5rem;
     display: flex;
     align-items: center;
@@ -111,7 +114,7 @@ body {
     flex: 1;
 }
 
-/* Input group style */
+/*!* Input group style *!*/
 .input-group {
     margin-bottom: .5rem;
     position: relative;
@@ -196,7 +199,7 @@ body {
 }
 
 /* BUTTON */
-.btn-primary {
+.register-submit-btn {
     background: #36454F;
     border: none;
     width: 100%;
@@ -213,7 +216,7 @@ body {
     gap: 0.6rem;
 }
 
-.btn-primary:hover {
+.register-submit-btn:hover {
     background: #25343d;
     transform: scale(0.98);
     box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
