@@ -67,7 +67,7 @@ body {
 /* FORM CARD */
 .login-card {
     background: white;
-    border-radius: 1rem;
+    border-radius: 2rem;
     width: 100%;
     max-width: 420px;
     padding: 1rem 1rem;
@@ -80,7 +80,7 @@ body {
     font-size: 1.9rem;
     font-weight: 700;
     color: #1e2a32;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.3rem;
     letter-spacing: -0.3px;
     text-align: center;
 }
@@ -99,21 +99,6 @@ body {
     margin-bottom: 0.8rem;
 }
 
-
-/* FORM LAYOUT */
-
-/* Two inputs in one row */
-.form-group-row {
-    display: flex;
-    gap: 0.8rem;
-    flex-direction: row;
-    margin-bottom: .5rem;
-}
-
-.form-group-row .input-group {
-    flex: 1;
-}
-
 /*!* Input group style *!*/
 .input-group {
     margin-bottom: .5rem;
@@ -125,7 +110,7 @@ body {
     width: 100%;
     padding: 0.9rem 1.2rem;
     border-radius: 2.2rem;
-    border: 1.5px solid #e2e8f0;
+    border: 3px solid #e2e8f0;
     background: #fefefe;
     font-size: 0.9rem;
     transition: all 0.2s;
