@@ -18,8 +18,8 @@
                 <a class="nav-link" href="#">Contact</a>
             </div>
             <div class="nav-button">
-                <a href="Login.html" class="btn-outline">Login</a>
-                <a href="Register.html" class="btn-primary">Register</a>
+                <a href="login.jsp" class="btn-outline">Login</a>
+                <a href="register.jsp" class="btn-primary">Register</a>
             </div>
         </nav>
     </header>

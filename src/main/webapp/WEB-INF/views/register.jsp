@@ -1,3 +1,5 @@
+<!--<%@ page contentType="text/html;charset=UTF-8" %>-->
+<!--<%@ taglib prefix="c" uri="jakarta.tags.core" %>-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,13 +43,24 @@
 
             <form id="registerForm" action="#" method="post">
 
+<!--                full name -->
                 <div class="input-group">
-                    <input type="text" name="fullName" placeholder="Full Name" required>
+                    <input type="text" name="fullName" placeholder="Full Name"
+                           value="<c:out value='${fullName}' />"
+                           required>
                 </div>
+                <div class="input-group">
+                    <input type="text" name="phone" placeholder="Phone Number"
+                           value="<c:out value='${phone}' />"
+                           required>
+                </div>
+
 
                 <!-- Email -->
                 <div class="input-group">
-                    <input type="email" name="email" placeholder="Email address" required>
+                    <input type="email" name="email" placeholder="Email address"
+                           value="<c:out value='${email}'/> "
+                           required>
                 </div>
 
                 <!-- Password -->
@@ -92,7 +105,7 @@
 
             <!-- Login Redirect -->
             <div class="register-link">
-                Already have an account? <a href="Login.html">Sign In</a>
+                Already have an account? <a href="${pageContext.request.contextPath}/auth/login">Sign In</a>
             </div>
 
         </div>
