@@ -1,5 +1,5 @@
-<!--<%@ page contentType="text/html;charset=UTF-8" %>-->
-<!--<%@ taglib prefix="c" uri="jakarta.tags.core" %>-->
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,26 +7,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>ScholarPass | Create Account</title>
 
-    <link rel="stylesheet" href="../../css/home.css">
-    <link rel="stylesheet" href="../../css/Register.css">
-    <script src="../../js/Register.js" defer></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/headerFooter.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/Register.css"/>
+    <script src="${pageContext.request.contextPath}/js/Register.js" defer></script>
 </head>
 <body>
 
-    <!-- TopNavBar -->
-    <header class="app-header">
-        <nav class="nav-container max-w-7xl">
-            <div class="nav-logo">ScholarShare</div>
-            <div class="nav-links">
-                <a class="nav-link" href="Home.html">Home</a>
-                <a class="nav-link" href="#">How It Works</a>
-                <a class="nav-link" href="#">About</a>
-                <a class="nav-link" href="#">Contact</a>
-            </div>
-            <div class="nav-button">
-            </div>
-        </nav>
-    </header>
+  <!-- ══════════════════════════════════════════
+       1. NAVBAR
+  ══════════════════════════════════════════ -->
+  <div id="navbar-wrapper">
+    <nav id="navbar">
+      <div class="nav-row">
+        <!-- Logo -->
+        <a href="${pageContext.request.contextPath}/" class="nav-logo">📚 ScholarShare</a>
+
+        <!-- Desktop links -->
+        <ul class="nav-links">
+          <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
+          <li><a href="${pageContext.request.contextPath}/home#categories">Browse Resources</a></li>
+          <li><a href="${pageContext.request.contextPath}/home#how-it-works">How It Works</a></li>
+          <li><a href="${pageContext.request.contextPath}/home#reputation">About</a></li>
+          <li><a href="#footer">Contact</a></li>
+        </ul>
+
+        <!-- Desktop CTA -->
+        <a href="${pageContext.request.contextPath}/auth/login" class="nav-cta">Get Started</a>
+
+        <!-- Hamburger (mobile) -->
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+      <!-- Mobile Dropdown -->
+      <div class="nav-mobile" id="nav-mobile">
+        <a href="${pageContext.request.contextPath}/home"          onclick="closeMenu()">Home</a>
+        <a href="${pageContext.request.contextPath}/home#categories"    onclick="closeMenu()">Browse Resources</a>
+        <a href="${pageContext.request.contextPath}/home#how-it-works"  onclick="closeMenu()">How It Works</a>
+        <a href="${pageContext.request.contextPath}/home#reputation"    onclick="closeMenu()">About</a>
+        <a href="#footer"        onclick="closeMenu()">Contact</a>
+        <a href="${pageContext.request.contextPath}/auth/login" class="mob-cta" onclick="closeMenu()">Get Started</a>
+      </div>
+    </nav>
+  </div>
 
 <div class="register-wrapper">
 <div class="container">
@@ -36,7 +60,7 @@
         <div class="login-card">
 
             <!-- Logo -->
-            <div class="shield-icon">🛡️</div>
+<%--            <div class="shield-icon">🛡️</div>--%>
 
             <h2>Create Account</h2>
             <p class="welcome-text">Join us and start learning today</p>
@@ -87,7 +111,7 @@
 
                 <!-- Terms -->
                 <label class="terms-check">
-                    <input type="checkbox" id="terms" required />
+                    <input type="checkbox" id="terms" name="pledgeAgreed" required />
                     <span class="checkmark"></span>
                     <span>
                         I agree to the
@@ -111,9 +135,9 @@
         </div>
     </div>
 
-    <!-- RIGHT SECTION (UNCHANGED IMAGE SIDE) -->
+    <!-- RIGHT SECTION -->
     <div class="right">
-        <img src="../../Images/Login_left%20image.png" alt="Learning Illustration" class="right-image">
+        <img src="${pageContext.request.contextPath}/Images/login_illustration.png" alt="Learning Illustration" class="right-image">
     </div>
 
 </div>
@@ -124,8 +148,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (wrapper) wrapper.classList.add('page-flip-in');
 
     document.querySelectorAll('a').forEach(link => {
-        if (link.href.includes('Login.html') || link.href.includes('Register.html')) {
+        if (link.href.includes('auth/login') || link.href.includes('register')) {
             link.addEventListener('click', (e) => {
+                if(link.closest('#navbar') || link.closest('#nav-mobile') || link.closest('.nav-cta') || link.closest('.mob-cta')) return;
                 e.preventDefault();
                 const target = e.currentTarget.href;
                 if (wrapper) {
@@ -138,5 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 </script>
+
+  <script src="${pageContext.request.contextPath}/js/home.js"></script>
 </body>
 </html>

@@ -1,381 +1,510 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>ScholarShare | Academic Resource Sharing </title>
-    <link rel="stylesheet" href="../../css/home.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ScholarShare - Home page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/headerFooter.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home.css">
 </head>
 <body>
-    <!-- TopNavBar -->
-    <header class="app-header">
-        <nav class="nav-container max-w-7xl">
-            <div class="nav-logo">ScholarShare</div>
-            <div class="nav-links">
-                <a class="nav-link active" href="Home.html">Home</a>
-                <a class="nav-link" href="#">How It Works</a>
-                <a class="nav-link" href="#">About</a>
-                <a class="nav-link" href="#">Contact</a>
-            </div>
-            <div class="nav-button">
-                <a href="login.jsp" class="btn-outline">Login</a>
-                <a href="register.jsp" class="btn-primary">Register</a>
-            </div>
-        </nav>
-    </header>
+<%--  NAV BAR --%>
+  <div id="navbar-wrapper">
+    <nav id="navbar">
+      <div class="nav-row">
+        <!-- Logo -->
+        <a href="${pageContext.request.contextPath}/" class="nav-logo">📚 ScholarShare</a>
 
-    <main>
-        <!-- Section 1: Hero -->
-        <section class="hero-section">
-            <div class="hero-grid max-w-7xl">
-                <div class="hero-content">
-                    <span class="hero-badge">
-                       Informatics Collage Pokhara
-                    </span>
-                    <h1 class="hero-title">
-                        Academic Resources. <br/>
-                        <em>Verified.</em> Trusted. Shared.
-                    </h1>
-                    <p class="hero-desc">
-                        A curated digital ecosystem for the next generation of scholars. Access peer-reviewed lecture notes, research briefs, and archival materials from institutions worldwide.
-                    </p>
-                    <div class="hero-buttons">
-                        <button class="btn-primary-large">
-                            Join the Exchange
-                            <svg class="material-symbols-outlined" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                        </button>
-                        <button class="btn-secondary-large">
-                            Explore Archive
-                        </button>
-                    </div>
-                    <div class="hero-stats">
-                        <div class="stat-item">
-                            <p class="stat-number">45k+</p>
-                            <p class="stat-label">Resources</p>
-                        </div>
-                        <div class="stat-item">
-                            <p class="stat-number">12k+</p>
-                            <p class="stat-label">Contributors</p>
-                        </div>
-                        <div class="stat-item">
-                            <p class="stat-number">98%</p>
-                            <p class="stat-label">Verification Rate</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-image-wrapper">
-                    <div class="hero-image-container">
-                        <img 
-                            alt="University Library" 
-                            class="hero-img" src="../../images/hero.png"/>
-                        <div class="hero-image-overlay"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!-- Desktop links -->
+        <ul class="nav-links">
+          <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
+          <li><a href="#categories">Browse Resources</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#reputation">About</a></li>
+          <li><a href="#footer">Contact</a></li>
+        </ul>
 
-        <!-- Section 2: How It Works -->
-        <section class="protocol-section">
-            <div class="max-w-7xl">
-                <div class="section-header-center">
-                    <p class="eyebrow-text">The Protocol</p>
-                    <h2 class="section-title">How ScholarShare Operates</h2>
-                </div>
-                <div class="steps-grid">
-                    <!-- Step 1 -->
-                    <div class="step-card">
-                        <span class="step-number-bg">01</span>
-                        <div class="step-content">
-                            <div class="step-icon">
-                                <svg class="material-symbols-outlined" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                            </div>
-                            <h3 class="step-title">Secure Upload</h3>
-                            <p class="step-desc">Submit your notes, papers, or study guides via our encrypted gateway. All metadata is preserved.</p>
-                        </div>
-                    </div>
-                    <!-- Step 2 -->
-                    <div class="step-card">
-                        <span class="step-number-bg">02</span>
-                        <div class="step-content">
-                            <div class="step-icon">
-                                <svg class="material-symbols-outlined" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 13l-6 6a2 2 0 0 1-2.83 0l-1.41-1.41a2 2 0 0 1 0-2.83l6-6"></path><path d="M15 12l2.83-2.83a2 2 0 0 0 0-2.83l-1.41-1.41a2 2 0 0 0-2.83 0L10.76 7.76"></path><line x1="8" y1="21" x2="12" y2="21"></line></svg>
-                            </div>
-                            <h3 class="step-title">Peer Moderation</h3>
-                            <p class="step-desc">Your contribution is cross-referenced by institutional moderators to ensure academic integrity.</p>
-                        </div>
-                    </div>
-                    <!-- Step 3 -->
-                    <div class="step-card">
-                        <span class="step-number-bg">03</span>
-                        <div class="step-content">
-                            <div class="step-icon">
-                                <svg class="material-symbols-outlined" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-                            </div>
-                            <h3 class="step-title">Global Discovery</h3>
-                            <p class="step-desc">Resources become available to the ScholarShare community, searchable by faculty and tags.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!-- Desktop CTA -->
+        <a href="${pageContext.request.contextPath}/auth/login" class="nav-cta">Get Started</a>
 
-        <!-- Section 3: Features (Split View) -->
-        <section class="features-split">
-            <!-- Student View -->
-            <div class="split-pane student-pane">
-                <span class="pane-eyebrow">For Researchers</span>
-                <h2 class="pane-title">Student Experience: <br/>Archival Access.</h2>
-                <div class="feature-list">
-                    <div class="feature-item">
-                        <svg class="material-symbols-outlined feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
-                        <div class="feature-item-content">
-                            <h4 class="feature-item-title">Smart Organization</h4>
-                            <p class="feature-item-desc">Organize your findings into personalized collections with institutional tagging.</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <svg class="material-symbols-outlined feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
-                        <div class="feature-item-content">
-                            <h4 class="feature-item-title">Version Tracking</h4>
-                            <p class="feature-item-desc">Access original drafts and final revisions of verified academic papers.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="preview-box student-preview">
-                    <div class="preview-header">
-                        <div class="window-controls">
-                            <div class="dot red"></div>
-                            <div class="dot yellow"></div>
-                            <div class="dot green"></div>
-                        </div>
-                        <span class="preview-label">Interface Preview</span>
-                    </div>
-                    <div class="preview-body">
-                        <div class="skeleton-line w-75"></div>
-                        <div class="skeleton-line w-50"></div>
-                        <div class="skeleton-box">
-                            <p class="skeleton-text">PDF Viewing: Advanced Astrophysics Notes</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Hamburger (mobile) -->
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
 
-            <!-- Admin View -->
-            <div class="split-pane admin-pane">
-                <span class="pane-eyebrow">For Institutions</span>
-                <h2 class="pane-title">Governance: <br/>Total Oversight.</h2>
-                <div class="feature-list">
-                    <div class="feature-item">
-                        <svg class="material-symbols-outlined feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M12 11.5a2.5 2.5 0 0 0-5 0c0 3.5 5 6.5 5 6.5s5-3 5-6.5a2.5 2.5 0 0 0-5 0z" fill="currentColor"></path></svg>
-                        <div class="feature-item-content">
-                            <h4 class="feature-item-title">Integrity Guard</h4>
-                            <p class="feature-item-desc">Automated plagiarism detection and ethical compliance checking tools.</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <svg class="material-symbols-outlined feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-                        <div class="feature-item-content">
-                            <h4 class="feature-item-title">Impact Analytics</h4>
-                            <p class="feature-item-desc">Track the citation and engagement metrics of institutional resources.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="preview-box admin-preview">
-                    <div class="admin-stats-grid">
-                        <div class="admin-stat-card">
-                            <p class="admin-stat-label">Queue status</p>
-                            <p class="admin-stat-value">14 Pending</p>
-                        </div>
-                        <div class="admin-stat-card">
-                            <p class="admin-stat-label">Moderators</p>
-                            <p class="admin-stat-value">Active (4)</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+      <!-- Mobile Dropdown -->
+      <div class="nav-mobile" id="nav-mobile">
+        <a href="${pageContext.request.contextPath}/home"          onclick="closeMenu()">Home</a>
+        <a href="#categories"    onclick="closeMenu()">Browse Resources</a>
+        <a href="#how-it-works"  onclick="closeMenu()">How It Works</a>
+        <a href="#reputation"    onclick="closeMenu()">About</a>
+        <a href="#footer"        onclick="closeMenu()">Contact</a>
+        <a href="${pageContext.request.contextPath}/auth/login" class="mob-cta" onclick="closeMenu()">Get Started</a>
+      </div>
+    </nav>
+  </div>
 
-        <!-- Section 4: Integrity Pledge -->
-        <section class="pledge-section">
-            <div class="grid-pattern"></div>
-            <div class="pledge-content">
-                <svg class="material-symbols-outlined quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"></path></svg>
-                <p class="pledge-quote">
-                    "Knowledge is not a static resource to be guarded, but a dynamic force that multiplies when shared through the lens of integrity."
-                </p>
-                <div class="pledge-author">
-                    <div class="pledge-divider"></div>
-                    <p class="pledge-author-text">The Scholarship Manifesto</p>
-                </div>
-            </div>
-        </section>
+<%--HERO section --%>
+  <section id="hero">
+    <div class="container">
+      <div class="hero-grid">
 
-        <!-- Section 5: Browse by Faculty -->
-        <section class="faculty-section">
-            <div class="max-w-7xl">
-                <div class="faculty-header">
-                    <div class="faculty-title-area">
-                        <span class="eyebrow-text">Institutional Archive</span>
-                        <h2 class="section-title">Browse by Faculty</h2>
-                    </div>
-                    <a class="view-all-link" href="#">
-                        View All Categories <svg class="material-symbols-outlined view-all-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-                    </a>
-                </div>
-                <div class="faculty-grid">
-                    <!-- Faculty Cards -->
-                    <div class="faculty-card">
-                        <img class="faculty-image" data-alt="Science" src="../../images/science.png"/>
-                        <div class="faculty-overlay">
-                            <span class="faculty-name">Faculty of Science</span>
-                        </div>
-                    </div>
-                    
-                    <div class="faculty-card">
-                        <img class="faculty-image" data-alt="Law" src="../../images/law_ethics.png"/>
-                        <div class="faculty-overlay">
-                            <span class="faculty-name">Law &amp; Ethics</span>
-                        </div>
-                    </div>
-                    
-                    <div class="faculty-card">
-                        <img class="faculty-image" data-alt="Social Sciences" src="../../images/social_science.png"/>
-                        <div class="faculty-overlay">
-                            <span class="faculty-name">Social Sciences</span>
-                        </div>
-                    </div>
-                    
-                    <div class="faculty-card">
-                        <img class="faculty-image" data-alt="Mathematics" src="../../images/maths.png"/>
-                        <div class="faculty-overlay">
-                            <span class="faculty-name">Mathematics</span>
-                        </div>
-                    </div>
-                    
-                    <div class="faculty-card">
-                        <img class="faculty-image" data-alt="Computing" src="../../images/computing.png"/>
-                        <div class="faculty-overlay">
-                            <span class="faculty-name">Computing</span>
-                        </div>
-                    </div>
-                    
-                    <div class="faculty-card">
-                        <img class="faculty-image" data-alt="Arts" src="../../images/arts.png"/>
-                        <div class="faculty-overlay">
-                            <span class="faculty-name">Arts &amp; Design</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!-- Left content -->
+        <div class="reveal">
+          <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            <span>Integrity-First Academic Platform</span>
+          </div>
 
-        <!-- Section 6: Reputation System -->
-        <section class="reputation-section">
-            <div class="reputation-grid max-w-7xl">
-                <div>
-                    <div class="reputation-line"></div>
-                    <h2 class="reputation-title">The Meritocracy of Ideas: <br/>Earn Your Standing.</h2>
-                    <p class="reputation-desc">
-                        ScholarShare uses a unique reputation system called **"Scholastic Credits."** These are not bought, but earned through peer validation, successful moderation, and the long-term utility of your shared materials.
-                    </p>
-                    <div class="rep-cards-grid">
-                        <div class="rep-card">
-                            <div class="rep-card-header">
-                                <svg class="material-symbols-outlined rep-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
-                                <h3 class="rep-card-title">Peer Reviews</h3>
-                            </div>
-                            <p class="rep-card-desc">Provide critical feedback on others' work to gain verification authority.</p>
-                        </div>
-                        <div class="rep-card">
-                            <div class="rep-card-header">
-                                <svg class="material-symbols-outlined rep-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                                <h3 class="rep-card-title">Content Longevity</h3>
-                            </div>
-                            <p class="rep-card-desc">Resources that remain relevant and highly cited over time boost your tier.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="profile-widget-wrapper">
-                    <div class="profile-widget">
-                        <div class="profile-header">
-                            <div>
-                                <h3 class="profile-title">Scholar Profile</h3>
-                                <p class="profile-subtitle">Verification Level: Tier III Platinum</p>
-                            </div>
-                            <div class="profile-avatar"></div>
-                        </div>
-                        
-                        <div class="progress-section">
-                            <div class="progress-header">
-                                <span class="progress-label">SCHOLASTIC CREDIT</span>
-                                <span class="progress-value">840 / 1000</span>
-                            </div>
-                            <div class="progress-bar-bg">
-                                <div class="progress-bar-fill"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="history-list">
-                            <div class="history-item">
-                                <div class="history-item-left">
-                                    <svg class="material-symbols-outlined history-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    <p class="history-title">History of Art Lecture 01</p>
-                                </div>
-                                <span class="history-badge">+12 Cr</span>
-                            </div>
-                            <div class="history-item">
-                                <div class="history-item-left">
-                                    <svg class="material-symbols-outlined history-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    <p class="history-title">Calculus II Exam Guide</p>
-                                </div>
-                                <span class="history-badge">+45 Cr</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+          <h1 class="hero-h1">
+            Academic Resources.<br>
+            <em>Verified.</em> Trusted. Shared.
+          </h1>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-grid max-w-7xl">
-            <div>
-                <h3 class="footer-logo">ScholarShare</h3>
-                <p class="footer-desc">
-                    Democratizing academic excellence through verified resource exchange and institutional prestige.
-                </p>
-            </div>
-            <div>
-                <h4 class="footer-heading">Resources</h4>
-                <ul class="footer-list">
-                    <li><a class="footer-link" href="#">Institutions</a></li>
-                    <li><a class="footer-link" href="#">Library</a></li>
-                    <li><a class="footer-link" href="#">Archives</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="footer-heading">Legal</h4>
-                <ul class="footer-list">
-                    <li><a class="footer-link" href="#">Privacy Policy</a></li>
-                    <li><a class="footer-link" href="#">Terms of Service</a></li>
-                    <li><a class="footer-link" href="#">FAQ</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="footer-heading">Stay Informed</h4>
-                <div class="email-form">
-                    <input class="email-input" placeholder="Institutional email" type="email"/>
-                    <button class="email-btn">
-                        <svg class="material-symbols-outlined" style="width: 1rem; height: 1rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                    </button>
-                </div>
-            </div>
+          <p class="hero-sub">
+            A moderated platform where students share study materials
+            with academic integrity at every step.
+          </p>
+
+          <div class="hero-btns">
+            <a href="#categories" class="btn-sky">Browse Resources</a>
+            <a href="#how-it-works" class="btn-gold">Upload a Resource</a>
+          </div>
+
         </div>
-        <div class="footer-bottom max-w-7xl">
-            <p>© 2026 ScholarShare. All rights reserved. Archival Prestige.</p>
+
+        <!-- Right image -->
+        <div class="hero-img-col reveal" style="transition-delay:.15s;">
+          <div class="hero-img-wrap">
+            <img
+              src="${pageContext.request.contextPath}/Images/hero.png"
+              alt="Students studying in a university library"
+            />
+          </div>
         </div>
-    </footer>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       3. HOW IT WORKS
+  ══════════════════════════════════════════ -->
+  <section id="how-it-works">
+    <div class="container">
+
+      <div class="section-header reveal">
+        <div class="badge">Simple Process</div>
+        <h2>How ScholarShare Works</h2>
+        <p>A transparent, three-step pipeline that ensures every shared resource meets our academic integrity standards.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card reveal">
+          <div class="step-number">01</div>
+          <div class="step-icon">📤</div>
+          <h3>Upload</h3>
+          <p>Submit your study material with metadata and an integrity pledge. Tag it by faculty, subject, and topic for easy discovery.</p>
+          <div class="step-bar"></div>
+        </div>
+        <div class="step-card reveal" style="transition-delay:.12s;">
+          <div class="step-number">02</div>
+          <div class="step-icon">🔍</div>
+          <h3>Moderation</h3>
+          <p>Admins review every submission before it goes live. Each resource is checked for accuracy, relevance, and academic integrity.</p>
+          <div class="step-bar"></div>
+        </div>
+        <div class="step-card reveal" style="transition-delay:.24s;">
+          <div class="step-number">03</div>
+          <div class="step-icon">🗂️</div>
+          <h3>Discover</h3>
+          <p>Browse verified resources by Faculty, Subject, and Topic. Save materials to your collection and track your usage.</p>
+          <div class="step-bar"></div>
+        </div>
+      </div>
+
+      <div class="process-img-wrap reveal">
+        <img
+          src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1100&q=80"
+          alt="Collaborative academic workflow"
+          onerror="this.style.height='340px';this.style.background='#dde3ec'"
+        />
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       4. FEATURES
+  ══════════════════════════════════════════ -->
+  <section id="features">
+    <div class="container">
+
+      <div class="section-header reveal">
+        <div class="badge">Platform Features</div>
+        <h2>Built for Students. Managed by Admins.</h2>
+        <p>ScholarShare provides dedicated toolsets for both contributors and administrators.</p>
+      </div>
+
+      <div class="features-grid reveal">
+        <!-- Student Panel -->
+        <div class="feat-panel light">
+          <div class="feat-panel-header">
+            <div class="feat-icon-box">🎓</div>
+            <div>
+              <h3>Student Features</h3>
+              <small>Tools for contributors</small>
+            </div>
+          </div>
+          <ul>
+            <li class="feat-item">
+              <div class="feat-item-icon">📤</div>
+              <span class="feat-item-label">Upload Materials</span>
+              <span class="feat-dot"></span>
+            </li>
+            <li class="feat-item">
+              <div class="feat-item-icon">📊</div>
+              <span class="feat-item-label">Track Submission Status</span>
+              <span class="feat-dot"></span>
+            </li>
+            <li class="feat-item">
+              <div class="feat-item-icon">🗂️</div>
+              <span class="feat-item-label">Browse by Category</span>
+              <span class="feat-dot"></span>
+            </li>
+            <li class="feat-item">
+              <div class="feat-item-icon">🔖</div>
+              <span class="feat-item-label">Save to Collections</span>
+              <span class="feat-dot"></span>
+            </li>
+            <li class="feat-item">
+              <div class="feat-item-icon">🚩</div>
+              <span class="feat-item-label">Flag Content</span>
+              <span class="feat-dot"></span>
+            </li>
+            <li class="feat-item">
+              <div class="feat-item-icon">⭐</div>
+              <span class="feat-item-label">View Reputation Score</span>
+              <span class="feat-dot"></span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Admin Panel -->
+        <div class="feat-panel dark">
+          <div class="feat-panel-header">
+            <div class="feat-icon-box">🛡️</div>
+            <div>
+              <h3>Admin Features</h3>
+              <small>Moderation toolkit</small>
+            </div>
+          </div>
+          <ul>
+            <li class="feat-item">
+              <div class="feat-item-icon">✅</div>
+              <span class="feat-item-label">Approve Registrations</span>
+              <span class="feat-dot"></span>
+            </li>
+            <li class="feat-item">
+              <div class="feat-item-icon">📋</div>
+              <span class="feat-item-label">Review Submissions</span>
+              <span class="feat-dot"></span>
+            </li>
+            <li class="feat-item">
+              <div class="feat-item-icon">🛡️</div>
+              <span class="feat-item-label">Manage Flags</span>
+              <span class="feat-dot"></span>
+            </li>
+            <li class="feat-item">
+              <div class="feat-item-icon">🗃️</div>
+              <span class="feat-item-label">Category CRUD</span>
+              <span class="feat-dot"></span>
+            </li>
+            <li class="feat-item">
+              <div class="feat-item-icon">📈</div>
+              <span class="feat-item-label">Analytics Dashboard</span>
+              <span class="feat-dot"></span>
+            </li>
+            <li class="feat-item">
+              <div class="feat-item-icon">🔎</div>
+              <span class="feat-item-label">Moderation Audit Trail</span>
+              <span class="feat-dot"></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dashboard-img-wrap reveal">
+        <img
+          src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1100&q=80"
+          alt="Student dashboard analytics"
+          onerror="this.style.height='380px';this.style.background='#dde3ec'"
+        />
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       5. ACADEMIC INTEGRITY BANNER
+  ══════════════════════════════════════════ -->
+  <section id="integrity">
+    <div class="deco-circle-1"></div>
+    <div class="deco-circle-2"></div>
+    <div class="deco-quote-bg">"</div>
+
+    <div class="integrity-inner reveal">
+      <div class="integrity-badge">
+        <span>🏛️</span>
+        <span>Academic Integrity Pledge</span>
+      </div>
+
+      <div class="quote-mark">"</div>
+
+      <p class="integrity-quote">
+        Every contributor takes an Academic Integrity Pledge. No shortcuts.
+        No plagiarism. Just honest knowledge sharing.
+      </p>
+
+      <div class="quote-mark" style="transform:scaleX(-1);display:inline-block;">"</div>
+
+      <div class="integrity-divider">
+        <div class="line"></div>
+        <span class="stars">✦ ✦ ✦</span>
+        <div class="line r"></div>
+      </div>
+
+      <p class="integrity-sub">
+        ScholarShare enforces an integrity-first culture. Every submission
+        undergoes admin review before being made available to the academic community.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       6. RESOURCE CATEGORIES
+  ══════════════════════════════════════════ -->
+  <section id="categories">
+    <div class="container">
+
+      <div class="section-header reveal">
+        <div class="badge">Browse by Faculty</div>
+        <h2>Explore by Faculty</h2>
+        <p>Find peer-reviewed study materials organised by your academic faculty and subject area.</p>
+      </div>
+
+      <div class="cat-grid reveal">
+        <div class="cat-card">
+          <div class="cat-icon">💻</div>
+          <div class="cat-name">Computer Science</div>
+          <div class="cat-count">320 resources</div>
+          <div class="cat-link">Browse <span class="cat-link-arrow">→</span></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">⚙️</div>
+          <div class="cat-name">Engineering</div>
+          <div class="cat-count">215 resources</div>
+          <div class="cat-link">Browse <span class="cat-link-arrow">→</span></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">📊</div>
+          <div class="cat-name">Business</div>
+          <div class="cat-count">180 resources</div>
+          <div class="cat-link">Browse <span class="cat-link-arrow">→</span></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">⚖️</div>
+          <div class="cat-name">Law</div>
+          <div class="cat-count">140 resources</div>
+          <div class="cat-link">Browse <span class="cat-link-arrow">→</span></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">🔬</div>
+          <div class="cat-name">Science</div>
+          <div class="cat-count">195 resources</div>
+          <div class="cat-link">Browse <span class="cat-link-arrow">→</span></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">📜</div>
+          <div class="cat-name">Humanities</div>
+          <div class="cat-count">150 resources</div>
+          <div class="cat-link">Browse <span class="cat-link-arrow">→</span></div>
+        </div>
+      </div>
+
+      <div class="categories-cta reveal">
+        <a href="#" class="btn-sky-outline" onclick="return false;">View All Resources →</a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       7. CONTRIBUTOR REPUTATION
+  ══════════════════════════════════════════ -->
+  <section id="reputation">
+    <div class="container">
+      <div class="rep-grid">
+
+        <!-- Left -->
+        <div class="reveal">
+          <div class="badge">Contributor Reputation</div>
+
+          <h2 class="serif" style="font-size:clamp(28px,3.5vw,42px);color:var(--navy);margin-bottom:20px;line-height:1.2;">
+            Your Reputation Grows With You
+          </h2>
+
+          <p style="color:#5a6a8a;font-size:16px;line-height:1.75;margin-bottom:32px;max-width:440px;">
+            ScholarShare tracks your contributions and builds your academic
+            profile. The more quality materials you share, the higher your
+            standing in the community.
+          </p>
+
+          <!-- Score Widget -->
+          <div class="rep-score-widget">
+            <div class="score-circle">
+              <strong>847</strong>
+              <small>SCORE</small>
+            </div>
+            <div class="score-info">
+              <div class="score-tier">
+                <span>🥇</span>
+                <strong>Gold Contributor</strong>
+              </div>
+              <p class="score-desc">Top 5% of all contributors this semester. 84 approved uploads.</p>
+              <div class="progress-track">
+                <div class="progress-bar"></div>
+              </div>
+              <p class="progress-label">153 points to Platinum</p>
+            </div>
+          </div>
+
+          <!-- Reputation Rules -->
+          <div class="rep-rules">
+            <div class="rep-rule pos">
+              <span class="rep-rule-icon">✅</span>
+              <span class="rep-rule-text">Approved uploads earn +10 reputation points</span>
+            </div>
+            <div class="rep-rule pos">
+              <span class="rep-rule-icon">📝</span>
+              <span class="rep-rule-text">Detailed submissions with metadata earn bonus points</span>
+            </div>
+            <div class="rep-rule neg">
+              <span class="rep-rule-icon">⚠️</span>
+              <span class="rep-rule-text">Rejected submissions reduce your score by −5 points</span>
+            </div>
+            <div class="rep-rule pos">
+              <span class="rep-rule-icon">🏆</span>
+              <span class="rep-rule-text">Top contributors receive exclusive recognition badges</span>
+            </div>
+          </div>
+
+          <a href="#" class="btn-gold" onclick="return false;" style="margin-top:4px;">
+            Start Contributing →
+          </a>
+        </div>
+
+        <!-- Right image -->
+        <div class="rep-img-wrap reveal" style="transition-delay:.15s;">
+          <img
+            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80"
+            alt="Students earning academic recognition"
+            onerror="this.style.height='520px';this.style.background='#dde3ec'"
+          />
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       8. FOOTER
+  ══════════════════════════════════════════ -->
+  <footer id="footer">
+    <div class="container">
+
+      <div class="footer-grid">
+        <!-- Brand -->
+        <div>
+          <div class="footer-brand-name">
+            <span class="brand-emoji">📚</span>
+            <span class="brand-text">ScholarShare</span>
+          </div>
+          <p class="footer-tagline">Ethical. Verified. Academic.</p>
+          <p class="footer-desc">
+            A Digital Academic Resource Sharing Platform built on principles
+            of integrity, transparency, and peer collaboration.
+          </p>
+          <div class="footer-socials">
+            <div class="social-btn">🎓</div>
+            <div class="social-btn">📧</div>
+            <div class="social-btn">🔗</div>
+          </div>
+        </div>
+
+        <!-- Platform -->
+        <div>
+          <div class="footer-col-title">Platform</div>
+          <div class="footer-links">
+            <a href="#reputation">About</a>
+            <a href="#footer">Contact</a>
+            <a href="#">Privacy</a>
+            <a href="#integrity">Academic Integrity Policy</a>
+          </div>
+        </div>
+
+        <!-- Resources -->
+        <div>
+          <div class="footer-col-title">Resources</div>
+          <div class="footer-links">
+            <a href="#categories">Computer Science</a>
+            <a href="#categories">Engineering</a>
+            <a href="#categories">Business</a>
+            <a href="#categories">Law</a>
+            <a href="#categories">Science</a>
+            <a href="#categories">Humanities</a>
+          </div>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="footer-newsletter">
+          <div class="footer-col-title">Stay Updated</div>
+          <p>Get notified when new verified resources are published.</p>
+          <div class="newsletter-form">
+            <input class="newsletter-input" type="email" placeholder="your@email.ac.uk" />
+            <button class="newsletter-btn" onclick="handleSubscribe(event)">Subscribe</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="footer-bottom">
+        <p>© 2026 ScholarShare — London Metropolitan University. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Integrity Policy</a>
+          <a href="#">Terms of Use</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════════════
+       JAVASCRIPT
+  ══════════════════════════════════════════ -->
+  <script src="${pageContext.request.contextPath}/js/home.js"></script>
 </body>
 </html>
