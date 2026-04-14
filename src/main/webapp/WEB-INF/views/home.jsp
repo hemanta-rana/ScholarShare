@@ -31,7 +31,7 @@
         </ul>
 
         <!-- Desktop CTA -->
-        <a href="${pageContext.request.contextPath}/auth/login" class="nav-cta">Get Started</a>
+        <a href="${pageContext.request.contextPath}/login" class="nav-cta">Get Started</a>
 
         <!-- Hamburger (mobile) -->
         <button class="hamburger" id="hamburger" aria-label="Toggle menu">
@@ -46,7 +46,7 @@
         <a href="#how-it-works"  onclick="closeMenu()">How It Works</a>
         <a href="#reputation"    onclick="closeMenu()">About</a>
         <a href="#footer"        onclick="closeMenu()">Contact</a>
-        <a href="${pageContext.request.contextPath}/auth/login" class="mob-cta" onclick="closeMenu()">Get Started</a>
+        <a href="${pageContext.request.contextPath}/login" class="mob-cta" onclick="closeMenu()">Get Started</a>
       </div>
     </nav>
   </div>

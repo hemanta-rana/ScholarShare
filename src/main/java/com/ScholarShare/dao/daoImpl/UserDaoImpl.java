@@ -122,7 +122,7 @@ public class UserDaoImpl implements UserDao {
                         rs.getString("phone"),
                         rs.getString("password"),
                         rs.getString("role"),
-                        rs.getString("status "),
+                        rs.getString("status"),
                         rs.getString("profile_pic"),
                         rs.getTimestamp("created_at")
                 );

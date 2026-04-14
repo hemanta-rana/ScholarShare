@@ -32,7 +32,7 @@
         </ul>
 
         <!-- Desktop CTA -->
-        <a href="${pageContext.request.contextPath}/auth/login" class="nav-cta">Get Started</a>
+        <a href="${pageContext.request.contextPath}/login" class="nav-cta">Get Started</a>
 
         <!-- Hamburger (mobile) -->
         <button class="hamburger" id="hamburger" aria-label="Toggle menu">
@@ -47,7 +47,7 @@
         <a href="${pageContext.request.contextPath}/home#how-it-works"  onclick="closeMenu()">How It Works</a>
         <a href="${pageContext.request.contextPath}/home#reputation"    onclick="closeMenu()">About</a>
         <a href="#footer"        onclick="closeMenu()">Contact</a>
-        <a href="${pageContext.request.contextPath}/auth/login" class="mob-cta" onclick="closeMenu()">Get Started</a>
+        <a href="${pageContext.request.contextPath}/login" class="mob-cta" onclick="closeMenu()">Get Started</a>
       </div>
     </nav>
   </div>
@@ -67,9 +67,17 @@
                     <h2>Welcome Back</h2>
                     <p class="welcome-text">Sign in to access your dashboard</p>
                     <c:if test="${not empty error}">
-                        <p style="color:red;">${error}</p>
+                        <p class="invalid-error" style="
+    color: #842029;
+    background-color: #f8d7da;
+    border: 1px solid #f5c2c7;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    margin-bottom: 1rem;
+    text-align: center; ">${error}</p>
                     </c:if>
-                    <form action="${pageContext.request.contextPath}auth/login" method="post">
+                    <form action="${pageContext.request.contextPath}/login" method="post">
                         <!-- Email field -->
                         <div class="input-group">
                             <input name="email" value="<c:out value='${email}'/> "  type="email" placeholder="Email address" required>

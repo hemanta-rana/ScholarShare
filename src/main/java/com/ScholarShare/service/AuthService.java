@@ -65,12 +65,16 @@ public class AuthService {
         }
         User user = userDao.getUserByEmail(email.toLowerCase().trim());
 
+
         if (user == null) {
             return null;
         }
         if (!PasswordUtil.checkPassword(password, user.getPassword())) {
             return null;
         }
+        System.out.println("passoword validation fails ");
+
+        System.out.println("user found" + user.getStatus()+ user.getUserId());
         return user;
     }
     public String getLoginErrorMessage(String email, String password) {

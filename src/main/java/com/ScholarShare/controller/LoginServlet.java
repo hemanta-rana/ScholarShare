@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-@WebServlet("/auth/login")
+@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
     private AuthService authService = new AuthService();
@@ -26,22 +26,36 @@ public class LoginServlet extends HttpServlet {
         String email=req.getParameter("email");
         String password = req.getParameter("password");
 
+        System.out.println("servlet accessed ");
         User user = authService.login(email,password);
-if(user !=null){
-    HttpSession session =req.getSession();
-    session.setAttribute("user",user);
-     if("admin".equals(user.getRole())) {
-         resp.sendRedirect(req.getContextPath() + "/admin/dashboard");
-     }else{
-         resp.sendRedirect(req.getContextPath()+"/student/dashboard");
-     }
-}else {
-    String error = authService.getLoginErrorMessage(email, password);
-    req.setAttribute("errorMessage", error);
-    req.setAttribute("email", email);
 
-    req.getRequestDispatcher("/views/login.jsp").forward(req, resp);
-}
+        if (user == null) {
+            String error = authService.getLoginErrorMessage(email, password);
+            req.setAttribute("error", error);
+            req.setAttribute("email", email);
+            req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
+        }else {
+            System.out.println("login ok");
+            resp.sendRedirect(req.getContextPath() +"/home");
+        }
+
+
+//
+//    if(user !=null){
+//    HttpSession session =req.getSession();
+//    session.setAttribute("user",user);
+//     if("admin".equals(user.getRole())) {
+//         resp.sendRedirect(req.getContextPath() + "/admin/dashboard");
+//     }else{
+//         resp.sendRedirect(req.getContextPath()+"/student/dashboard");
+////     }
+//}else {
+//    String error = authService.getLoginErrorMessage(email, password);
+//    req.setAttribute("error", error);
+//    req.setAttribute("email", email);
+//
+//    req.getRequestDispatcher("/views/login.jsp").forward(req, resp);
+//}
     }
 }
 
