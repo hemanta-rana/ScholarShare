@@ -12,5 +12,4 @@ public interface UserDao {
     boolean deleteUser(int userId);
     List<User> getAllStudents();
 
-    boolean save(com.ScholarShare.entity.User user);
 }

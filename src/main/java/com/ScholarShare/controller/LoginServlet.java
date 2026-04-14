@@ -17,7 +17,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("")
+        request.getRequestDispatcher("/WEB-INF/views/login.jsp")
                 .forward(request, response);
     }
 
@@ -40,7 +40,7 @@ if(user !=null){
     req.setAttribute("errorMessage", error);
     req.setAttribute("email", email);
 
-    req.getRequestDispatcher("/Views/auth/login.jsp").forward(req, resp);
+    req.getRequestDispatcher("/views/login.jsp").forward(req, resp);
 }
     }
 }

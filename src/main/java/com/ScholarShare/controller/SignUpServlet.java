@@ -19,12 +19,14 @@ import java.io.IOException;
 @WebServlet("/register")
 public class SignUpServlet extends HttpServlet {
      private final UserDao userDao = new UserDaoImpl();
-//     private final AuthService authService = new AuthService();
+     private final AuthService authService = new AuthService();
+
+
     @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("")
+        request.getRequestDispatcher("/WEB-INF/views/register.jsp")
                 .forward(request, response);
     }
 
@@ -35,17 +37,17 @@ public class SignUpServlet extends HttpServlet {
         String password = req.getParameter("password");
         String fullName = req.getParameter("fullName");
         String phone = req.getParameter("phone");
-        String conifrmPassword = req.getParameter("confirmPassword");
-        Boolean pledgeAgrred = Boolean.valueOf(req.getParameter("pledgeAgrred"));
-        String error = AuthService.register(fullName,email,phone,password,conifrmPassword,pledgeAgrred);
-        if (error == null){
-            req.setAttribute("SuccessMessage","Registration succesful!");
-            req.getRequestDispatcher("/views/auth/login.jsp").forward(req,resp);
-        }else{
-            req.setAttribute("errorMessage",error);
+        String confirmPassword = req.getParameter("confirmPassword");
+        Boolean pledgeAgreed = Boolean.valueOf(req.getParameter("pledgeAgreed"));
+        String error = authService.register(fullName, email, phone, password, confirmPassword, pledgeAgreed);
+        if (error == null) {
+            req.setAttribute("SuccessMessage", "Registration successful!");
+            req.getRequestDispatcher("/views/auth/login.jsp").forward(req, resp);
+        } else {
+            req.setAttribute("errorMessage", error);
 
-req.setAttribute("email",email);
-req.getRequestDispatcher("/views/auth/register.jsp").forward(req,resp);
-}
-}
+            req.setAttribute("email", email);
+            req.getRequestDispatcher("/views/auth/register.jsp").forward(req, resp);
+        }
+    }
 }
