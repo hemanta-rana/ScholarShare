@@ -2,6 +2,7 @@ package com.ScholarShare.controller;
 
 import com.ScholarShare.entity.User;
 import com.ScholarShare.service.AuthService;
+import com.ScholarShare.util.SessionUtil;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -36,6 +37,7 @@ public class LoginServlet extends HttpServlet {
             req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
         }else {
             System.out.println("login ok");
+            SessionUtil.setAttribute(req, "user",user);
             resp.sendRedirect(req.getContextPath() +"/home");
         }
 

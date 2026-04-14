@@ -65,18 +65,17 @@ public class AuthService {
         }
         User user = userDao.getUserByEmail(email.toLowerCase().trim());
 
-
         if (user == null) {
             return null;
         }
         if (!PasswordUtil.checkPassword(password, user.getPassword())) {
             return null;
         }
-        System.out.println("passoword validation fails ");
 
-        System.out.println("user found" + user.getStatus()+ user.getUserId());
         return user;
     }
+
+    // takes email and password as parameter. returns String used in the UI to show message
     public String getLoginErrorMessage(String email, String password) {
         if (email == null || email.isEmpty()) {
             return "Email is required";
