@@ -18,8 +18,11 @@ public class AuthenticationFilter implements Filter {
         String uri = request.getRequestURI();
         String contextPath = request.getContextPath();
         String path = uri.substring(contextPath.length());
+        System.out.println("Requested path: " + path);
+        System.out.println("Request URI: " + request.getRequestURI());
+        System.out.println("Context Path: " + request.getContextPath());
 
-        if (path.startsWith("/css") || path.startsWith("/js/") || path.startsWith("/images/")) { // later need to add the home page also
+        if (path.startsWith("/css") || path.startsWith("/js/") || path.startsWith("/images/") || path.startsWith("/images/home/") ) { // later need to add the home page also
             filterChain.doFilter(request, response);
             return;
         }

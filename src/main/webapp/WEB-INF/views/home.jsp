@@ -84,7 +84,7 @@
         <div class="hero-img-col reveal" style="transition-delay:.15s;">
           <div class="hero-img-wrap">
             <img
-              src="${pageContext.request.contextPath}/Images/home/sharing.jpeg"
+              src="${pageContext.request.contextPath}/images/home/sharing.jpeg"
               alt="Students studying in a university library"
             />
           </div>
@@ -133,7 +133,7 @@
 
       <div class="process-img-wrap reveal">
         <img
-          src="${pageContext.request.contextPath}/Images/home/home_page_image.jpg"
+          src="${pageContext.request.contextPath}/images/home/home_page_image.jpg"
           alt="Collaborative academic workflow"
           onerror="this.style.height='340px';this.style.background='#dde3ec'"
         />
@@ -244,7 +244,7 @@
 
       <div class="dashboard-img-wrap reveal">
         <img
-          src="${pageContext.request.contextPath}/Images/home/home_dashboard.png"
+          src="${pageContext.request.contextPath}/images/home/home_dashboard.png"
           alt="Student dashboard analytics"
           onerror="this.style.height='380px';this.style.background='#dde3ec'"
         />
@@ -418,7 +418,7 @@
         <!-- Right image -->
         <div class="rep-img-wrap reveal" style="transition-delay:.15s;">
           <img
-            src="${pageContext.request.contextPath}/Images/home/home_page_image-achievement.jpg"
+            src="${pageContext.request.contextPath}/images/home/home_page_image-achievement.jpg"
             alt="Students earning academic recognition"
             onerror="this.style.height='520px';this.style.background='#dde3ec'"
           />

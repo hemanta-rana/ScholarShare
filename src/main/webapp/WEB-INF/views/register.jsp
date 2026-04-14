@@ -15,7 +15,7 @@
 
   <!-- ══════════════════════════════════════════
        1. NAVBAR
-  ══════════════════════════════════════════ -->
+       ══════════════════════════════════════════ -->
   <div id="navbar-wrapper">
     <nav id="navbar">
       <div class="nav-row">
@@ -79,7 +79,7 @@
             </c:if>
             <form id="registerForm" action="${pageContext.request.contextPath}/register" method="post">
 
-<!--                full name -->
+            <!--full name -->
                 <div class="input-group">
                     <input type="text" name="fullName" placeholder="Full Name"
                            value="<c:out value='${fullName}' />"
@@ -150,7 +150,7 @@
 
     <!-- RIGHT SECTION -->
     <div class="right">
-        <img src="${pageContext.request.contextPath}/Images/login_illustration.png" alt="Learning Illustration" class="right-image">
+        <img src="${pageContext.request.contextPath}/images/login_illustration.png" alt="Learning Illustration" class="right-image">
     </div>
 
 </div>

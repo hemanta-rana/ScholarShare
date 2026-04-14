@@ -57,7 +57,7 @@
             <!-- LEFT SECTION: PRIMARY COLOR #36454F with brand messaging & features -->
             <div class="left">
 
-                <img src="${pageContext.request.contextPath}/Images/login_illustration.png" alt="Learning Illustration" class="left-image" onerror="this.src='../../images/hero.png'">
+                <img src="${pageContext.request.contextPath}/images/login_illustration.png" alt="Learning Illustration" class="left-image"/>
 
             </div>
 

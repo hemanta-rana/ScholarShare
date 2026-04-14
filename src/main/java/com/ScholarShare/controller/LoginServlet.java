@@ -2,6 +2,7 @@ package com.ScholarShare.controller;
 
 import com.ScholarShare.entity.User;
 import com.ScholarShare.service.AuthService;
+import com.ScholarShare.util.CookieUtil;
 import com.ScholarShare.util.SessionUtil;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.ServletException;
@@ -27,7 +28,7 @@ public class LoginServlet extends HttpServlet {
         String email=req.getParameter("email");
         String password = req.getParameter("password");
 
-        System.out.println("servlet accessed ");
+
         User user = authService.login(email,password);
 
         if (user == null) {
@@ -38,26 +39,10 @@ public class LoginServlet extends HttpServlet {
         }else {
             System.out.println("login ok");
             SessionUtil.setAttribute(req, "user",user);
+            CookieUtil.addCookie(resp, "email", user.getEmail(), 24 * 60 * 60);
             resp.sendRedirect(req.getContextPath() +"/home");
         }
 
-
-//
-//    if(user !=null){
-//    HttpSession session =req.getSession();
-//    session.setAttribute("user",user);
-//     if("admin".equals(user.getRole())) {
-//         resp.sendRedirect(req.getContextPath() + "/admin/dashboard");
-//     }else{
-//         resp.sendRedirect(req.getContextPath()+"/student/dashboard");
-////     }
-//}else {
-//    String error = authService.getLoginErrorMessage(email, password);
-//    req.setAttribute("error", error);
-//    req.setAttribute("email", email);
-//
-//    req.getRequestDispatcher("/views/login.jsp").forward(req, resp);
-//}
     }
 }
 
