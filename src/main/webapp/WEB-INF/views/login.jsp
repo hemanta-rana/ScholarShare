@@ -57,7 +57,7 @@
             <!-- LEFT SECTION: PRIMARY COLOR #36454F with brand messaging & features -->
             <div class="left">
 
-                <img src="${pageContext.request.contextPath}/Images/Login_left%20image.png" alt="Learning Illustration" class="left-image" onerror="this.src='../../images/hero.png'">
+                <img src="${pageContext.request.contextPath}/Images/login_illustration.png" alt="Learning Illustration" class="left-image" onerror="this.src='../../images/hero.png'">
 
             </div>
 
@@ -66,8 +66,10 @@
                 <div class="login-card">
                     <h2>Welcome Back</h2>
                     <p class="welcome-text">Sign in to access your dashboard</p>
-
-                    <form action="${pageContext.request.contextPath}/auth/login" method="post">
+                    <c:if test="${not empty error}">
+                        <p style="color:red;">${error}</p>
+                    </c:if>
+                    <form action="${pageContext.request.contextPath}auth/login" method="post">
                         <!-- Email field -->
                         <div class="input-group">
                             <input name="email" value="<c:out value='${email}'/> "  type="email" placeholder="Email address" required>

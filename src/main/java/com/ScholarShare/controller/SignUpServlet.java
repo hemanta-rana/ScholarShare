@@ -33,21 +33,22 @@ public class SignUpServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        String fullName = req.getParameter("fullName");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        String fullName = req.getParameter("fullName");
         String phone = req.getParameter("phone");
         String confirmPassword = req.getParameter("confirmPassword");
-        Boolean pledgeAgreed = Boolean.valueOf(req.getParameter("pledgeAgreed"));
+        boolean pledgeAgreed = req.getParameter("pledgeAgreed").equals("yes");
+
         String error = authService.register(fullName, email, phone, password, confirmPassword, pledgeAgreed);
         if (error == null) {
             req.setAttribute("SuccessMessage", "Registration successful!");
-            req.getRequestDispatcher("/views/auth/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/views/login.jsp").forward(req, resp);
         } else {
-            req.setAttribute("errorMessage", error);
+            req.setAttribute("error", error);
 
             req.setAttribute("email", email);
-            req.getRequestDispatcher("/views/auth/register.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/views/register.jsp").forward(req, resp);
         }
     }
 }

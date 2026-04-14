@@ -65,7 +65,10 @@
             <h2>Create Account</h2>
             <p class="welcome-text">Join us and start learning today</p>
 
-            <form id="registerForm" action="#" method="post">
+            <c:if test="${not empty error}">
+                <p style="color:red;">${error}</p>
+            </c:if>
+            <form id="registerForm" action="${pageContext.request.contextPath}/register" method="post">
 
 <!--                full name -->
                 <div class="input-group">
@@ -111,7 +114,7 @@
 
                 <!-- Terms -->
                 <label class="terms-check">
-                    <input type="checkbox" id="terms" name="pledgeAgreed" required />
+                    <input type="checkbox" id="terms" name="pledgeAgreed" value="yes" required />
                     <span class="checkmark"></span>
                     <span>
                         I agree to the
@@ -119,6 +122,7 @@
                         <a href="#">Privacy Policy</a>
                     </span>
                 </label>
+
 
                 <!-- Submit -->
                 <button type="submit" class="register-submit-btn">

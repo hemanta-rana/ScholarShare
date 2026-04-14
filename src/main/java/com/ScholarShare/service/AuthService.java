@@ -4,14 +4,12 @@ import com.ScholarShare.entity.User;
 import com.ScholarShare.util.ValidationUtil;
 import com.ScholarShare.util.PasswordUtil;
 
-import java.sql.SQLException;
-
 
 public class AuthService {
     private static final UserDaoImpl userDao = new UserDaoImpl();
 
     //Register
-    public String register(String fullName, String email, String phone, String password, String confirmPassword, Boolean pledgeAgrred) {
+    public String register(String fullName, String email, String phone, String password, String confirmPassword, Boolean pledgeAgreed) {
 
         if (ValidationUtil.isNullOrEmpty(email) ||
                 ValidationUtil.isNullOrEmpty(password) ||
@@ -33,8 +31,10 @@ public class AuthService {
         if (!password.equals(confirmPassword))
             return "Passwords do not match.";
 
-        if (!pledgeAgrred) {
+        if (!pledgeAgreed) {
+            System.out.println("pledge agreed"+pledgeAgreed);
             return "You must agree to the Academic Integrity Pledge to register.";
+
         }
 
         if (userDao.getUserByEmail(email) != null)
@@ -53,6 +53,7 @@ public class AuthService {
         user.setCreatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
 
         boolean saved = userDao.addUser(user);
+
         if (saved) return null;
         else return "registration failed.";
     }

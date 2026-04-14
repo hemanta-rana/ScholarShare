@@ -53,17 +53,16 @@ public class UserDaoImpl implements UserDao {
         Connection connection = null;
         try{
             connection = DatabaseConnection.getConnection(connection);
-            String sql = "INSERT INTO users(user_id, full_name, email, phone, password, role, status, profile_pic, created_at) VALUES(?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO users(full_name, email, phone, password, role, status, profile_pic, created_at) VALUES(?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, user.getUserId());
-            statement.setString(2, user.getFullName());
-            statement.setString(3, user.getEmail());
-            statement.setString(4, user.getPhone());
-            statement.setString(5, user.getPassword());
-            statement.setString(6, user.getRole());
-            statement.setString(7,user.getStatus());
-            statement.setString(8, user.getProfilePic());
-            statement.setTimestamp(9, user.getCreatedAt());
+            statement.setString(1, user.getFullName());
+            statement.setString(2, user.getEmail());
+            statement.setString(3, user.getPhone());
+            statement.setString(4, user.getPassword());
+            statement.setString(5, user.getRole());
+            statement.setString(6,user.getStatus());
+            statement.setString(7, user.getProfilePic());
+            statement.setTimestamp(8, user.getCreatedAt());
             statement.execute();
             return true;
         }catch (SQLException e){
