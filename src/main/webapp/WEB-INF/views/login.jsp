@@ -105,29 +105,6 @@
         </div>
     </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const wrapper = document.querySelector('.login-wrapper') || document.querySelector('.register-wrapper');
-    if (wrapper) wrapper.classList.add('page-flip-in');
-
-    document.querySelectorAll('a').forEach(link => {
-        if (link.href.includes('auth/login') || link.href.includes('register')) {
-            link.addEventListener('click', (e) => {
-                if(link.closest('#navbar') || link.closest('#nav-mobile') || link.closest('.nav-cta') || link.closest('.mob-cta')) return;
-                e.preventDefault();
-                const target = e.currentTarget.href;
-                if (wrapper) {
-                    wrapper.classList.remove('page-flip-in');
-                    wrapper.classList.add('page-flip-out');
-                }
-                setTimeout(() => window.location.href = target, 400);
-            });
-        }
-    });
-});
-</script>
-
-
   <script src="${pageContext.request.contextPath}/js/home.js"></script>
 </body>
 </html>
