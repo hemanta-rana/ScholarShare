@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet({"", "/home"})
+@WebServlet("/home")
 public class homeServlet extends HttpServlet {
 
     @Override
