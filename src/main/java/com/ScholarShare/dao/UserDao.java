@@ -10,6 +10,6 @@ public interface UserDao {
     boolean updateUser(User user,  int userId);
     User getUserByEmail(String email);
     boolean deleteUser(int userId);
-    List<User> getAllStudents();
+    List<User> getAllUsers();
 
 }

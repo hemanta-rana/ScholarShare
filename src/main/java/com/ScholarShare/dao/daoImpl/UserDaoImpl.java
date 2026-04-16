@@ -142,7 +142,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> getAllStudents() {
+    public List<User> getAllUsers() {
        Connection connection = null;
         ArrayList<User> users = new ArrayList<>();
        try{
