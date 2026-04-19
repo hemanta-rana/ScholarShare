@@ -20,9 +20,9 @@
             <!-- Desktop links -->
             <ul class="nav-links">
                 <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
-                <li><a href="#categories">Browse Resources</a></li>
-                <li><a href="#how-it-works">How It Works</a></li>
-                <li><a href="#reputation">About</a></li>
+                <li><a href="${pageContext.request.contextPath}/home#categories">Browse Resources</a></li>
+                <li><a href="${pageContext.request.contextPath}/home#how-it-works">How It Works</a></li>
+                <li><a href="${pageContext.request.contextPath}/aboutUs">About</a></li>
                 <li><a href="#footer">Contact</a></li>
             </ul>
 
@@ -38,9 +38,9 @@
         <!-- Mobile Dropdown -->
         <div class="nav-mobile" id="nav-mobile">
             <a href="${pageContext.request.contextPath}/home"          onclick="closeMenu()">Home</a>
-            <a href="#categories"    onclick="closeMenu()">Browse Resources</a>
-            <a href="#how-it-works"  onclick="closeMenu()">How It Works</a>
-            <a href="#reputation"    onclick="closeMenu()">About</a>
+            <a href="${pageContext.request.contextPath}/home#categories"    onclick="closeMenu()">Browse Resources</a>
+            <a href="${pageContext.request.contextPath}/home#how-it-works"  onclick="closeMenu()">How It Works</a>
+            <a href="${pageContext.request.contextPath}/aboutUs"    onclick="closeMenu()">About</a>
             <a href="#footer"        onclick="closeMenu()">Contact</a>
             <a href="${pageContext.request.contextPath}/login" class="mob-cta" onclick="closeMenu()">Get Started</a>
         </div>
@@ -115,7 +115,7 @@
             <div class="team-grid">
 
                 <div class="team-card">
-                    <img src="https://via.placeholder.com/100" alt="Hementa Rana" />
+                    <img src="${pageContext.request.contextPath}/images/about_us/Hemanta.png" alt="Hementa Rana" />
                     <h4>Hementa Rana</h4>
                 </div>
 

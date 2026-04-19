@@ -22,7 +22,7 @@ public class AuthenticationFilter implements Filter {
         System.out.println("Request URI: " + request.getRequestURI());
         System.out.println("Context Path: " + request.getContextPath());
 
-        if (path.startsWith("/css") || path.startsWith("/js/") || path.startsWith("/images/") || path.startsWith("/images/home/") ) { // later need to add the home page also
+        if (path.startsWith("/css") || path.startsWith("/js/") || path.startsWith("/images/") || path.startsWith("/images/home/" ) || path.startsWith("/home") || path.startsWith("/aboutUs") ) { // later need to add the home page also
             filterChain.doFilter(request, response);
             return;
         }
@@ -30,7 +30,7 @@ public class AuthenticationFilter implements Filter {
         boolean isAuthPage = "/login".equals(path) || "/register".equals(path);
 
         if (!isLoggedIn && !isAuthPage) {
-            response.sendRedirect(contextPath+"/login"); // TO DO change the path for user
+            response.sendRedirect(contextPath+"/home"); // TO DO change the path for user
             return;
         }
         if (isLoggedIn && isAuthPage) {
