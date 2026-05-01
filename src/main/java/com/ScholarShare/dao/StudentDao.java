@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface StudentDao {
     User getUserById(int userId);
-    User getUserByEmail(String email);
+    User getStudentByEmail(String email);
     List<Collection>getStudentCollections(int userId);
     boolean agreeToIntegrityPledge (int userId);
     boolean uploadResource(Resource resource);

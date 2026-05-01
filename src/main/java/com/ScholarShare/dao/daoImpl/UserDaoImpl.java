@@ -19,7 +19,7 @@ public class UserDaoImpl implements UserDao {
     public User getUser(int userId) {
         Connection connection = null;
         try{
-            connection = DatabaseConnection.getConnection(connection);
+            connection = DatabaseConnection.getConnection();
             String sql = "SELECT * FROM users WHERE userid = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, userId);
@@ -52,7 +52,7 @@ public class UserDaoImpl implements UserDao {
     public boolean addUser(User user) {
         Connection connection = null;
         try{
-            connection = DatabaseConnection.getConnection(connection);
+            connection = DatabaseConnection.getConnection();
             String sql = "INSERT INTO users(full_name, email, phone, password, role, status, profile_pic, created_at) VALUES(?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, user.getFullName());
@@ -80,7 +80,7 @@ public class UserDaoImpl implements UserDao {
 
         Connection connection = null;
         try{
-            connection = DatabaseConnection.getConnection(connection);
+            connection = DatabaseConnection.getConnection();
             String sql = "UPDATE users SET full_name = ?,email = ?,phone = ?,password = ?,role = ?,status = ?,profile_pic = ? WHERE user_id = ?;";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, user.getFullName());
@@ -109,7 +109,7 @@ public class UserDaoImpl implements UserDao {
     public User getUserByEmail(String email) {
         Connection connection = null;
         try{
-            connection = DatabaseConnection.getConnection(connection);
+            connection = DatabaseConnection.getConnection();
             String sql = "SELECT * FROM users WHERE email = ? AND status ='active'";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, email);
@@ -146,8 +146,8 @@ public class UserDaoImpl implements UserDao {
        Connection connection = null;
         ArrayList<User> users = new ArrayList<>();
        try{
-           connection = DatabaseConnection.getConnection(connection);
-           String sql = "SELECT * FROM users WHERE role='student' as";
+           connection = DatabaseConnection.getConnection();
+           String sql = "SELECT * FROM users WHERE role='student' ";
            PreparedStatement statement = connection.prepareStatement(sql);
            ResultSet resultSet = statement.executeQuery();
            if(resultSet.next()){
