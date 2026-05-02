@@ -15,11 +15,12 @@ public interface StudentDao {
     boolean deleteResource(int resourceId);
     int getContributorReputationScore(int userId);
     boolean createCollection(int userId, String collectionName);
-    boolean addResourceToCollection(int collectionId, int resourceId);
+    boolean addResourceToCollection(int userId, int resourceId);
     boolean deleteCollection(int collectionId);
     boolean deleteResourceFromCollection(int collectionId, int resourceId);
     boolean flagResourceForPlagiarism(int resourceId,int userId, String reason);
     boolean rateResource(int resourceId, int userId, int score);
+    boolean uploadProfilePicture(int resourceId, int userId);
 
 
 }

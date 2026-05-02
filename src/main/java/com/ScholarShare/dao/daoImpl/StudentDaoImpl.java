@@ -155,21 +155,80 @@ public class StudentDaoImpl  implements StudentDao {
 
     @Override
     public boolean createCollection(int userId, String collectionName) {
-        return false;
+       Connection connection = null;
+       try{
+           connection = DatabaseConnection.getConnection();
+           String sql = "INSERT INTO collections (user_id, collection_name) VALUES (?, ?)";
+           PreparedStatement ps = connection.prepareStatement(sql);
+           ps.setInt(1, userId);
+           ps.setString(2, collectionName);
+           ps.execute();
+           return true;
+       }catch (SQLException e){
+           System.out.println("cannot create collections by student id "+userId+e.getMessage());
+           return false;
+       } finally {
+           DatabaseConnection.closeConnection(connection);
+       }
+
     }
 
     @Override
-    public boolean addResourceToCollection(int collectionId, int resourceId) {
-        return false;
+    public boolean addResourceToCollection(int userId, int resourceId) {
+       Connection connection = null;
+       try{
+           connection = DatabaseConnection.getConnection();
+           String sql = "INSERT INTO collections (user_id, resource_id) VALUES (?, ?)";
+           PreparedStatement ps = connection.prepareStatement(sql);
+           ps.setInt(1, userId);
+           ps.setInt(2, resourceId);
+           ps.execute();
+           return true;
+
+       }catch (SQLException e){
+           System.out.println("failed to add resource to collection" + userId+e.getMessage());
+       }finally {
+           DatabaseConnection.closeConnection(connection);
+       }
+       return false;
     }
 
     @Override
     public boolean deleteCollection(int collectionId) {
-        return false;
+       Connection connection = null;
+       try{
+           connection = DatabaseConnection.getConnection();
+           String sql = "DELETE FROM collections WHERE collection_id = ?";
+           PreparedStatement ps = connection.prepareStatement(sql);
+           ps.setInt(1, collectionId);
+           ps.execute();
+           return true;
+
+       }catch (SQLException e){
+           System.out.println("cannot delete collections by collection id "+collectionId+e.getMessage());
+       }finally {
+           DatabaseConnection.closeConnection(connection);
+       }
+       return false;
     }
 
     @Override
     public boolean deleteResourceFromCollection(int collectionId, int resourceId) {
+        Connection connection = null;
+        try{
+            connection = DatabaseConnection.getConnection();
+            String sql = "DELETE FROM collections WHERE collection_id = ? AND resource_id = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, collectionId);
+            ps.setInt(2, resourceId);
+            ps.execute();
+            return true;
+
+        }catch (SQLException e){
+            System.out.println("failed to delete resource from collection id "+collectionId+e.getMessage());
+        }finally {
+            DatabaseConnection.closeConnection(connection);
+        }
         return false;
     }
 
@@ -180,6 +239,11 @@ public class StudentDaoImpl  implements StudentDao {
 
     @Override
     public boolean rateResource(int resourceId, int userId, int score) {
+        return false;
+    }
+
+    @Override
+    public boolean uploadProfilePicture(int resourceId, int userId) {
         return false;
     }
 }
