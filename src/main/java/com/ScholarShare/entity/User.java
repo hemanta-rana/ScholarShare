@@ -14,6 +14,16 @@ public class User {
     private Timestamp createdAt;
 
    public User(){}
+    public User(int userId, String fullName, String email, String phone, String role, String status, String profilePic, Timestamp createdAt) {
+        this.userId = userId;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.role = role;
+        this.status = status;
+        this.profilePic = profilePic;
+        this.createdAt = createdAt;
+    }
 
     public User(int userId, String fullName, String email, String phone, String password, String role, String status, String profilePic, Timestamp createdAt) {
         this.userId = userId;
