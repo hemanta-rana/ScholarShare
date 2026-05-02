@@ -172,4 +172,33 @@ public class UserDaoImpl implements UserDao {
        }
        return users;
     }
+
+    @Override
+    public User getPendingUserByEmail(String email) {
+        Connection connection = null;
+        try{
+            connection = DatabaseConnection.getConnection();
+            String sql = "SELECT * FROM users WHERE email = ? AND status ='pending'";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                User user = new User();
+                user.setUserId(rs.getInt("user_id"));
+                user.setFullName(rs.getString("full_name"));
+                user.setEmail(rs.getString("email"));
+                user.setPhone(rs.getString("phone"));
+                user.setStatus(rs.getString("status"));
+                user.setCreatedAt(rs.getTimestamp("created_at"));
+                return user;
+            }
+
+        }catch (SQLException e){
+            System.out.println("cannot get inactive user by email "+e.getMessage());
+        }finally {
+            DatabaseConnection.closeConnection(connection);
+        }
+        return null;
+
+    }
 }

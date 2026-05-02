@@ -11,5 +11,7 @@ public interface UserDao {
     User getUserByEmail(String email);
     boolean deleteUser(int userId);
     List<User> getAllUsers();
+    User getPendingUserByEmail(String email);
+
 
 }

@@ -1,4 +1,7 @@
 package com.ScholarShare.service;
+import com.ScholarShare.dao.StudentDao;
+import com.ScholarShare.dao.UserDao;
+import com.ScholarShare.dao.daoImpl.StudentDaoImpl;
 import com.ScholarShare.dao.daoImpl.UserDaoImpl;
 import com.ScholarShare.entity.User;
 import com.ScholarShare.util.ValidationUtil;
@@ -6,7 +9,8 @@ import com.ScholarShare.util.PasswordUtil;
 
 
 public class AuthService {
-    private static final UserDaoImpl userDao = new UserDaoImpl();
+    private static final UserDao userDao = new UserDaoImpl();
+    private static  final StudentDao  studentDao = new StudentDaoImpl();
 
     //Register
     public String register(String fullName, String email, String phone, String password, String confirmPassword, Boolean pledgeAgreed) {
@@ -53,8 +57,10 @@ public class AuthService {
         user.setCreatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
 
         boolean saved = userDao.addUser(user);
-
-        if (saved) return null;
+        System.out.println("saved "+saved);
+        User savedNotActive = userDao.getPendingUserByEmail(email);
+       boolean agreed = studentDao.agreeToIntegrityPledge(savedNotActive.getUserId());
+        if (saved && agreed) return null;
         else return "registration failed.";
     }
 

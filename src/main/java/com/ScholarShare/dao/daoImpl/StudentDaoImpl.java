@@ -120,6 +120,21 @@ public class StudentDaoImpl  implements StudentDao {
     @Override
     public boolean agreeToIntegrityPledge(int userId) {
 
+        Connection connection = null;
+        try{
+            connection = DatabaseConnection.getConnection();
+            String sql = "INSERT INTO integrity_pledges (user_id, agreed, agreed_at) VALUES (?, ?, ?) ";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ps.setBoolean(2, true);
+            ps.setTimestamp(3, new java.sql.Timestamp(System.currentTimeMillis()));
+            ps.execute();
+            return  true;
+
+        }catch(SQLException e){
+            System.out.println("failed to add integrity pledge by student id "+userId+e.getMessage());
+        }
+
         return false;
     }
 
