@@ -27,7 +27,7 @@ public class AuthenticationFilter implements Filter {
             return;
         }
         boolean isLoggedIn = SessionUtil.getAttribute(request, "user") != null;
-        boolean isAuthPage = "/login".equals(path) || "/register".equals(path);
+        boolean isAuthPage = "/login".equals(path) || "/register".equals(path) ; // remove teh admin dashboard after backend finish
 
         if (!isLoggedIn && !isAuthPage) {
             response.sendRedirect(contextPath+"/home"); // TO DO change the path for user

@@ -28,7 +28,6 @@ public class LoginServlet extends HttpServlet {
         String email=req.getParameter("email");
         String password = req.getParameter("password");
 
-
         User user = authService.login(email,password);
 
         if (user == null) {
@@ -40,7 +39,12 @@ public class LoginServlet extends HttpServlet {
             System.out.println("login ok");
             SessionUtil.setAttribute(req, "user",user);
             CookieUtil.addCookie(resp, "email", user.getEmail(), 24 * 60 * 60);
-            resp.sendRedirect(req.getContextPath() +"/home");
+            if (user.getRole().equals("admin")) {
+                resp.sendRedirect(req.getContextPath() + "/adminDashboard");
+            }else {
+                resp.sendRedirect(req.getContextPath() +"/home");
+            }
+
         }
 
     }

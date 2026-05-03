@@ -18,7 +18,6 @@ import java.io.IOException;
 
 @WebServlet("/register")
 public class SignUpServlet extends HttpServlet {
-     private final UserDao userDao = new UserDaoImpl();
      private final AuthService authService = new AuthService();
 
 
