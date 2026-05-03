@@ -108,4 +108,24 @@ public class Resource {
     public boolean isUnderReview(){
         return "under_review".equals(this.status);
     }
+
+    // --- Transient fields for JOIN queries ---
+    private String submitterName;
+    private String topicName;
+
+    public String getSubmitterName() {
+        return submitterName;
+    }
+
+    public void setSubmitterName(String submitterName) {
+        this.submitterName = submitterName;
+    }
+
+    public String getTopicName() {
+        return topicName;
+    }
+
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
+    }
 }

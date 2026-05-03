@@ -127,4 +127,24 @@ public class User {
                 "', status='" + status + "'}";
     }
 
+    // Helper methods for JSP EL
+    public String getName() {
+        return this.fullName;
+    }
+
+    public String getAvatarUrl() {
+        return this.profilePic;
+    }
+
+    public String getInitials() {
+        if (this.fullName == null || this.fullName.trim().isEmpty()) {
+            return "U";
+        }
+        String[] parts = this.fullName.trim().split("\\s+");
+        String initials = String.valueOf(parts[0].charAt(0));
+        if (parts.length > 1) {
+            initials += parts[parts.length - 1].charAt(0);
+        }
+        return initials.toUpperCase();
+    }
 }

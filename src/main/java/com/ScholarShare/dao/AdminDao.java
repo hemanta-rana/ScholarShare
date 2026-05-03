@@ -15,5 +15,6 @@ public interface AdminDao {
     List<Resource> getRecentSubmission();
     List<User> getPendingUserRegistration();
     List<Flag> getRecentFlags();
+    java.util.Map<String, Integer> getWeeklySubmissionCounts();
 
 }

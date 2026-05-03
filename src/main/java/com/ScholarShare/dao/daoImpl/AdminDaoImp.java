@@ -113,7 +113,12 @@ public class AdminDaoImp implements AdminDao {
     public List<Resource> getRecentSubmission() {
         List<Resource> resources = new ArrayList<>();
 
-        String sql = "SELECT * FROM resources ORDER BY upload_date DESC LIMIT 5";
+        // JOIN with users and topics to get the submitter name and category
+        String sql = "SELECT r.*, u.full_name AS submitter_name, t.topic_name " +
+                     "FROM resources r " +
+                     "JOIN users u ON r.user_id = u.user_id " +
+                     "JOIN topics t ON r.topic_id = t.topic_id " +
+                     "ORDER BY r.upload_date DESC LIMIT 5";
 
         try {
             Connection connection = DatabaseConnection.getConnection();
@@ -126,6 +131,12 @@ public class AdminDaoImp implements AdminDao {
                 resource.setTitle(rs.getString("title"));
                 resource.setStatus(rs.getString("status"));
                 resource.setUploadDate(rs.getTimestamp("upload_date"));
+                resource.setResourceType(rs.getString("resource_type")); // Added resource type
+                resource.setUserId(rs.getInt("user_id"));
+                
+                // Map the joined fields
+                resource.setSubmitterName(rs.getString("submitter_name"));
+                resource.setTopicName(rs.getString("topic_name"));
 
                 resources.add(resource);
             }
@@ -160,10 +171,17 @@ public class AdminDaoImp implements AdminDao {
         }
         return users;
     }
+    @Override
     public List<Flag> getRecentFlags() {
         List<Flag> flags = new ArrayList<>();
 
-        String sql = "SELECT * FROM flags ORDER BY created_at DESC LIMIT 5";
+        // JOIN with resources and users to get the actual titles and names
+        String sql = "SELECT f.*, r.title AS resource_title, u.full_name AS flagged_by_name " +
+                     "FROM flags f " +
+                     "JOIN resources r ON f.resource_id = r.resource_id " +
+                     "JOIN users u ON f.flagged_by = u.user_id " +
+                     "WHERE f.status = 'open' " +
+                     "ORDER BY f.created_at DESC LIMIT 5";
 
         try {
             Connection connection = DatabaseConnection.getConnection();
@@ -175,6 +193,12 @@ public class AdminDaoImp implements AdminDao {
                 flag.setFlagId(rs.getInt("flag_id"));
                 flag.setReason(rs.getString("reason"));
                 flag.setStatus(rs.getString("status"));
+                flag.setResourceId(rs.getInt("resource_id"));
+                flag.setFlaggedBy(rs.getInt("flagged_by"));
+
+                // Map joined fields
+                flag.setResourceTitle(rs.getString("resource_title"));
+                flag.setFlaggedByName(rs.getString("flagged_by_name"));
 
                 flags.add(flag);
             }
@@ -182,5 +206,32 @@ public class AdminDaoImp implements AdminDao {
             e.printStackTrace();
         }
         return flags;
+    }
+
+    @Override
+    public java.util.Map<String, Integer> getWeeklySubmissionCounts() {
+        java.util.Map<String, Integer> counts = new java.util.LinkedHashMap<>();
+        
+        // Use DATE() and group by to count resources uploaded per day for the last 7 days
+        String sql = "SELECT DATE(upload_date) as upload_day, COUNT(*) as daily_count " +
+                     "FROM resources " +
+                     "WHERE upload_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) " +
+                     "GROUP BY DATE(upload_date) " +
+                     "ORDER BY upload_day ASC";
+
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String day = rs.getString("upload_day");
+                int count = rs.getInt("daily_count");
+                counts.put(day, count);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return counts;
     }
 }

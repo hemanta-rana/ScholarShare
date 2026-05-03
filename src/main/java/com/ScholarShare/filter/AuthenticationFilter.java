@@ -1,5 +1,6 @@
 package com.ScholarShare.filter;
 
+import com.ScholarShare.entity.User;
 import com.ScholarShare.util.SessionUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
@@ -27,16 +28,24 @@ public class AuthenticationFilter implements Filter {
             return;
         }
         boolean isLoggedIn = SessionUtil.getAttribute(request, "user") != null;
-        boolean isAuthPage = "/login".equals(path) || "/register".equals(path) ; // remove teh admin dashboard after backend finish
+        boolean isAuthPage = "/login".equals(path) || "/register".equals(path) ;
+        User user = (User) SessionUtil.getAttribute(request, "user");
+
 
         if (!isLoggedIn && !isAuthPage) {
             response.sendRedirect(contextPath+"/home"); // TO DO change the path for user
             return;
         }
-        if (isLoggedIn && isAuthPage) {
-            response.sendRedirect(contextPath+"/home"); // TO DO change the path for user
+        assert user != null;
+        if (isAuthPage && isLoggedIn && user.isAdmin()) {
+            response.sendRedirect(contextPath+"/adminDashboard");
             return;
         }
+        if (isAuthPage && isLoggedIn && !user.isAdmin()) {
+            response.sendRedirect(contextPath+"/home");
+            return;
+        }
+
         filterChain.doFilter(request, response);
 
     }
