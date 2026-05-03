@@ -91,31 +91,6 @@ public class StudentDaoImpl  implements StudentDao {
        return null;
     }
 
-    @Override
-    public List<Collection> getStudentCollections(int userId) {
-        ArrayList<Collection>  collections = new ArrayList<>();
-        Connection conn = null;
-        try{
-            conn = DatabaseConnection.getConnection();
-            String sql = "SELECT * FROM collections WHERE user_id = ? ";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, userId);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-               Collection collection = new Collection();
-              collection.setCollectionId(rs.getInt("collection_id"));
-              collection.setCollectionName(rs.getString("collection_name"));
-              collection.setCreatedAt(rs.getTimestamp("created_at"));
-              collections.add(collection);
-            }
-
-        }catch (SQLException e){
-            System.out.println("cannot get student collections by student id "+userId+e.getMessage());
-        }finally {
-            DatabaseConnection.closeConnection(conn);
-        }
-        return collections;
-    }
 
     @Override
     public boolean agreeToIntegrityPledge(int userId) {
@@ -133,44 +108,17 @@ public class StudentDaoImpl  implements StudentDao {
 
         }catch(SQLException e){
             System.out.println("failed to add integrity pledge by student id "+userId+e.getMessage());
+        }finally {
+            DatabaseConnection.closeConnection(connection);
         }
 
         return false;
     }
 
-    @Override
-    public boolean uploadResource(Resource resource) {
-        return false;
-    }
-
-    @Override
-    public boolean deleteResource(int resourceId) {
-        return false;
-    }
 
     @Override
     public int getContributorReputationScore(int userId) {
         return 0;
-    }
-
-    @Override
-    public boolean createCollection(int userId, String collectionName) {
-        return false;
-    }
-
-    @Override
-    public boolean addResourceToCollection(int collectionId, int resourceId) {
-        return false;
-    }
-
-    @Override
-    public boolean deleteCollection(int collectionId) {
-        return false;
-    }
-
-    @Override
-    public boolean deleteResourceFromCollection(int collectionId, int resourceId) {
-        return false;
     }
 
     @Override
@@ -179,7 +127,7 @@ public class StudentDaoImpl  implements StudentDao {
     }
 
     @Override
-    public boolean rateResource(int resourceId, int userId, int score) {
+    public boolean uploadProfilePicture(int resourceId, int userId) {
         return false;
     }
 }
