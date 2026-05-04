@@ -6,6 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>ScholarPass | Create Account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/logo.png" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/headerFooter.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/Register.css"/>
@@ -20,7 +23,14 @@
     <nav id="navbar">
       <div class="nav-row">
         <!-- Logo -->
-        <a href="${pageContext.request.contextPath}/" class="nav-logo">📚 ScholarShare</a>
+          <a href="${pageContext.request.contextPath}/" class="nav-logo">
+              <img
+                      src="${pageContext.request.contextPath}/images/logo.png"
+                      alt="ScholarShare"
+                      class="nav-logo-icon"
+              >
+              <span>ScholarShare</span>
+          </a>
 
         <!-- Desktop links -->
         <ul class="nav-links">

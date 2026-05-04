@@ -20,8 +20,14 @@
     <nav id="navbar">
       <div class="nav-row">
         <!-- Logo -->
-        <a href="${pageContext.request.contextPath}/" class="nav-logo">📚 ScholarShare</a>
-
+        <a href="${pageContext.request.contextPath}/" class="nav-logo">
+          <img
+                  src="${pageContext.request.contextPath}/images/logo.png"
+                  alt="ScholarShare"
+                  class="nav-logo-icon"
+          >
+          <span>ScholarShare</span>
+        </a>
         <!-- Desktop links -->
         <ul class="nav-links">
           <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
@@ -440,7 +446,7 @@
         <!-- Brand -->
         <div>
           <div class="footer-brand-name">
-            <span class="brand-emoji">📚</span>
+            <img src="${pageContext.request.contextPath}/images/logo.png" alt="ScholarShare Logo" style="width:36px;height:36px;object-fit:contain;filter:brightness(0) invert(1);">
             <span class="brand-text">ScholarShare</span>
           </div>
           <p class="footer-tagline">Ethical. Verified. Academic.</p>
