@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>ScholarPass | Create Account</title>
-
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/logo.png" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/headerFooter.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/Register.css"/>
     <script src="${pageContext.request.contextPath}/js/Register.js" defer></script>
