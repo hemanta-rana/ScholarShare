@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
             SessionUtil.setAttribute(req, "user",user);
             CookieUtil.addCookie(resp, "email", user.getEmail(), 24 * 60 * 60);
             if (user.getRole().equals("admin")) {
-                resp.sendRedirect(req.getContextPath() + "/adminDashboard");
+                resp.sendRedirect(req.getContextPath() + "/admin/dashboard");
             }else {
                 resp.sendRedirect(req.getContextPath() +"/home");
             }

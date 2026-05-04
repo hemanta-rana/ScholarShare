@@ -11,7 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AdminDaoImp implements AdminDao {
 
@@ -66,7 +68,7 @@ public class AdminDaoImp implements AdminDao {
                 return rs.getInt("count");
             }
         }catch (SQLException e){
-            e.printStackTrace();
+            System.out.println("cannot get number of open flags"+e.getMessage());
         }
         return 0;
     }
@@ -175,7 +177,7 @@ public class AdminDaoImp implements AdminDao {
     public List<Flag> getRecentFlags() {
         List<Flag> flags = new ArrayList<>();
 
-        // JOIN with resources and users to get the actual titles and names
+        // JOIN with resources and users to get  titles and names
         String sql = "SELECT f.*, r.title AS resource_title, u.full_name AS flagged_by_name " +
                      "FROM flags f " +
                      "JOIN resources r ON f.resource_id = r.resource_id " +
@@ -209,8 +211,8 @@ public class AdminDaoImp implements AdminDao {
     }
 
     @Override
-    public java.util.Map<String, Integer> getWeeklySubmissionCounts() {
-        java.util.Map<String, Integer> counts = new java.util.LinkedHashMap<>();
+    public Map<String, Integer> getWeeklySubmissionCounts() {
+        Map<String, Integer> counts = new HashMap<>();
         
         // Use DATE() and group by to count resources uploaded per day for the last 7 days
         String sql = "SELECT DATE(upload_date) as upload_day, COUNT(*) as daily_count " +

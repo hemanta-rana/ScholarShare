@@ -38,7 +38,7 @@ public class AuthenticationFilter implements Filter {
         }
         assert user != null;
         if (isAuthPage && isLoggedIn && user.isAdmin()) {
-            response.sendRedirect(contextPath+"/adminDashboard");
+            response.sendRedirect(contextPath+"/admin/dashboard");
             return;
         }
         if (isAuthPage && isLoggedIn && !user.isAdmin()) {

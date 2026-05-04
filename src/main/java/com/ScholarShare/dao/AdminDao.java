@@ -5,6 +5,7 @@ import com.ScholarShare.entity.Resource;
 import com.ScholarShare.entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AdminDao {
     int getNumberOfPendingRegistration();
@@ -15,6 +16,6 @@ public interface AdminDao {
     List<Resource> getRecentSubmission();
     List<User> getPendingUserRegistration();
     List<Flag> getRecentFlags();
-    java.util.Map<String, Integer> getWeeklySubmissionCounts();
+    Map<String, Integer> getWeeklySubmissionCounts();
 
 }
