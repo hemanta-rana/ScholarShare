@@ -117,21 +117,29 @@
       <div class="steps-grid">
         <div class="step-card reveal">
           <div class="step-number">01</div>
-          <div class="step-icon">📤</div>
+          <div class="step-icon">
+            <img src="${pageContext.request.contextPath}/images/home-icons/upload.png"
+                    alt="Upload"
+            />
+          </div>
           <h3>Upload</h3>
           <p>Submit your study material with metadata and an integrity pledge. Tag it by faculty, subject, and topic for easy discovery.</p>
           <div class="step-bar"></div>
         </div>
         <div class="step-card reveal" style="transition-delay:.12s;">
           <div class="step-number">02</div>
-          <div class="step-icon">🔍</div>
+          <div class="step-icon">
+            <img src="${pageContext.request.contextPath}/images/home-icons/search.png" alt="Search" />
+          </div>
           <h3>Moderation</h3>
           <p>Admins review every submission before it goes live. Each resource is checked for accuracy, relevance, and academic integrity.</p>
           <div class="step-bar"></div>
         </div>
         <div class="step-card reveal" style="transition-delay:.24s;">
           <div class="step-number">03</div>
-          <div class="step-icon">🗂️</div>
+          <div class="step-icon">
+            <img src="${pageContext.request.contextPath}/images/home-icons/discover.png">
+          </div>
           <h3>Discover</h3>
           <p>Browse verified resources by Faculty, Subject, and Topic. Save materials to your collection and track your usage.</p>
           <div class="step-bar"></div>
@@ -142,7 +150,7 @@
         <img
           src="${pageContext.request.contextPath}/images/home/home_page_image.jpg"
           alt="Collaborative academic workflow"
-          onerror="this.style.height='340px';this.style.background='#dde3ec'"
+<%--          onerror="this.style.height='340px';this.style.background='#dde3ec'"--%>
         />
       </div>
     </div>
@@ -165,7 +173,9 @@
         <!-- Student Panel -->
         <div class="feat-panel light">
           <div class="feat-panel-header">
-            <div class="feat-icon-box">🎓</div>
+            <div class="feat-icon-box">
+              <img src="${pageContext.request.contextPath}/images/home-icons/student-features.png" alt="Student features" />
+            </div>
             <div>
               <h3>Student Features</h3>
               <small>Tools for contributors</small>
@@ -173,32 +183,44 @@
           </div>
           <ul>
             <li class="feat-item">
-              <div class="feat-item-icon">📤</div>
+              <div class="feat-item-icon">
+                <img src="${pageContext.request.contextPath}/images/home-icons/upload.png" alt="Upload" />
+              </div>
               <span class="feat-item-label">Upload Materials</span>
               <span class="feat-dot"></span>
             </li>
             <li class="feat-item">
-              <div class="feat-item-icon">📊</div>
+              <div class="feat-item-icon">
+                <img src="${pageContext.request.contextPath}/images/home-icons/chart-column.png">
+              </div>
               <span class="feat-item-label">Track Submission Status</span>
               <span class="feat-dot"></span>
             </li>
             <li class="feat-item">
-              <div class="feat-item-icon">🗂️</div>
+              <div class="feat-item-icon">
+                <img src="${pageContext.request.contextPath}/images/home-icons/discover.png">
+                ️</div>
               <span class="feat-item-label">Browse by Category</span>
               <span class="feat-dot"></span>
             </li>
             <li class="feat-item">
-              <div class="feat-item-icon">🔖</div>
+              <div class="feat-item-icon">
+                <img src="${pageContext.request.contextPath}/images/home-icons/save-to-collection.png" alt="Save to Collection" />
+              </div>
               <span class="feat-item-label">Save to Collections</span>
               <span class="feat-dot"></span>
             </li>
             <li class="feat-item">
-              <div class="feat-item-icon">🚩</div>
+              <div class="feat-item-icon">
+                <img src="${pageContext.request.contextPath}/images/home-icons/flag-content.png">
+              </div>
               <span class="feat-item-label">Flag Content</span>
               <span class="feat-dot"></span>
             </li>
             <li class="feat-item">
-              <div class="feat-item-icon">⭐</div>
+              <div class="feat-item-icon">
+                <img src="${pageContext.request.contextPath}/images/home-icons/reputation-score.png">
+              </div>
               <span class="feat-item-label">View Reputation Score</span>
               <span class="feat-dot"></span>
             </li>
@@ -208,7 +230,9 @@
         <!-- Admin Panel -->
         <div class="feat-panel dark">
           <div class="feat-panel-header">
-            <div class="feat-icon-box">🛡️</div>
+            <div class="feat-icon-box">
+              <img src="${pageContext.request.contextPath}/images/home-icons/shield-check.png" alt="admin features" />
+              ️</div>
             <div>
               <h3>Admin Features</h3>
               <small>Moderation toolkit</small>
@@ -216,32 +240,44 @@
           </div>
           <ul>
             <li class="feat-item">
-              <div class="feat-item-icon">✅</div>
+              <div class="feat-item-icon">
+                <img src="${pageContext.request.contextPath}/images/home-icons/user-check.png" alt="User Check" />
+              </div>
               <span class="feat-item-label">Approve Registrations</span>
               <span class="feat-dot"></span>
             </li>
             <li class="feat-item">
-              <div class="feat-item-icon">📋</div>
+              <div class="feat-item-icon">
+                <img src="${pageContext.request.contextPath}/images/home-icons/clipboard-check.png" alt=" Check" />
+              </div>
               <span class="feat-item-label">Review Submissions</span>
               <span class="feat-dot"></span>
             </li>
             <li class="feat-item">
-              <div class="feat-item-icon">🛡️</div>
+              <div class="feat-item-icon">
+                <img src="${pageContext.request.contextPath}/images/home-icons/flag-triangle-left.png" alt="flag" />
+                ️</div>
               <span class="feat-item-label">Manage Flags</span>
               <span class="feat-dot"></span>
             </li>
             <li class="feat-item">
-              <div class="feat-item-icon">🗃️</div>
+              <div class="feat-item-icon">
+                <img src="${pageContext.request.contextPath}/images/home-icons/database.png" alt="Database" />
+                ️</div>
               <span class="feat-item-label">Category CRUD</span>
               <span class="feat-dot"></span>
             </li>
             <li class="feat-item">
-              <div class="feat-item-icon">📈</div>
+              <div class="feat-item-icon">
+                <img src="${pageContext.request.contextPath}/images/home-icons/chart-line.png" alt="analytics " />
+              </div>
               <span class="feat-item-label">Analytics Dashboard</span>
               <span class="feat-dot"></span>
             </li>
             <li class="feat-item">
-              <div class="feat-item-icon">🔎</div>
+              <div class="feat-item-icon">
+                <img src="${pageContext.request.contextPath}/images/home-icons/search.png">
+              </div>
               <span class="feat-item-label">Moderation Audit Trail</span>
               <span class="feat-dot"></span>
             </li>
@@ -249,13 +285,6 @@
         </div>
       </div>
 
-      <div class="dashboard-img-wrap reveal">
-        <img
-          src="${pageContext.request.contextPath}/images/home/home_dashboard.png"
-          alt="Student dashboard analytics"
-          onerror="this.style.height='380px';this.style.background='#dde3ec'"
-        />
-      </div>
 
     </div>
   </section>
@@ -271,7 +300,9 @@
 
     <div class="integrity-inner reveal">
       <div class="integrity-badge">
-        <span>🏛️</span>
+        <span>
+          <img src="${pageContext.request.contextPath}/images/home-icons/landmark.png" alt="Landmark" />
+          ️</span>
         <span>Academic Integrity Pledge</span>
       </div>
 
@@ -312,37 +343,49 @@
 
       <div class="cat-grid reveal">
         <div class="cat-card">
-          <div class="cat-icon">💻</div>
+          <div class="cat-icon">
+            <img src="${pageContext.request.contextPath}/images/home-icons/laptop.png" alt="laptop" />
+          </div>
           <div class="cat-name">Computer Science</div>
           <div class="cat-count">320 resources</div>
           <div class="cat-link">Browse <span class="cat-link-arrow">→</span></div>
         </div>
         <div class="cat-card">
-          <div class="cat-icon">⚙️</div>
+          <div class="cat-icon">
+            <img src="${pageContext.request.contextPath}/images/home-icons/cog.png" alt="engineering">
+            ️</div>
           <div class="cat-name">Engineering</div>
           <div class="cat-count">215 resources</div>
           <div class="cat-link">Browse <span class="cat-link-arrow">→</span></div>
         </div>
         <div class="cat-card">
-          <div class="cat-icon">📊</div>
+          <div class="cat-icon">
+            <img src="${pageContext.request.contextPath}/images/home-icons/briefcase.png" alt="business" />
+          </div>
           <div class="cat-name">Business</div>
           <div class="cat-count">180 resources</div>
           <div class="cat-link">Browse <span class="cat-link-arrow">→</span></div>
         </div>
         <div class="cat-card">
-          <div class="cat-icon">⚖️</div>
+          <div class="cat-icon">
+            <img src="${pageContext.request.contextPath}/images/home-icons/scale.png" alt="scale" />
+          </div>
           <div class="cat-name">Law</div>
           <div class="cat-count">140 resources</div>
           <div class="cat-link">Browse <span class="cat-link-arrow">→</span></div>
         </div>
         <div class="cat-card">
-          <div class="cat-icon">🔬</div>
+          <div class="cat-icon">
+            <img src="${pageContext.request.contextPath}/images/home-icons/flask-conical.png" alt="science" />
+          </div>
           <div class="cat-name">Science</div>
           <div class="cat-count">195 resources</div>
           <div class="cat-link">Browse <span class="cat-link-arrow">→</span></div>
         </div>
         <div class="cat-card">
-          <div class="cat-icon">📜</div>
+          <div class="cat-icon">
+            <img src="${pageContext.request.contextPath}/images/home-icons/book-open.png" alt="book" />
+          </div>
           <div class="cat-name">Humanities</div>
           <div class="cat-count">150 resources</div>
           <div class="cat-link">Browse <span class="cat-link-arrow">→</span></div>
@@ -386,7 +429,9 @@
             </div>
             <div class="score-info">
               <div class="score-tier">
-                <span>🥇</span>
+                <span>
+                  <img src="${pageContext.request.contextPath}/images/home-icons/medal.png" alt="medal" />
+                </span>
                 <strong>Gold Contributor</strong>
               </div>
               <p class="score-desc">Top 5% of all contributors this semester. 84 approved uploads.</p>
@@ -400,19 +445,27 @@
           <!-- Reputation Rules -->
           <div class="rep-rules">
             <div class="rep-rule pos">
-              <span class="rep-rule-icon">✅</span>
+              <span class="rep-rule-icon">
+                <img src="${pageContext.request.contextPath}/images/home-icons/circle-check.png" alt="check circle" />
+              </span>
               <span class="rep-rule-text">Approved uploads earn +10 reputation points</span>
             </div>
             <div class="rep-rule pos">
-              <span class="rep-rule-icon">📝</span>
+              <span class="rep-rule-icon">
+                <img src="${pageContext.request.contextPath}/images/home-icons/file-text.png" alt="file text" />
+              </span>
               <span class="rep-rule-text">Detailed submissions with metadata earn bonus points</span>
             </div>
             <div class="rep-rule neg">
-              <span class="rep-rule-icon">⚠️</span>
+              <span class="rep-rule-icon">
+                <img src="${pageContext.request.contextPath}/images/home-icons/triangle-alert.png">
+                ️</span>
               <span class="rep-rule-text">Rejected submissions reduce your score by −5 points</span>
             </div>
             <div class="rep-rule pos">
-              <span class="rep-rule-icon">🏆</span>
+              <span class="rep-rule-icon">
+                <img src="${pageContext.request.contextPath}/images/home-icons/trophy.png" alt="trophy" />
+              </span>
               <span class="rep-rule-text">Top contributors receive exclusive recognition badges</span>
             </div>
           </div>
@@ -455,9 +508,15 @@
             of integrity, transparency, and peer collaboration.
           </p>
           <div class="footer-socials">
-            <div class="social-btn">🎓</div>
-            <div class="social-btn">📧</div>
-            <div class="social-btn">🔗</div>
+            <div class="social-btn">
+              <img src="${pageContext.request.contextPath}/images/home-icons/student-features.png" alt="student" />
+            </div>
+            <div class="social-btn">
+              <img src="${pageContext.request.contextPath}/images/home-icons/mail.png" alt="mail" />
+            </div>
+            <div class="social-btn">
+              <img src="${pageContext.request.contextPath}/images/home-icons/link.png">
+            </div>
           </div>
         </div>
 
