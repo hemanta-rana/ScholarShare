@@ -158,7 +158,7 @@
             <!-- Brand -->
             <div>
                 <div class="footer-brand-name">
-                    <span class="brand-emoji">📚</span>
+                    <img src="${pageContext.request.contextPath}/images/logo.png" alt="ScholarShare Logo" style="width:36px;height:36px;object-fit:contain;filter:brightness(0) invert(1);">
                     <span class="brand-text">ScholarShare</span>
                 </div>
                 <p class="footer-tagline">Ethical. Verified. Academic.</p>
@@ -167,9 +167,15 @@
                     of integrity, transparency, and peer collaboration.
                 </p>
                 <div class="footer-socials">
-                    <div class="social-btn">🎓</div>
-                    <div class="social-btn">📧</div>
-                    <div class="social-btn">🔗</div>
+                    <div class="social-btn">
+                        <img src="${pageContext.request.contextPath}/images/home-icons/student-features.png" alt="student" />
+                    </div>
+                    <div class="social-btn">
+                        <img src="${pageContext.request.contextPath}/images/home-icons/mail.png" alt="mail" />
+                    </div>
+                    <div class="social-btn">
+                        <img src="${pageContext.request.contextPath}/images/home-icons/link.png">
+                    </div>
                 </div>
             </div>
 
@@ -217,12 +223,8 @@
                 <a href="#">Terms of Use</a>
             </div>
         </div>
+
     </div>
-</div>
-<script src="${pageContext.request.contextPath}/js/home.js"></script>
-            </div>
-        </div>
-    </section>
 </footer>
 </body>
 </html>
