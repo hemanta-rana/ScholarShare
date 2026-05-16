@@ -167,7 +167,38 @@ public class ResourceDaoImpl implements ResourceDao {
 
     @Override
     public List<Resource> search(String keyword) {
-        return List.of();
+        List<Resource> resources = new ArrayList<>();
+        Connection connection = null;
+        try{
+            connection = DatabaseConnection.getConnection();
+            String sql ="SELECT * FROM resources " +
+                    "WHERE status = 'approved' " +
+                    "AND (title LIKE ? OR description LIKE ?) " +
+                    "ORDER BY upload_date DESC";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, "%" + keyword + "%");
+            statement.setString(2, "%" + keyword + "%");
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                Resource resource = new Resource();
+                resource.setResourceId(rs.getInt("resource_id"));
+                resource.setUserId(rs.getInt("user_id"));
+                resource.setTopicId(rs.getInt("topic_id"));
+                resource.setTitle(rs.getString("title"));
+                resource.setDescription(rs.getString("description"));
+                resource.setFilePath(rs.getString("file_path"));
+                resource.setResourceType(rs.getString("resource_type"));
+                resource.setStatus(rs.getString("status"));
+                resource.setSelfDeclaration(rs.getBoolean("self_declaration"));
+                resource.setUploadDate(rs.getTimestamp("upload_date"));
+                resources.add(resource);
+            }
+        } catch (SQLException e){
+            System.out.println("Cannot get resource by keyword " + keyword + e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(connection);
+        }
+        return resources;
     }
 
     @Override
