@@ -49,9 +49,9 @@ public class SubjectDaoImpl implements SubjectDao {
             String sql = "SELECT s.*, f.faculty_name FROM subjects s " +
                     "JOIN faculties f ON s.faculty_id = f.faculty_id " +
                     "WHERE s.faculty_id = ? ORDER BY s.subject_name ASC";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, facultyId);
-            ResultSet rs = ps.executeQuery();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, facultyId);
+            ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Subject subject = new Subject();
                 subject.setSubjectId(rs.getInt("subject_id"));
@@ -77,9 +77,9 @@ public class SubjectDaoImpl implements SubjectDao {
             String sql = "SELECT s.*, f.faculty_name FROM subjects s " +
                     "JOIN faculties f ON s.faculty_id = f.faculty_id " +
                     "WHERE s.subject_id = ?";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, subjectId);
-            ResultSet rs = ps.executeQuery();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, subjectId);
+            ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 Subject subject = new Subject();
                 subject.setSubjectId(rs.getInt("subject_id"));
