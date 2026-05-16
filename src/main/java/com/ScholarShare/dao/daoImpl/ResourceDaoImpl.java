@@ -203,6 +203,33 @@ public class ResourceDaoImpl implements ResourceDao {
 
     @Override
     public Resource getById(int resourceId) {
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "SELECT * FROM resources WHERE resource_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, resourceId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                Resource resource = new Resource();
+                resource.setResourceId(rs.getInt("resource_id"));
+                resource.setUserId(rs.getInt("user_id"));
+                resource.setTopicId(rs.getInt("topic_id"));
+                resource.setTitle(rs.getString("title"));
+                resource.setDescription(rs.getString("description"));
+                resource.setFilePath(rs.getString("file_path"));
+                resource.setResourceType(rs.getString("resource_type"));
+                resource.setStatus(rs.getString("status"));
+                resource.setSelfDeclaration(rs.getBoolean("self_declaration"));
+                resource.setUploadDate(rs.getTimestamp("upload_date"));
+
+                return resource;
+            }
+        } catch (SQLException e){
+            System.out.println("Cannot get resource by id " + resourceId + e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(connection);
+        }
         return null;
     }
 }
