@@ -39,4 +39,35 @@ public class SubjectDaoImpl implements SubjectDao {
         }
     }
 
+    @Override
+    public List<Subject> getByFaculty(int  facultyId) {
+        List<Subject> subjects = new ArrayList<>();
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "SELECT s.*, f.faculty_name FROM subjects s " +
+                    "JOIN faculties f ON s.faculty_id = f.faculty_id " +
+                    "WHERE s.faculty_id = ? ORDER BY s.subject_name ASC";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, facultyId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Subject subject = new Subject();
+                subject.setSubjectId(rs.getInt("subject_id"));
+                subject.setFacultyId(rs.getInt("faculty_id"));
+                subject.setSubjectName(rs.getString("subject_name"));
+                subject.setFacultyName(rs.getString("faculty_name"));
+                subject.setCreatedAt(rs.getTimestamp("created_at"));
+                subjects.add(subject);
+            }
+        } catch (SQLException e) {
+            System.out.println("Cannot get subjects by faculty id " + facultyId + e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(connection);
+        }
+        return subjects;
+        }
+    }
+
+
 }
