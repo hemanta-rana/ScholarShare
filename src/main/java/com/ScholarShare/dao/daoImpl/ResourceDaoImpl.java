@@ -60,10 +60,43 @@ public class ResourceDaoImpl implements ResourceDao {
     }
 
     @Override
-    public List<Resource> getByFaculty(int facultyId){};
+    public List<Resource> getByFaculty(int facultyId){
+        List<Resource> resources = new ArrayList<>();
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql ="SELECT r.* FROM resources r " +
+                    "JOIN topics t ON r.topic_id = t.topic_id" +
+                    "JOIN subjects s ON t.subject_id = s.subject_id" +
+                    "WHERE s.faculty_id = ? AND r.status = 'approved' " +
+                    "ORDER BY r.upload_date DESC";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, facultyId);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()){
+                Resource resource = new Resource();
+                resource.setResourceId(rs.getInt("resource_id"));
+                resource.setUserId(rs.getInt("user_id"));
+                resource.setTopicId(rs.getInt("topic_id"));
+                resource.setTitle(rs.getString("title"));
+                resource.setDescription(rs.getString("description"));
+                resource.setFilePath(rs.getString("file_path"));
+                resource.setResourceType(rs.getString("resource_type"));
+                resource.setStatus(rs.getString("status"));
+                resource.setSelfDeclaration(rs.getBoolean("self_declaration"));
+                resource.setUploadDate(rs.getTimestamp("upload_date"));
+                resources.add(resource);
+            }
+        } catch (SQLException e){
+            System.out.println("Cannot get resource by faculty id "+e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(connection);
+        }
+        return resources;
+    };
 
     @Override
-    public List<Resource> getBySubject(int subjectId){};
+    public List<Resource> getBySubject(int subjectId){return subjectId};
 
     @Override
     public List<Resource> getByTopic(int topicId) {
