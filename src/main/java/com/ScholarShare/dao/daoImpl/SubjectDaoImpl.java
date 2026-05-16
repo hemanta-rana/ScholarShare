@@ -37,6 +37,7 @@ public class SubjectDaoImpl implements SubjectDao {
         } finally {
             DatabaseConnection.closeConnection(conn);
         }
+        return subjects;
     }
 
     @Override
@@ -66,8 +67,33 @@ public class SubjectDaoImpl implements SubjectDao {
             DatabaseConnection.closeConnection(connection);
         }
         return subjects;
-        }
     }
 
-
+    @Override
+    public Subject getById(int subjectId) {
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "SELECT s.*, f.faculty_name FROM subjects s " +
+                    "JOIN faculties f ON s.faculty_id = f.faculty_id " +
+                    "WHERE s.subject_id = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, subjectId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Subject subject = new Subject();
+                subject.setSubjectId(rs.getInt("subject_id"));
+                subject.setFacultyId(rs.getInt("faculty_id"));
+                subject.setSubjectName(rs.getString("subject_name"));
+                subject.setFacultyName(rs.getString("faculty_name"));
+                subject.setCreatedAt(rs.getTimestamp("created_at"));
+                return subject;
+            }
+        } catch (SQLException e) {
+            System.out.println("Cannot get subject by id " + subjectId + e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(connection);
+        }
+        return null;
+    }
 }

@@ -6,5 +6,5 @@ import java.util.List;
 public interface SubjectDao {
     List<Subject> getAllSubject();
     List<Subject> getByFaculty(int facultyId);
-    String getById(int subjectId);
+    Subject getById(int subjectId);
 }
