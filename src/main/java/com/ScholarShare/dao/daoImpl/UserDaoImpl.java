@@ -20,7 +20,7 @@ public class UserDaoImpl implements UserDao {
         Connection connection = null;
         try{
             connection = DatabaseConnection.getConnection();
-            String sql = "SELECT * FROM users WHERE userid = ?";
+            String sql = "SELECT * FROM users WHERE user_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
@@ -150,19 +150,19 @@ public class UserDaoImpl implements UserDao {
            String sql = "SELECT * FROM users WHERE role='student' ";
            PreparedStatement statement = connection.prepareStatement(sql);
            ResultSet resultSet = statement.executeQuery();
-           if(resultSet.next()){
-               users.add(new User(
-                       resultSet.getInt("user_id"),
-                       resultSet.getString("full_name"),
-                       resultSet.getString("email"),
-                       resultSet.getString("phone"),
-                       resultSet.getString("password"),
-                       resultSet.getString("role"),
-                       resultSet.getString("status"),
-                       resultSet.getString("profile_pic"),
-                       resultSet.getTimestamp("created_at")
-               ));
-           }
+            while(resultSet.next()){
+                users.add(new User(
+                        resultSet.getInt("user_id"),
+                        resultSet.getString("full_name"),
+                        resultSet.getString("email"),
+                        resultSet.getString("phone"),
+                        resultSet.getString("password"),
+                        resultSet.getString("role"),
+                        resultSet.getString("status"),
+                        resultSet.getString("profile_pic"),
+                        resultSet.getTimestamp("created_at")
+                ));
+            }
        }catch (SQLException e){
            System.out.println("sql error"+e.getMessage());
            e.printStackTrace();

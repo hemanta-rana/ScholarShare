@@ -31,21 +31,21 @@ public class StudentDaoImpl  implements StudentDao {
         Connection conn = null;
         try{
             conn = DatabaseConnection.getConnection();
-            String sql = "SELECT * FROM users  WHERE id = ? AND role='student' AND status='active' ";
+            String sql = "SELECT * FROM users  WHERE user_id = ? AND role='student' AND status='active' ";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                return new User(
                         rs.getInt("user_id"),
-                rs.getString("full_name"),
-                rs.getString("email"),
-                rs.getString("password"),
-                rs.getString("phone"),
-                rs.getString("role"),
-                rs.getString("status"),
-                rs.getString("profile_pic"),
-                rs.getTimestamp("created_at"));
+                        rs.getString("full_name"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("password"),
+                        rs.getString("role"),
+                        rs.getString("status"),
+                        rs.getString("profile_pic"),
+                        rs.getTimestamp("created_at"));
             }
 
         } catch (SQLException e) {

@@ -24,7 +24,7 @@ public class AdminDaoImp implements AdminDao {
         Connection connection = null;
         try{
             connection = DatabaseConnection.getConnection();
-            String sql = "SELECT COUNT(*) AS count FROM USER  WHERE role='student' AND status='pending'";
+            String sql = "SELECT COUNT(*) AS count FROM users WHERE role='student' AND status='pending'";
            PreparedStatement preparedStatement = connection.prepareStatement(sql);
            ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()){
@@ -44,7 +44,7 @@ public class AdminDaoImp implements AdminDao {
         Connection connection = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String sql = "SELECT COUNT(*) AS count FROM resources WHERE  status='pending'";
+            String sql = "SELECT COUNT(*) AS count FROM resources WHERE status='pending'";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             if (rs.next()){
@@ -52,6 +52,8 @@ public class AdminDaoImp implements AdminDao {
             }
         }catch (SQLException e){
             e.printStackTrace();
+        } finally {
+            DatabaseConnection.closeConnection(connection);
         }
         return 0;
     }
@@ -59,9 +61,9 @@ public class AdminDaoImp implements AdminDao {
     @Override
     public int getNumberOfOpenFlags() {
         String sql = "SELECT COUNT(*) AS count FROM flags WHERE status='open'";
-
+        Connection connection = null;
         try {
-            Connection connection = DatabaseConnection.getConnection();
+            connection = DatabaseConnection.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             if (rs.next()){
@@ -69,6 +71,8 @@ public class AdminDaoImp implements AdminDao {
             }
         }catch (SQLException e){
             System.out.println("cannot get number of open flags"+e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(connection);
         }
         return 0;
     }
@@ -76,8 +80,9 @@ public class AdminDaoImp implements AdminDao {
     @Override
     public int getTotalResources() {
         String sql = "SELECT COUNT(*) AS count FROM resources";
+         Connection connection = null;
          try {
-             Connection connection = DatabaseConnection.getConnection();
+             connection = DatabaseConnection.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql);
              ResultSet rs = ps.executeQuery();
 
@@ -86,6 +91,8 @@ public class AdminDaoImp implements AdminDao {
              }
          }catch (SQLException e){
              e.printStackTrace();
+         } finally {
+             DatabaseConnection.closeConnection(connection);
          }
         return 0;
     }
@@ -97,8 +104,9 @@ public class AdminDaoImp implements AdminDao {
                     (COUNT(CASE WHEN status='approved' THEN 1 END) * 100) / COUNT(*) AS rate
                 FROM resources
                 """;
+        Connection connection = null;
         try {
-            Connection connection = DatabaseConnection.getConnection();
+            connection = DatabaseConnection.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
@@ -107,6 +115,8 @@ public class AdminDaoImp implements AdminDao {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DatabaseConnection.closeConnection(connection);
         }
         return 0;
     }
@@ -122,8 +132,9 @@ public class AdminDaoImp implements AdminDao {
                      "JOIN topics t ON r.topic_id = t.topic_id " +
                      "ORDER BY r.upload_date DESC LIMIT 5";
 
+        Connection connection = null;
         try {
-            Connection connection = DatabaseConnection.getConnection();
+            connection = DatabaseConnection.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
@@ -144,6 +155,8 @@ public class AdminDaoImp implements AdminDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseConnection.closeConnection(connection);
         }
         return resources;
     }
@@ -151,18 +164,17 @@ public class AdminDaoImp implements AdminDao {
     @Override
     public List<User> getPendingUserRegistration() {
         List<User> users = new ArrayList<>();
-
-        String sql = "SELECT * FROM user WHERE role='student' AND status='pending'";
-
+        String sql = "SELECT * FROM users WHERE role='student' AND status='pending'";
+        Connection connection = null;
         try {
-            Connection connection = DatabaseConnection.getConnection();
+            connection = DatabaseConnection.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
                 User user = new User();
                 user.setUserId(rs.getInt("user_id"));
-                user.setFullName(rs.getString("Full_name"));
+                user.setFullName(rs.getString("full_name"));
                 user.setEmail(rs.getString("email"));
                 user.setStatus(rs.getString("status"));
 
@@ -170,6 +182,8 @@ public class AdminDaoImp implements AdminDao {
             }
         }catch (SQLException e){
             e.printStackTrace();
+        } finally {
+            DatabaseConnection.closeConnection(connection);
         }
         return users;
     }
@@ -185,8 +199,9 @@ public class AdminDaoImp implements AdminDao {
                      "WHERE f.status = 'open' " +
                      "ORDER BY f.created_at DESC LIMIT 5";
 
+        Connection connection = null;
         try {
-            Connection connection = DatabaseConnection.getConnection();
+            connection = DatabaseConnection.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
@@ -206,6 +221,8 @@ public class AdminDaoImp implements AdminDao {
             }
         }catch (SQLException e){
             e.printStackTrace();
+        } finally {
+            DatabaseConnection.closeConnection(connection);
         }
         return flags;
     }
@@ -221,8 +238,9 @@ public class AdminDaoImp implements AdminDao {
                      "GROUP BY DATE(upload_date) " +
                      "ORDER BY upload_day ASC";
 
+        Connection connection = null;
         try {
-            Connection connection = DatabaseConnection.getConnection();
+            connection = DatabaseConnection.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
@@ -233,6 +251,8 @@ public class AdminDaoImp implements AdminDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseConnection.closeConnection(connection);
         }
         return counts;
     }
