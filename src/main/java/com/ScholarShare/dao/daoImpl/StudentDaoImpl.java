@@ -21,6 +21,13 @@ import java.util.List;
  */
 public class StudentDaoImpl  implements StudentDao {
 
+    private static final int THRESHOLD_SILVER   =  50;
+    private static final int THRESHOLD_GOLD     = 150;
+    private static final int THRESHOLD_PLATINUM = 300;
+    private static final int POINTS_UPLOAD =50 ;
+    private static final int POINTS_DOWNLOAD=150;
+    private static final int POINTS_LIKE=300;
+
     /**
      * find user by its user id
      * @param userId must be integer non negative
@@ -118,9 +125,62 @@ public class StudentDaoImpl  implements StudentDao {
 
     @Override
     public int getContributorReputationScore(int userId) {
+        Connection conn = null;
+        try {
+            conn = DatabaseConnection.getConnection();
+            String sql = "SELECT COALESCE(SUM(points), 0) AS total_score "
+                    + "FROM reputation_events WHERE user_id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total_score");
+            }
+        } catch (SQLException e) {
+            System.out.println("failed to get reputation score for user id " + userId + " " + e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(conn);
+        }
         return 0;
     }
 
+    public String getContributorStatus(int userId) {
+        int score = getContributorReputationScore(userId);
+
+        if (score >= THRESHOLD_PLATINUM) return "PLATINUM";
+        if (score >= THRESHOLD_GOLD)     return "GOLD";
+        if (score >= THRESHOLD_SILVER)   return "SILVER";
+        return "BRONZE";
+    }
+    public boolean addReputationEventOnUpload(int userId) {
+        return insertReputationEvent(userId, "UPLOAD", POINTS_UPLOAD);
+    }
+    public boolean addReputationEventOnDownload(int contributorUserId) {
+        return insertReputationEvent(contributorUserId, "DOWNLOAD", POINTS_DOWNLOAD);
+    }
+    public boolean addReputationEventOnLike(int contributorUserId) {
+        return insertReputationEvent(contributorUserId, "LIKE", POINTS_LIKE);
+    }
+    private boolean insertReputationEvent(int userId, String eventType, int points) {
+        Connection conn = null;
+        try {
+            conn = DatabaseConnection.getConnection();
+            String sql = "INSERT INTO reputation_events (user_id, event_type, points) "
+                    + "VALUES (?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ps.setString(2, eventType);
+            ps.setInt(3, points);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("failed to insert reputation event " + eventType
+                    + " for user id " + userId + " " + e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(conn);
+        }
+        return false;
+    }
     @Override
     public boolean flagResourceForPlagiarism(int resourceId, int userId, String reason) {
         return false;
