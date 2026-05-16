@@ -37,4 +37,27 @@ public class FacultyDaoImpl implements FacultyDao {
         return faculties;
     }
 
+    @Override
+    public Faculty getById(int facultyId) {
+        Connection conn = null;
+        try {
+            conn = DatabaseConnection.getConnection();
+            String sql = "SELECT * FROM faculties WHERE faculty_id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1,facultyId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                Faculty faculty = new Faculty();
+                faculty.setFacultyId(rs.getInt("faculty_id"));
+                faculty.setFacultyName(rs.getString("faculty_name"));
+                faculty.setCreatedAt(rs.getTimestamp("created_at"));
+                return faculty;
+            }
+        } catch (SQLException e){
+            System.out.println("Cannot get faculty by Id "+e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(conn);
+        }
+        return null;
+    }
 }
