@@ -12,6 +12,7 @@ target/
 *.iws
 *.iml
 *.ipr
+PROJECT_ANALYSIS.md
 
 ### Eclipse ###
 .apt_generated
