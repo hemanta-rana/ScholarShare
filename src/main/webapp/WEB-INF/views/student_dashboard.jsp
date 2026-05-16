@@ -1,13 +1,14 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ScholarShare — Dashboard</title>
 
-    <link rel="stylesheet" href="../../css/student_dashboard.css" />
-
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/student_dashboard.css" />
+    <script src="${pageContext.request.contextPath}/js/student_dashboard.js"></script>
 </head>
 
 <body>
@@ -283,9 +284,6 @@
             </div>
         </footer>
     </div>
-
-    <!-- Toggles the sidebar link list; keeps HTML/CSS simple -->
-    <script src="../../js/student_dashboard.js"></script>
 </body>
 
 </html>
