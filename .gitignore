@@ -12,8 +12,8 @@ target/
 *.iws
 *.iml
 *.ipr
+naya.md
 PROJECT_ANALYSIS.md
-
 ### Eclipse ###
 .apt_generated
 .classpath

@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface ResourceDao {
     boolean uploadResource(Resource resource);
-    boolean deleteResource(int resourceId);
+    boolean deleteResource(int resourceId, int userId, String webappRealPath);
+    boolean deleteResource(int resourceId, String webappRealPath);
     Resource getResourceById(int resourceId);
     List<Resource> getResourceByTopicId(int topicId);
     List<Resource> getApprovedResources();
