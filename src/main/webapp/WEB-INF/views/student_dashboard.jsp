@@ -30,11 +30,11 @@
          USER PROFILE SUMMARY
          ========================================================= -->
         <div class="sidebar__user-card">
-            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex" alt="" class="sidebar__avatar" width="48"
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${sessionScope.user.fullName}" alt="Avtar of ${sessionScope.user.fullName}" class="sidebar__avatar" width="48"
                 height="48" />
             <div class="sidebar__user-meta">
-                <span class="sidebar__user-name">Username</span>
-                <span class="sidebar__score-badge">Score</span>
+                <span class="sidebar__user-name">${sessionScope.user.fullName}</span>
+                <span class="sidebar__score-badge">${sessionScope.user.role}</span>
             </div>
         </div>
 
