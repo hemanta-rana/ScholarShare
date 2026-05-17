@@ -168,4 +168,23 @@ public class CollectionDaoImpl implements CollectionDao {
         return collections;
     }
 
+    @Override
+    public boolean addResource(int collectionId, int resourceId) {
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "INSERT INTO collection_items (collection_id, resource_id) VALUES (?, ?)";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, collectionId);
+            ps.setInt(2, resourceId);
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Cannot add resource " + resourceId + " to collection " + collectionId + e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(connection);
+        }
+        return false;
+    }
+
 }
