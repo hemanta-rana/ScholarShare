@@ -206,4 +206,29 @@ public class CollectionDaoImpl implements CollectionDao {
         return false;
     }
 
+    @Override
+    public Collection getById(int collectionId) {
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "SELECT * FROM collections WHERE collection_id = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, collectionId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Collection collection = new Collection();
+                collection.setCollectionId(rs.getInt("collection_id"));
+                collection.setUserId(rs.getInt("user_id"));
+                collection.setCollectionName(rs.getString("collection_name"));
+                collection.setCreatedAt(rs.getTimestamp("created_at"));
+                return collection;
+            }
+        } catch (SQLException e) {
+            System.out.println("Cannot get collection by id " + collectionId + e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(connection);
+        }
+        return null;
+    }
+
 }
