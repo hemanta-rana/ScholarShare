@@ -187,4 +187,23 @@ public class CollectionDaoImpl implements CollectionDao {
         return false;
     }
 
+    @Override
+    public boolean removeResource(int collectionId, int resourceId) {
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "DELETE FROM collection_items WHERE collection_id = ? AND resource_id = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, collectionId);
+            ps.setInt(2, resourceId);
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Cannot remove resource " + resourceId + " from collection " + collectionId + e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(connection);
+        }
+        return false;
+    }
+
 }
