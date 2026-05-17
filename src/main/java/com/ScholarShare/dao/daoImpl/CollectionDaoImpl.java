@@ -2,6 +2,7 @@ package com.ScholarShare.dao.daoImpl;
 
 import com.ScholarShare.dao.CollectionDao;
 import com.ScholarShare.entity.Collection;
+import com.ScholarShare.entity.Resource;
 import com.ScholarShare.util.DatabaseConnection;
 
 import java.sql.Connection;
@@ -116,4 +117,55 @@ public class CollectionDaoImpl implements CollectionDao {
         }
         return collections;
     }
+
+    @Override
+    public List<Collection> getByUser(int userId) {
+        List<Collection> collections = new ArrayList<>();
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "SELECT * FROM collections WHERE user_id = ? ORDER BY created_at DESC";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Collection collection = new Collection();
+                collection.setCollectionId(rs.getInt("collection_id"));
+                collection.setUserId(rs.getInt("user_id"));
+                collection.setCollectionName(rs.getString("collection_name"));
+                collection.setCreatedAt(rs.getTimestamp("created_at"));
+
+                // Load resources belonging to this collection
+                List<Resource> resources = new ArrayList<>();
+                String resourceSql = "SELECT r.* FROM resources r " +
+                        "JOIN collection_items ci ON r.resource_id = ci.resource_id " +
+                        "WHERE ci.collection_id = ?";
+                PreparedStatement resourcePs = connection.prepareStatement(resourceSql);
+                resourcePs.setInt(1, collection.getCollectionId());
+                ResultSet resourceRs = resourcePs.executeQuery();
+                while (resourceRs.next()) {
+                    Resource resource = new Resource();
+                    resource.setResourceId(resourceRs.getInt("resource_id"));
+                    resource.setUserId(resourceRs.getInt("user_id"));
+                    resource.setTopicId(resourceRs.getInt("topic_id"));
+                    resource.setTitle(resourceRs.getString("title"));
+                    resource.setDescription(resourceRs.getString("description"));
+                    resource.setFilePath(resourceRs.getString("file_path"));
+                    resource.setResourceType(resourceRs.getString("resource_type"));
+                    resource.setStatus(resourceRs.getString("status"));
+                    resource.setSelfDeclaration(resourceRs.getBoolean("self_declaration"));
+                    resource.setUploadDate(resourceRs.getTimestamp("upload_date"));
+                    resources.add(resource);
+                }
+                collection.setResources(resources);
+                collections.add(collection);
+            }
+        } catch (SQLException e) {
+            System.out.println("Cannot get collections for user id " + userId + e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(connection);
+        }
+        return collections;
+    }
+
 }
