@@ -3,8 +3,7 @@ package com.ScholarShare.controller;
 import com.ScholarShare.dao.StudentDao;
 import com.ScholarShare.dao.daoImpl.StudentDaoImpl;
 import com.ScholarShare.entity.User;
-import com.ScholarShare.service.StudentDashboardService;
-import com.ScholarShare.util.SessionUtil;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,10 +19,11 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.List;
-import java.util.Map;
 
-@WebServlet("/student/*")
+
+// @author Janam Ale
+
+@WebServlet("/student")
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024,
         maxFileSize       = 5 * 1024 * 1024,
@@ -31,40 +31,54 @@ import java.util.Map;
 )
 public class StudentServlet extends HttpServlet {
 
+    // Upload folder relative to the web-app root
     private static final String UPLOAD_DIR = "uploads" + File.separator + "profile_pics";
-    private static final String DASHBOARD_PATH = "/student/dashboard";
 
-    private StudentDashboardService dashboardService;
     private StudentDao studentDao;
+
 
     @Override
     public void init() throws ServletException {
-        dashboardService = new StudentDashboardService();
         studentDao = new StudentDaoImpl();
     }
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        User sessionUser = requireStudent(req, resp);
-        if (sessionUser == null) {
+
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
 
-        String action = resolveAction(req);
+        String action = req.getParameter("action");
+        if (action == null) action = "dashboard";
+
         switch (action) {
-            case "dashboard", "resources", "uploads", "reputation", "analytics" -> handleDashboard(req, resp, sessionUser);
-            default -> resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown student page");
+
+            case "dashboard"  -> handleDashboard(req, resp, session);
+            case "getScore"   -> handleGetScore(req, resp, session);
+            case "getStatus"  -> handleGetStatus(req, resp, session);
+
+            default -> {
+                System.out.println("StudentServlet: unknown GET action — " + action);
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unknown action: " + action);
+            }
         }
     }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        User sessionUser = requireStudent(req, resp);
-        if (sessionUser == null) {
+
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
 
@@ -75,211 +89,321 @@ public class StudentServlet extends HttpServlet {
         }
 
         switch (action) {
-            case "agreeToIntegrityPledge" -> handleIntegrityPledge(req, resp, sessionUser);
-            case "flagPlagiarism"         -> handleFlagPlagiarism(req, resp, sessionUser);
-            case "uploadProfilePicture"   -> handleUploadProfilePicture(req, resp, sessionUser);
-            default -> resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unknown action: " + action);
+
+            case "agreeToIntegrityPledge" -> handleIntegrityPledge(req, resp, session);
+            case "flagPlagiarism"         -> handleFlagPlagiarism(req, resp, session);
+            case "uploadProfilePicture"   -> handleUploadProfilePicture(req, resp, session);
+            case "likeResource"           -> handleLikeResource(req, resp, session);
+            case "downloadResource"       -> handleDownloadResource(req, resp, session);
+
+            default -> {
+                System.out.println("StudentServlet: unknown POST action — " + action);
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unknown action: " + action);
+            }
         }
     }
 
-    private void handleDashboard(HttpServletRequest req, HttpServletResponse resp, User sessionUser)
+
+    //  GET handlers
+
+
+    private void handleDashboard(HttpServletRequest req,
+                                 HttpServletResponse resp,
+                                 HttpSession session)
             throws ServletException, IOException {
 
-        int userId = sessionUser.getUserId();
-        String contextPath = req.getContextPath();
-        String searchQuery = req.getParameter("q");
+        int userId = getSessionUserId(session);
 
-        Map<String, Object> profile = dashboardService.getProfile(userId, contextPath);
-        if (profile.isEmpty()) {
-            Map<String, Object> fallback = new java.util.HashMap<>();
-            fallback.put("id", sessionUser.getUserId());
-            fallback.put("name", sessionUser.getFullName());
-            fallback.put("firstName", sessionUser.getFullName() != null
-                    ? sessionUser.getFullName().trim().split("\\s+")[0] : "");
-            fallback.put("email", sessionUser.getEmail());
-            fallback.put("initials", sessionUser.getInitials());
-            fallback.put("avatarUrl", "");
-            fallback.put("reputationScore", 0);
-            profile = fallback;
+        User student = studentDao.getUserById(userId);
+        if (student == null) {
+            System.out.println("StudentServlet: user not found for id " + userId);
+            session.invalidate();
+            resp.sendRedirect(req.getContextPath() + "/login");
+            return;
         }
 
-        Map<String, Object> summary = dashboardService.getSummaryCards(userId);
-        Map<String, Object> reputation = dashboardService.getReputationBreakdown(userId);
-        List<Map<String, Object>> submissions = dashboardService.getRecentSubmissions(userId, searchQuery);
-        List<Map<String, Object>> recentResources = dashboardService.getRecentlyAddedResources(userId);
+        int    score  = studentDao.getContributorReputationScore(userId);
+        String status = studentDao.getContributorStatus(userId);
 
-        int pendingReview = (int) summary.getOrDefault("pendingReview", 0);
-        String welcomeMessage = dashboardService.buildWelcomeMessage(
-                (String) profile.get("firstName"), pendingReview);
+        req.setAttribute("student", student);
+        req.setAttribute("reputationScore",  score);
+        req.setAttribute("contributorStatus", status);
 
-        HttpSession session = req.getSession(false);
-        if (session != null && session.getAttribute("profilePicPath") != null) {
-            profile.put("avatarUrl", contextPath + "/" + session.getAttribute("profilePicPath"));
-        }
+        // Serve data for the student portal
+        java.util.Map<String, Integer> stats = new java.util.HashMap<>();
+        stats.put("total", 5);
+        stats.put("pending", 1);
+        stats.put("underReview", 1);
+        stats.put("approved", 2);
+        stats.put("rejected", 1);
 
-        req.setAttribute("profile", profile);
-        req.setAttribute("summary", summary);
-        req.setAttribute("reputation", reputation);
-        req.setAttribute("submissions", submissions);
-        req.setAttribute("recentResources", recentResources);
-        req.setAttribute("welcomeMessage", welcomeMessage);
-        req.setAttribute("searchQuery", searchQuery != null ? searchQuery : "");
-        req.setAttribute("activePage", resolveActivePage(req));
+        java.util.List<java.util.Map<String, Object>> resources = new java.util.ArrayList<>();
+        
+        java.util.Map<String, Object> r1 = new java.util.HashMap<>();
+        r1.put("id", 1);
+        r1.put("fileType", "PDF");
+        r1.put("title", "Introduction to Calculus");
+        r1.put("subject", "Mathematics");
+        r1.put("fileSize", "2.4 MB");
+        r1.put("uploadDate", new java.util.Date());
+        r1.put("status", "APPROVED");
+        r1.put("reviewNote", true);
+        r1.put("reviewerNote", "Great explanation of limits.");
+        resources.add(r1);
 
-        Object flashMessage = session != null ? session.getAttribute("flashMessage") : null;
-        Object flashError = session != null ? session.getAttribute("flashError") : null;
-        if (flashMessage != null) {
-            req.setAttribute("flashMessage", flashMessage);
-            session.removeAttribute("flashMessage");
-        }
-        if (flashError != null) {
-            req.setAttribute("flashError", flashError);
-            session.removeAttribute("flashError");
-        }
+        java.util.Map<String, Object> r2 = new java.util.HashMap<>();
+        r2.put("id", 2);
+        r2.put("fileType", "DOCX");
+        r2.put("title", "History of Ancient Rome");
+        r2.put("subject", "History");
+        r2.put("fileSize", "1.1 MB");
+        r2.put("uploadDate", new java.util.Date(System.currentTimeMillis() - 86400000L));
+        r2.put("status", "PENDING");
+        resources.add(r2);
 
-        req.getRequestDispatcher("/WEB-INF/views/student-dashboard.jsp").forward(req, resp);
+        java.util.Map<String, Object> r3 = new java.util.HashMap<>();
+        r3.put("id", 3);
+        r3.put("fileType", "PPTX");
+        r3.put("title", "Cellular Biology Presentation");
+        r3.put("subject", "Biology");
+        r3.put("fileSize", "5.2 MB");
+        r3.put("uploadDate", new java.util.Date(System.currentTimeMillis() - 172800000L));
+        r3.put("status", "UNDER_REVIEW");
+        resources.add(r3);
+
+        java.util.Map<String, Object> r4 = new java.util.HashMap<>();
+        r4.put("id", 4);
+        r4.put("fileType", "PDF");
+        r4.put("title", "Physics Midterm Answers");
+        r4.put("subject", "Physics");
+        r4.put("fileSize", "0.8 MB");
+        r4.put("uploadDate", new java.util.Date(System.currentTimeMillis() - 259200000L));
+        r4.put("status", "REJECTED");
+        r4.put("reviewNote", true);
+        r4.put("reviewerNote", "Violates academic integrity. Contains direct answers.");
+        resources.add(r4);
+
+        req.setAttribute("stats", stats);
+        req.setAttribute("resources", resources);
+
+        req.getRequestDispatcher("/WEB-INF/views/student-dashboard.jsp")
+                .forward(req, resp);
     }
 
-    private String resolveActivePage(HttpServletRequest req) {
-        String action = resolveAction(req);
-        return switch (action) {
-            case "resources" -> "resources";
-            case "uploads" -> "uploads";
-            case "reputation" -> "reputation";
-            case "analytics" -> "analytics";
-            default -> "dashboard";
-        };
+
+    private void handleGetScore(HttpServletRequest req,
+                                HttpServletResponse resp,
+                                HttpSession session)
+            throws ServletException, IOException {
+
+        int userId = getSessionUserId(session);
+        int score  = studentDao.getContributorReputationScore(userId);
+
+        req.setAttribute("reputationScore", score);
+        req.getRequestDispatcher("/WEB-INF/views/student-dashboard.jsp")
+                .forward(req, resp);
     }
 
-    private void handleIntegrityPledge(HttpServletRequest req, HttpServletResponse resp, User user)
+
+    private void handleGetStatus(HttpServletRequest req,
+                                 HttpServletResponse resp,
+                                 HttpSession session)
+            throws ServletException, IOException {
+
+        int    userId = getSessionUserId(session);
+        String status = studentDao.getContributorStatus(userId);
+
+        req.setAttribute("contributorStatus", status);
+        req.getRequestDispatcher("/WEB-INF/views/student-dashboard.jsp")
+                .forward(req, resp);
+    }
+
+
+    //  POST handlers
+
+
+
+    private void handleIntegrityPledge(HttpServletRequest req,
+                                       HttpServletResponse resp,
+                                       HttpSession session)
             throws IOException {
-        HttpSession session = req.getSession(false);
-        boolean success = studentDao.agreeToIntegrityPledge(user.getUserId());
-        if (session != null) {
-            if (success) {
-                session.setAttribute("flashMessage", "Integrity pledge recorded successfully.");
-            } else {
-                session.setAttribute("flashError", "Could not record pledge. You may have already signed it.");
-            }
+
+        int     userId  = getSessionUserId(session);
+        boolean success = studentDao.agreeToIntegrityPledge(userId);
+
+        if (success) {
+            session.setAttribute("flashMessage", "Integrity pledge recorded successfully.");
+            System.out.println("StudentServlet: integrity pledge signed by user id " + userId);
+        } else {
+            session.setAttribute("flashError", "Could not record pledge — you may have already signed it.");
+            System.out.println("StudentServlet: integrity pledge failed for user id " + userId);
         }
-        resp.sendRedirect(dashboardUrl(req));
+
+        resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
     }
 
-    private void handleFlagPlagiarism(HttpServletRequest req, HttpServletResponse resp, User user)
+
+    private void handleFlagPlagiarism(HttpServletRequest req,
+                                      HttpServletResponse resp,
+                                      HttpSession session)
             throws IOException {
-        HttpSession session = req.getSession(false);
+
+        int    userId     = getSessionUserId(session);
         String resourceIdParam = req.getParameter("resourceId");
-        String reason = req.getParameter("reason");
+        String reason     = req.getParameter("reason");
 
         if (resourceIdParam == null || reason == null || reason.trim().isEmpty()) {
-            if (session != null) {
-                session.setAttribute("flashError", "Resource ID and reason are required.");
-            }
-            resp.sendRedirect(dashboardUrl(req));
+            session.setAttribute("flashError", "Resource ID and reason are required to flag plagiarism.");
+            resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
             return;
         }
 
+        int resourceId;
         try {
-            int resourceId = Integer.parseInt(resourceIdParam);
-            boolean success = studentDao.flagResourceForPlagiarism(resourceId, user.getUserId(), reason.trim());
-            if (session != null) {
-                if (success) {
-                    session.setAttribute("flashMessage", "Resource flagged for review. Thank you.");
-                } else {
-                    session.setAttribute("flashError", "Could not submit flag. Please try again.");
-                }
-            }
+            resourceId = Integer.parseInt(resourceIdParam);
         } catch (NumberFormatException e) {
-            if (session != null) {
-                session.setAttribute("flashError", "Invalid resource ID.");
-            }
+            System.out.println("StudentServlet: invalid resourceId for flag — " + resourceIdParam);
+            session.setAttribute("flashError", "Invalid resource ID.");
+            resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
+            return;
         }
-        resp.sendRedirect(dashboardUrl(req));
+
+        boolean success = studentDao.flagResourceForPlagiarism(resourceId, userId, reason.trim());
+
+        if (success) {
+            session.setAttribute("flashMessage", "Resource flagged for review. Thank you.");
+            System.out.println("StudentServlet: resource " + resourceId + " flagged by user " + userId);
+        } else {
+            session.setAttribute("flashError", "Could not submit plagiarism flag. Please try again.");
+            System.out.println("StudentServlet: flag failed — resource " + resourceId + " user " + userId);
+        }
+
+        resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
     }
 
-    private void handleUploadProfilePicture(HttpServletRequest req, HttpServletResponse resp, User user)
+
+    private void handleUploadProfilePicture(HttpServletRequest req,
+                                            HttpServletResponse resp,
+                                            HttpSession session)
             throws IOException, ServletException {
-        HttpSession session = req.getSession(false);
+
+        int userId = getSessionUserId(session);
+
         Part filePart = req.getPart("profilePic");
         if (filePart == null || filePart.getSize() == 0) {
-            if (session != null) {
-                session.setAttribute("flashError", "Please select a file to upload.");
-            }
-            resp.sendRedirect(dashboardUrl(req));
+            session.setAttribute("flashError", "Please select a file to upload.");
+            resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
             return;
         }
 
+        // Validate content type
         String contentType = filePart.getContentType();
         if (contentType == null || !contentType.startsWith("image/")) {
-            if (session != null) {
-                session.setAttribute("flashError", "Only image files are allowed.");
-            }
-            resp.sendRedirect(dashboardUrl(req));
+            session.setAttribute("flashError", "Only image files are allowed.");
+            resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
             return;
         }
 
-        int userId = user.getUserId();
+        // Build save path: <webapp-root>/uploads/profile_pics/<userId>_<original-name>
         String originalName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         String savedFileName = userId + "_" + originalName;
+
         String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
-        File uploadDir = new File(uploadPath);
+        File   uploadDir  = new File(uploadPath);
         if (!uploadDir.exists()) {
             uploadDir.mkdirs();
         }
 
+        String fullPath = uploadPath + File.separator + savedFileName;
         try (InputStream input = filePart.getInputStream()) {
-            Files.copy(input, Paths.get(uploadPath, savedFileName), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(input, Paths.get(fullPath), StandardCopyOption.REPLACE_EXISTING);
         }
 
-        String relativePath = UPLOAD_DIR.replace(File.separatorChar, '/') + "/" + savedFileName;
-        boolean success = studentDao.updateProfilePicture(userId, relativePath);
 
-        if (session != null) {
+        boolean success = studentDao.uploadProfilePicture(userId, userId);
+
+        if (success) {
+            // Keep the fresh path in session so JSP can update the avatar immediately
+            session.setAttribute("profilePicPath", UPLOAD_DIR + "/" + savedFileName);
+            session.setAttribute("flashMessage", "Profile picture updated successfully.");
+            System.out.println("StudentServlet: profile picture uploaded for user id " + userId);
+        } else {
+            session.setAttribute("flashError", "File saved but DB update failed. Please try again.");
+            System.out.println("StudentServlet: DB update failed for profile picture, user id " + userId);
+        }
+
+        resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
+    }
+
+
+    private void handleLikeResource(HttpServletRequest req,
+                                    HttpServletResponse resp,
+                                    HttpSession session)
+            throws IOException {
+
+        String contributorIdParam = req.getParameter("contributorId");
+
+        if (contributorIdParam == null) {
+            session.setAttribute("flashError", "Contributor ID is required.");
+            resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
+            return;
+        }
+
+        try {
+            int contributorId = Integer.parseInt(contributorIdParam);
+            boolean success   = studentDao.addReputationEventOnLike(contributorId);
+
             if (success) {
-                session.setAttribute("profilePicPath", relativePath);
-                user.setProfilePic(relativePath);
-                session.setAttribute("user", user);
-                session.setAttribute("flashMessage", "Profile picture updated successfully.");
+                session.setAttribute("flashMessage", "Resource liked!");
+                System.out.println("StudentServlet: like event recorded for contributor " + contributorId);
             } else {
-                session.setAttribute("flashError", "File saved but profile update failed.");
+                session.setAttribute("flashError", "Could not record like. Please try again.");
             }
+        } catch (NumberFormatException e) {
+            System.out.println("StudentServlet: invalid contributorId for like — " + contributorIdParam);
+            session.setAttribute("flashError", "Invalid contributor ID.");
         }
-        resp.sendRedirect(dashboardUrl(req));
+
+        resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
     }
 
-    private User requireStudent(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("user") == null) {
-            resp.sendRedirect(req.getContextPath() + "/login");
-            return null;
-        }
-        Object value = session.getAttribute("user");
-        if (!(value instanceof User user)) {
-            resp.sendRedirect(req.getContextPath() + "/login");
-            return null;
-        }
-        if (!user.isStudent()) {
-            resp.sendRedirect(req.getContextPath() + (user.isAdmin() ? "/admin/dashboard" : "/home"));
-            return null;
-        }
-        return user;
-    }
 
-    private String resolveAction(HttpServletRequest req) {
-        String pathInfo = req.getPathInfo();
-        if (pathInfo != null && !pathInfo.isEmpty() && !"/".equals(pathInfo)) {
-            String segment = pathInfo.startsWith("/") ? pathInfo.substring(1) : pathInfo;
-            int slash = segment.indexOf('/');
-            if (slash >= 0) {
-                segment = segment.substring(0, slash);
+    private void handleDownloadResource(HttpServletRequest req,
+                                        HttpServletResponse resp,
+                                        HttpSession session)
+            throws IOException {
+
+        String contributorIdParam = req.getParameter("contributorId");
+
+        if (contributorIdParam == null) {
+            session.setAttribute("flashError", "Contributor ID is required.");
+            resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
+            return;
+        }
+
+        try {
+            int contributorId = Integer.parseInt(contributorIdParam);
+            boolean success   = studentDao.addReputationEventOnDownload(contributorId);
+
+            if (success) {
+                System.out.println("StudentServlet: download event recorded for contributor " + contributorId);
+            } else {
+                System.out.println("StudentServlet: download event failed for contributor " + contributorId);
             }
-            return segment;
+        } catch (NumberFormatException e) {
+            System.out.println("StudentServlet: invalid contributorId for download — " + contributorIdParam);
         }
-        String action = req.getParameter("action");
-        return action != null ? action : "dashboard";
+
+        // Redirect to the actual resource file (update path to match your resource serving URL)
+        resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
     }
 
-    private String dashboardUrl(HttpServletRequest req) {
-        return req.getContextPath() + DASHBOARD_PATH;
+
+    //  Utility
+
+
+    private int getSessionUserId(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        return user.getUserId();
     }
 }
