@@ -10,4 +10,9 @@ public interface CollectionDao {
      boolean addResourceToCollection(int userId, int resourceId);
     boolean deleteResourceFromCollection(int collectionId, int resourceId);
     List<Collection> getStudentCollections(int userId);
+
+    List<Collection> getByUser(int userId);
+    boolean addResource(int collectionId, int resourceId);
+    boolean removeResource(int collectionId, int resourceId);
+    Collection getById(int collectionId);
 }

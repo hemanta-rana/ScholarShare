@@ -1,106 +1,174 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ScholarShare | Upload Resource</title>
-    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/logo.png" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/headerFooter.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/Register.css"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${resource.title} — ScholarShare</title>
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sidebar.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/resource_detail.css" />
 </head>
 <body>
 
-<div id="navbar-wrapper">
-    <nav id="navbar">
-        <div class="nav-row">
-            <a href="${pageContext.request.contextPath}/home" class="nav-logo">
-                <img src="${pageContext.request.contextPath}/images/logo.png" alt="ScholarShare" class="nav-logo-icon">
-                <span>ScholarShare</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
-                <li><a href="${pageContext.request.contextPath}/student/upload-resource">Upload</a></li>
-            </ul>
-            <a href="${pageContext.request.contextPath}/login" class="nav-cta">Get Started</a>
-        </div>
-    </nav>
-</div>
-
-<div class="register-wrapper">
-    <div class="container">
-        <div class="left">
-            <div class="login-card">
-                <h2>Upload Resource</h2>
-                <p class="welcome-text">Submit your study material for review</p>
-
-                <c:if test="${not empty error}">
-                    <p class="invalid-error" style="
-                    color: #842029;
-                    background-color: #f8d7da;
-                    border: 1px solid #f5c2c7;
-                    padding: 10px 12px;
-                    border-radius: 10px;
-                    font-size: 14px;
-                    margin-bottom: 1rem;
-                    text-align: center;">${error}</p>
-                </c:if>
-
-                <form action="${pageContext.request.contextPath}/student/upload-resource" method="post" enctype="multipart/form-data">
-                    <div class="input-group">
-                        <input type="text" name="title" placeholder="Title" required>
-                    </div>
-
-                    <div class="input-group">
-                        <textarea name="description" placeholder="Description" required style="width:100%;padding:12px;border-radius:12px;border:1px solid #d0d7de;"></textarea>
-                    </div>
-
-                    <div class="input-group">
-                        <select name="resourceType" required style="width:100%;padding:12px;border-radius:12px;border:1px solid #d0d7de;">
-                            <option value="">Resource Type</option>
-                            <option value="notes">Notes</option>
-                            <option value="past_paper">Past Paper</option>
-                            <option value="summary">Summary</option>
-                            <option value="revision_guide">Revision Guide</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-
-                    <div class="input-group">
-                        <select name="topicCategory" required style="width:100%;padding:12px;border-radius:12px;border:1px solid #d0d7de;">
-                            <option value="">Topic Category</option>
-                            <c:forEach var="topic" items="${topics}">
-                                <option value="${topic.topicId}">
-                                        ${topic.facultyName} &gt; ${topic.subjectName} &gt; ${topic.topicName}
-                                </option>
-                            </c:forEach>
-                        </select>
-                    </div>
-
-                    <div class="input-group">
-                        <input type="file" name="resourceFile" accept=".pdf,.docx" required>
-                    </div>
-
-                    <label class="terms-check">
-                        <input type="checkbox" name="pledgeAgreed" value="yes" required />
-                        <span class="checkmark"></span>
-                        <span>
-                        I confirm that this uploaded resource is my original academic work or properly cited material, and I understand that submitting plagiarized content violates academic integrity policies.
-                    </span>
-                    </label>
-
-                    <button type="submit" class="register-submit-btn">Upload Resource</button>
-                </form>
+    <%-- =========================================================
+         SIDEBAR NAVIGATION
+         ========================================================= --%>
+    <aside class="sidebar" id="sidebar-panel" aria-label="Main navigation">
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <span style="font-size:22px; display:flex; align-items:center; justify-content:center; height:100%;">📖</span>
+            </div>
+            <div class="brand-text">
+                <span class="brand-name">ScholarShare</span>
+                <span class="brand-sub">University Portal</span>
             </div>
         </div>
 
-        <div class="right">
-            <img src="${pageContext.request.contextPath}/images/login_illustration.png" alt="Upload" class="right-image">
-        </div>
-    </div>
-</div>
+        <nav class="sidebar-nav" aria-label="Section links">
+            <a href="${pageContext.request.contextPath}/student-dashboard" class="nav-item">
+                <span>▣</span><span>Dashboard</span>
+            </a>
+            <a href="${pageContext.request.contextPath}/browse" class="nav-item active">
+                <span>🌐</span><span>Browse</span>
+            </a>
+            <a href="${pageContext.request.contextPath}/collections" class="nav-item">
+                <span>📚</span><span>Collections</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span>📤</span><span>My Uploads</span>
+            </a>
+        </nav>
 
-<script src="${pageContext.request.contextPath}/js/home.js"></script>
+        <div class="sidebar-logout">
+            <a href="${pageContext.request.contextPath}/logout" class="logout-btn">
+                <span>🚪</span><span>Sign Out</span>
+            </a>
+        </div>
+    </aside>
+
+    <%-- =========================================================
+         MAIN CONTENT AREA
+         ========================================================= --%>
+    <div class="detail-main">
+
+        <%-- TOP HEADER — breadcrumb + back link --%>
+        <header class="detail-header">
+            <a href="${pageContext.request.contextPath}/browse" class="back-link">← Back to Browse</a>
+
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <a href="${pageContext.request.contextPath}/browse">Browse</a>
+                <span class="breadcrumb__sep">›</span>
+                <span class="breadcrumb__current">${resource.title}</span>
+            </nav>
+        </header>
+
+        <div class="detail-body">
+
+            <%-- =========================================================
+                 MAIN DETAIL CARD
+                 ========================================================= --%>
+            <div class="detail-card">
+
+                <%-- Type + Status badges --%>
+                <div class="detail-card__meta-row">
+                    <span class="badge">${resource.resourceType}</span>
+                    <span class="badge badge--${resource.status}">${resource.status}</span>
+                </div>
+
+                <%-- Title --%>
+                <h1 class="detail-card__title">${resource.title}</h1>
+
+                <%-- Description --%>
+                <p class="detail-card__description">${resource.description}</p>
+
+                <%-- Info rows --%>
+                <div class="detail-card__info">
+                    <div class="detail-card__info-item">
+                        <span class="detail-card__info-label">Uploaded on</span>
+                        <span>${resource.uploadDate}</span>
+                    </div>
+                    <div class="detail-card__info-item">
+                        <span class="detail-card__info-label">Self-declared</span>
+                        <span>${resource.selfDeclaration ? 'Yes' : 'No'}</span>
+                    </div>
+                </div>
+
+                <%-- Download button --%>
+                <a href="${pageContext.request.contextPath}/${resource.filePath}"
+                   download
+                   class="btn-download">
+                    ⬇ Download Resource
+                </a>
+
+            </div><%-- end .detail-card --%>
+
+            <%-- =========================================================
+                 RATING SECTION — Hemanta will implement here
+                 ========================================================= --%>
+            <div class="section-panel" id="rating-section">
+                <h2 class="section-panel__title">⭐ Ratings</h2>
+                <!-- RATING SECTION — Hemanta will implement here -->
+                <div class="section-panel__placeholder">
+                    Rating UI coming soon.
+                </div>
+            </div>
+
+            <%-- =========================================================
+                 FLAG SECTION — Sajan will implement here
+                 ========================================================= --%>
+            <div class="section-panel" id="flag-section">
+                <h2 class="section-panel__title">🚩 Report Resource</h2>
+                <!-- FLAG SECTION — Sajan will implement here -->
+                <div class="section-panel__placeholder">
+                    Flagging UI coming soon.
+                </div>
+            </div>
+
+            <%-- =========================================================
+                 ADD TO COLLECTION — Task 7 Step 18
+                 ========================================================= --%>
+            <div class="section-panel" id="collection-section">
+                <h2 class="section-panel__title">📚 Add to Collection</h2>
+
+                <c:choose>
+                    <c:when test="${not empty collections}">
+                        <form class="collection-form"
+                              action="${pageContext.request.contextPath}/collections"
+                              method="post">
+                            <input type="hidden" name="action" value="add" />
+                            <input type="hidden" name="resourceId" value="${resource.resourceId}" />
+
+                            <label for="collectionSelect">Save to:</label>
+                            <select id="collectionSelect" name="collectionId">
+                                <c:forEach var="col" items="${collections}">
+                                    <option value="${col.collectionId}">${col.collectionName}</option>
+                                </c:forEach>
+                            </select>
+                            <button type="submit" class="btn-save-collection">Save</button>
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+                        <%-- No collections yet — show placeholder button (Task 7 Step 18) --%>
+                        <p style="font-size:13.5px; color:#6b7a99; margin-bottom:12px;">
+                            You have no collections yet.
+                        </p>
+                        <button id="btn-add-collection" type="button" class="btn-add-collection">
+                            + Add to Collection
+                        </button>
+                        <p style="font-size:12px; color:#8a95a8; margin-top:8px;">
+                            <a href="${pageContext.request.contextPath}/collections">Create a collection first</a>
+                        </p>
+                    </c:otherwise>
+                </c:choose>
+
+            </div>
+
+        </div><%-- end .detail-body --%>
+
+    </div><%-- end .detail-main --%>
+
 </body>
 </html>

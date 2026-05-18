@@ -1,0 +1,263 @@
+/* ============================================================
+   collections.css
+   Styles for the My Collections page (collections.jsp)
+   ============================================================ */
+
+/* ── RESET & BASE ── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f2f7;
+    color: #1b2332;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ── MAIN AREA (offset for fixed sidebar) ── */
+.collections-main {
+    margin-left: var(--sidebar-w, 220px);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ── TOP HEADER ── */
+.collections-header {
+    background: #ffffff;
+    border-bottom: 1px solid #e3e8f0;
+    padding: 18px 32px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.collections-header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1b2332;
+}
+
+/* ── PAGE BODY ── */
+.collections-body {
+    padding: 28px 32px;
+    max-width: 900px;
+    width: 100%;
+}
+
+/* ── CREATE COLLECTION FORM ── */
+.create-form-card {
+    background: #ffffff;
+    border: 1px solid #e3e8f0;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.create-form-card label {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #3d4f6e;
+    white-space: nowrap;
+}
+
+.create-form-card input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    padding: 9px 14px;
+    border: 1px solid #d1d9e8;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #1b2332;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.create-form-card input[type="text"]:focus {
+    border-color: #3a7bd5;
+}
+
+.btn-create {
+    padding: 9px 22px;
+    background: #3a7bd5;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.btn-create:hover {
+    background: #2c63b5;
+}
+
+/* ── EMPTY STATE ── */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #8a95a8;
+}
+
+.empty-state__icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    display: block;
+}
+
+.empty-state__title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #3d4f6e;
+    margin-bottom: 8px;
+}
+
+.empty-state__msg {
+    font-size: 14px;
+}
+
+/* ── COLLECTION PANELS ── */
+.collection-panel {
+    background: #ffffff;
+    border: 1px solid #e3e8f0;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.collection-panel__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 22px;
+    border-bottom: 1px solid #f0f2f7;
+    gap: 12px;
+}
+
+.collection-panel__name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1b2332;
+}
+
+.collection-panel__count {
+    font-size: 12px;
+    color: #8a95a8;
+    font-weight: 500;
+    margin-left: 6px;
+}
+
+/* ── DELETE BUTTON ── */
+.btn-delete {
+    padding: 6px 14px;
+    background: transparent;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+}
+
+.btn-delete:hover {
+    background: #fee2e2;
+}
+
+/* ── RESOURCE LIST INSIDE COLLECTION ── */
+.collection-resources {
+    padding: 14px 22px;
+}
+
+.collection-empty-msg {
+    font-size: 13.5px;
+    color: #8a95a8;
+    padding: 10px 0;
+    text-align: center;
+}
+
+/* ── RESOURCE ROW ── */
+.resource-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f2f7;
+}
+
+.resource-row:last-child {
+    border-bottom: none;
+}
+
+.resource-row__info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+    min-width: 0;
+}
+
+.resource-row__title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1b2332;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.resource-row__title:hover {
+    color: #3a7bd5;
+    text-decoration: underline;
+}
+
+.resource-row__type {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #3a7bd5;
+    background: #eef3fc;
+    border-radius: 4px;
+    padding: 2px 7px;
+    width: fit-content;
+}
+
+/* ── REMOVE BUTTON ── */
+.btn-remove {
+    padding: 5px 12px;
+    background: transparent;
+    color: #6b7a99;
+    border: 1px solid #d1d9e8;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.btn-remove:hover {
+    background: #fee2e2;
+    color: #dc2626;
+    border-color: #fca5a5;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+    .collections-main  { margin-left: 0; }
+    .collections-body  { padding: 20px 16px; }
+    .create-form-card  { flex-direction: column; align-items: stretch; }
+    .collection-panel__head { flex-wrap: wrap; }
+}
