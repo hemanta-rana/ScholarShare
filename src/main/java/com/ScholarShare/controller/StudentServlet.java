@@ -129,6 +129,63 @@ public class StudentServlet extends HttpServlet {
         req.setAttribute("reputationScore",  score);
         req.setAttribute("contributorStatus", status);
 
+        // Serve data for the student portal
+        java.util.Map<String, Integer> stats = new java.util.HashMap<>();
+        stats.put("total", 5);
+        stats.put("pending", 1);
+        stats.put("underReview", 1);
+        stats.put("approved", 2);
+        stats.put("rejected", 1);
+
+        java.util.List<java.util.Map<String, Object>> resources = new java.util.ArrayList<>();
+        
+        java.util.Map<String, Object> r1 = new java.util.HashMap<>();
+        r1.put("id", 1);
+        r1.put("fileType", "PDF");
+        r1.put("title", "Introduction to Calculus");
+        r1.put("subject", "Mathematics");
+        r1.put("fileSize", "2.4 MB");
+        r1.put("uploadDate", new java.util.Date());
+        r1.put("status", "APPROVED");
+        r1.put("reviewNote", true);
+        r1.put("reviewerNote", "Great explanation of limits.");
+        resources.add(r1);
+
+        java.util.Map<String, Object> r2 = new java.util.HashMap<>();
+        r2.put("id", 2);
+        r2.put("fileType", "DOCX");
+        r2.put("title", "History of Ancient Rome");
+        r2.put("subject", "History");
+        r2.put("fileSize", "1.1 MB");
+        r2.put("uploadDate", new java.util.Date(System.currentTimeMillis() - 86400000L));
+        r2.put("status", "PENDING");
+        resources.add(r2);
+
+        java.util.Map<String, Object> r3 = new java.util.HashMap<>();
+        r3.put("id", 3);
+        r3.put("fileType", "PPTX");
+        r3.put("title", "Cellular Biology Presentation");
+        r3.put("subject", "Biology");
+        r3.put("fileSize", "5.2 MB");
+        r3.put("uploadDate", new java.util.Date(System.currentTimeMillis() - 172800000L));
+        r3.put("status", "UNDER_REVIEW");
+        resources.add(r3);
+
+        java.util.Map<String, Object> r4 = new java.util.HashMap<>();
+        r4.put("id", 4);
+        r4.put("fileType", "PDF");
+        r4.put("title", "Physics Midterm Answers");
+        r4.put("subject", "Physics");
+        r4.put("fileSize", "0.8 MB");
+        r4.put("uploadDate", new java.util.Date(System.currentTimeMillis() - 259200000L));
+        r4.put("status", "REJECTED");
+        r4.put("reviewNote", true);
+        r4.put("reviewerNote", "Violates academic integrity. Contains direct answers.");
+        resources.add(r4);
+
+        req.setAttribute("stats", stats);
+        req.setAttribute("resources", resources);
+
         req.getRequestDispatcher("/WEB-INF/views/student-dashboard.jsp")
                 .forward(req, resp);
     }
