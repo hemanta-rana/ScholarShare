@@ -46,7 +46,7 @@
                                 <div class="stat-label">Pending<br />Submissions</div>
                                 <div class="stat-value">${stats.pendingSubmissions}</div>
                             </div>
-                            <div class="stat-icon"></div>
+                            <img class="stat-icon-img" src="${pageContext.request.contextPath}/images/icons-admin/pipeline.png" alt="">
                         </div>
 
                         <div class="stat-card red">
@@ -94,14 +94,14 @@
                                     <c:forEach var="sub" items="${recentSubmissions}">
                                         <tr>
                                             <td>
-                                                <div class="resource-title">${sub.title}</div>
-                                                <div class="resource-meta">${sub.category} · ${sub.type}</div>
+                                                <div class="resource-title"><c:out value="${sub.title}"/></div>
+                                                <div class="resource-meta"><c:out value="${sub.category}"/> · <c:out value="${sub.type}"/></div>
                                             </td>
-                                            <td><span class="submitter-name">${sub.submitterName}</span></td>
-                                            <td><span class="date-text">${sub.submissionDate}</span></td>
+                                            <td><span class="submitter-name"><c:out value="${sub.submitterName}"/></span></td>
+                                            <td><span class="date-text"><c:out value="${sub.submissionDate}"/></span></td>
                                             <td>
                                                 <span class="status-badge ${sub.statusClass}">
-                                                    <span class="status-dot"></span>${sub.status}
+                                                    <span class="status-dot"></span><c:out value="${sub.status}"/>
                                                 </span>
                                             </td>
                                         </tr>
@@ -148,15 +148,16 @@
                             <div class="reg-list">
                                 <c:forEach var="reg" items="${pendingRegs}">
                                     <div class="reg-item">
-                                        <div class="reg-avatar">${reg.initials}</div>
+                                        <div class="reg-avatar"><c:out value="${reg.initials}"/></div>
                                         <div class="reg-info">
-                                            <div class="reg-name">${reg.fullName}</div>
-                                            <div class="reg-dept">${reg.department} · ${reg.requestedOn}</div>
+                                            <div class="reg-name"><c:out value="${reg.fullName}"/></div>
+                                            <div class="reg-dept"><c:out value="${reg.department}"/> · <c:out value="${reg.requestedOn}"/></div>
                                         </div>
                                         <form action="${pageContext.request.contextPath}/admin/reviewRegistration"
-                                            method="get">
-                                            <input type="hidden" name="id" value="${reg.id}" />
-                                            <button class="btn-review" type="submit">Review</button>
+                                            method="post" style="display:flex;gap:0.35rem;">
+                                            <input type="hidden" name="userId" value="${reg.id}" />
+                                            <button class="btn-review" type="submit" name="decision" value="approve">Approve</button>
+                                            <button class="btn-review-red" type="submit" name="decision" value="reject">Suspend</button>
                                         </form>
                                     </div>
                                 </c:forEach>
@@ -171,13 +172,10 @@
                                 <c:forEach var="flag" items="${recentFlags}">
                                     <div class="flag-item">
                                         <div class="flag-info">
-                                            <div class="flag-title">${flag.resourceTitle}</div>
-                                            <div class="flag-meta">Flagged by: ${flag.flaggedBy} · ${flag.reason}</div>
+                                            <div class="flag-title"><c:out value="${flag.resourceTitle}"/></div>
+                                            <div class="flag-meta">Flagged by: <c:out value="${flag.flaggedBy}"/> · <c:out value="${flag.reason}"/></div>
                                         </div>
-                                        <form action="${pageContext.request.contextPath}/admin/reviewFlag" method="get">
-                                            <input type="hidden" name="id" value="${flag.id}" />
-                                            <button class="btn-review-red" type="submit">Review</button>
-                                        </form>
+                                        <a href="${pageContext.request.contextPath}/admin/flags" class="btn-review-red">Review</a>
                                     </div>
                                 </c:forEach>
                             </div>
@@ -203,3 +201,4 @@
         </body>
 
         </html>
+

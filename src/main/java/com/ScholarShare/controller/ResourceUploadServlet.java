@@ -3,6 +3,7 @@ package com.ScholarShare.controller;
 import com.ScholarShare.entity.User;
 import com.ScholarShare.service.ResourceService;
 import com.ScholarShare.service.StudentDashboardService;
+import com.ScholarShare.util.FileUploadUtil;
 import com.ScholarShare.util.SessionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -85,14 +86,12 @@ public class ResourceUploadServlet extends HttpServlet {
         }
 
         String datePrefix = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String fileName = datePrefix + "_" + originalName.toLowerCase();
-        String uploadPath = req.getServletContext().getRealPath("") + File.separator + "uploads" + File.separator + "resources";
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
-        }
+        // Sanitise filename — strip path separators and non-safe characters
+        String safeName = originalName.toLowerCase().replaceAll("[^a-zA-Z0-9._-]", "_");
+        String fileName = datePrefix + "_" + safeName;
 
-        String savedPath = uploadPath + File.separator + fileName;
+        File uploadDir = FileUploadUtil.resolveUploadDir(getServletContext(), "uploads/resources");
+        String savedPath = uploadDir.getAbsolutePath() + File.separator + fileName;
         filePart.write(savedPath);
 
         String relativePath = "uploads/resources/" + fileName;

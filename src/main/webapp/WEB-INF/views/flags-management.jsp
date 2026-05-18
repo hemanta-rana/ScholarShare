@@ -32,8 +32,8 @@
                 <div class="page-title">
                     Flags Management
                     <span class="flag-count-badge">
-                        <svg viewBox="0 0 24 24" fill="currentColor" width="10" height="10"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/></svg>
-                        <c:out value="${empty stats.openFlags ? '4' : stats.openFlags}" /> Open
+                        <img src="${pageContext.request.contextPath}/images/icons-admin/flag.png" alt="" width="12" height="12">
+                        <c:out value="${stats.openFlags}" /> Open
                     </span>
                 </div>
                 <div class="page-sub">Review community-reported content issues. Uphold or dismiss each flag with a written rationale.</div>
@@ -64,9 +64,7 @@
                         <div class="flag-card ${flag.status.toLowerCase()}" data-status="${flag.status.toLowerCase()}" data-reason="${flag.reason}">
                             <div class="flag-header">
                                 <div class="flag-icon-wrap" style="${flag.status eq 'UPHELD' ? 'background: var(--red-light);' : (flag.status eq 'DISMISSED' ? 'background: var(--green-light);' : '')}">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="${flag.status eq 'UPHELD' ? 'color: var(--red);' : (flag.status eq 'DISMISSED' ? 'color: var(--green);' : '')}">
-                                        <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>
-                                    </svg>
+                                    
                                 </div>
                                 <div class="flag-meta">
                                     <div class="flag-resource-title"><a href="${pageContext.request.contextPath}/resource?id=${flag.resourceId}">${flag.resourceTitle}</a></div>
@@ -77,11 +75,11 @@
                                     </div>
                                     <div class="flag-info-row">
                                       <span>
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                        
                                         Flagged ${flag.flaggedDate}
                                       </span>
                                         <span>
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                                        
                                         Submitted by ${flag.submitterName}
                                       </span>
                                     </div>
@@ -103,21 +101,22 @@
                             </div>
                             <c:choose>
                                 <c:when test="${flag.status eq 'OPEN'}">
-                                    <div class="flag-action-area">
+                                    <form action="${pageContext.request.contextPath}/admin/flags" method="post" class="flag-action-area">
+                                        <input type="hidden" name="flagId" value="${flag.id}" />
                                         <div class="action-label">Moderation Decision</div>
-                                        <textarea class="action-textarea" placeholder="Write your reasoning for upholding or dismissing this flag..."></textarea>
+                                        <textarea name="note" class="action-textarea" placeholder="Write your reasoning for upholding or dismissing this flag..." required></textarea>
                                         <div class="action-buttons">
-                                            <button class="btn btn-uphold" onclick="resolveFlag(this, 'upheld', '${flag.id}')">
-                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/></svg>
+                                            <button type="submit" name="decision" value="upheld" class="btn btn-uphold">
+                                                <img src="${pageContext.request.contextPath}/images/icons-admin/flag.png" alt="" width="14" height="14">
                                                 Uphold Flag
                                             </button>
-                                            <button class="btn btn-dismiss" onclick="resolveFlag(this, 'dismissed', '${flag.id}')">
-                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>
+                                            <button type="submit" name="decision" value="dismissed" class="btn btn-dismiss">
+                                                <img src="${pageContext.request.contextPath}/images/home-icons/circle-check.png" alt="" width="14" height="14">
                                                 Dismiss Flag
                                             </button>
-                                            <button class="btn btn-secondary">View Resource</button>
+                                            <a href="${pageContext.request.contextPath}/resource?id=${flag.resourceId}" class="btn btn-secondary">View Resource</a>
                                         </div>
-                                    </div>
+                                    </form>
                                 </c:when>
                                 <c:otherwise>
                                     <div class="resolved-note">
@@ -134,7 +133,7 @@
                 </c:when>
                 <c:otherwise>
                     <div class="empty-state">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+                        
                         <p>No flags are currently available.</p>
                     </div>
                 </c:otherwise>

@@ -256,4 +256,245 @@ public class AdminDaoImp implements AdminDao {
         }
         return counts;
     }
+
+    @Override
+    public List<User> getAllPendingRegistrations() {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT * FROM users WHERE role='student' AND status='pending' ORDER BY created_at DESC";
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setUserId(rs.getInt("user_id"));
+                user.setFullName(rs.getString("full_name"));
+                user.setEmail(rs.getString("email"));
+                user.setPhone(rs.getString("phone"));
+                user.setRole(rs.getString("role"));
+                user.setStatus(rs.getString("status"));
+                user.setCreatedAt(rs.getTimestamp("created_at"));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DatabaseConnection.closeConnection(connection);
+        }
+        return users;
+    }
+
+    @Override
+    public boolean updateUserStatus(int userId, String status) {
+        String sql = "UPDATE users SET status = ? WHERE user_id = ?";
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, status);
+            ps.setInt(2, userId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DatabaseConnection.closeConnection(connection);
+        }
+        return false;
+    }
+
+    @Override
+    public List<Resource> getPipelineResources() {
+        List<Resource> resources = new ArrayList<>();
+        String sql = "SELECT r.*, u.full_name AS submitter_name, t.topic_name, s.subject_name "
+                + "FROM resources r "
+                + "JOIN users u ON r.user_id = u.user_id "
+                + "JOIN topics t ON r.topic_id = t.topic_id "
+                + "JOIN subjects s ON t.subject_id = s.subject_id "
+                + "WHERE r.status IN ('pending', 'under_review') "
+                + "ORDER BY r.upload_date ASC";
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Resource resource = mapResourceRow(rs);
+                resource.setSubmitterName(rs.getString("submitter_name"));
+                resource.setTopicName(rs.getString("topic_name"));
+                resource.setSubjectName(rs.getString("subject_name"));
+                resources.add(resource);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DatabaseConnection.closeConnection(connection);
+        }
+        return resources;
+    }
+
+    @Override
+    public boolean updateResourceStatus(int resourceId, String status) {
+        String sql = "UPDATE resources SET status = ? WHERE resource_id = ?";
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, status);
+            ps.setInt(2, resourceId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DatabaseConnection.closeConnection(connection);
+        }
+        return false;
+    }
+
+    @Override
+    public List<Flag> getAllFlags() {
+        return new FlagDaoImpl().getAllFlags();
+    }
+
+    @Override
+    public boolean updateFlagStatus(int flagId, String status) {
+        return new FlagDaoImpl().updateFlagStatus(flagId, status);
+    }
+
+    @Override
+    public List<Map<String, Object>> getTopContributors(int limit) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        String sql = "SELECT u.user_id, u.full_name, COUNT(*) AS approved_count "
+                + "FROM resources r JOIN users u ON r.user_id = u.user_id "
+                + "WHERE r.status = 'approved' GROUP BY u.user_id, u.full_name "
+                + "ORDER BY approved_count DESC LIMIT ?";
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, limit);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> row = new HashMap<>();
+                row.put("name", rs.getString("full_name"));
+                row.put("count", rs.getInt("approved_count"));
+                list.add(row);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DatabaseConnection.closeConnection(connection);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Map<String, Object>> getMostFlaggedResources(int limit) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        String sql = "SELECT r.resource_id, r.title, COUNT(f.flag_id) AS flag_count "
+                + "FROM flags f JOIN resources r ON f.resource_id = r.resource_id "
+                + "GROUP BY r.resource_id, r.title ORDER BY flag_count DESC LIMIT ?";
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, limit);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> row = new HashMap<>();
+                row.put("title", rs.getString("title"));
+                row.put("count", rs.getInt("flag_count"));
+                list.add(row);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DatabaseConnection.closeConnection(connection);
+        }
+        return list;
+    }
+
+    private Resource mapResourceRow(ResultSet rs) throws SQLException {
+        Resource resource = new Resource();
+        resource.setResourceId(rs.getInt("resource_id"));
+        resource.setUserId(rs.getInt("user_id"));
+        resource.setTopicId(rs.getInt("topic_id"));
+        resource.setTitle(rs.getString("title"));
+        resource.setDescription(rs.getString("description"));
+        resource.setFilePath(rs.getString("file_path"));
+        resource.setResourceType(rs.getString("resource_type"));
+        resource.setStatus(rs.getString("status"));
+        resource.setSelfDeclaration(rs.getBoolean("self_declaration"));
+        resource.setUploadDate(rs.getTimestamp("upload_date"));
+        return resource;
+    }
+
+    /* ── Admin profile methods ── */
+
+    @Override
+    public User getAdminById(int userId) {
+        Connection conn = null;
+        try {
+            conn = DatabaseConnection.getConnection();
+            String sql = "SELECT * FROM users WHERE user_id = ? AND role = 'admin'";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new User(
+                        rs.getInt("user_id"),
+                        rs.getString("full_name"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("password"),
+                        rs.getString("role"),
+                        rs.getString("status"),
+                        rs.getString("profile_pic"),
+                        rs.getTimestamp("created_at")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("AdminDaoImp: failed to get admin by id " + userId + " — " + e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(conn);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean updateAdminProfile(int userId, String fullName, String phone) {
+        Connection conn = null;
+        try {
+            conn = DatabaseConnection.getConnection();
+            String sql = "UPDATE users SET full_name = ?, phone = ? WHERE user_id = ? AND role = 'admin'";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, fullName);
+            ps.setString(2, phone);
+            ps.setInt(3, userId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("AdminDaoImp: failed to update admin profile " + userId + " — " + e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(conn);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean uploadAdminProfilePicture(int userId, String relativePath) {
+        Connection conn = null;
+        try {
+            conn = DatabaseConnection.getConnection();
+            String sql = "UPDATE users SET profile_pic = ? WHERE user_id = ? AND role = 'admin'";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, relativePath);
+            ps.setInt(2, userId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("AdminDaoImp: failed to update admin profile pic " + userId + " — " + e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(conn);
+        }
+        return false;
+    }
 }

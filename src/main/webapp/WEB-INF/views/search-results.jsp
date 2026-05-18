@@ -7,87 +7,45 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Browse Resources — ScholarShare</title>
-
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sidebar.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/student-dashboard.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_results.css" />
 </head>
 <body>
 
-    <%-- =========================================================
-         SIDEBAR NAVIGATION (same structure as student_dashboard.jsp)
-         ========================================================= --%>
-    <aside class="sidebar" id="sidebar-panel" aria-label="Main navigation">
-        <div class="sidebar-brand">
-            <div class="brand-icon">
-                <span style="font-size:22px; display:flex; align-items:center; justify-content:center; height:100%;">📖</span>
-            </div>
-            <div class="brand-text">
-                <span class="brand-name">ScholarShare</span>
-                <span class="brand-sub">University Portal</span>
-            </div>
-        </div>
+<jsp:include page="template/student-sidebar.jsp">
+    <jsp:param name="activePage" value="browse" />
+</jsp:include>
 
-        <nav class="sidebar-nav" aria-label="Section links">
-            <a href="${pageContext.request.contextPath}/student-dashboard" class="nav-item">
-                <span>▣</span><span>Dashboard</span>
-            </a>
-            <a href="${pageContext.request.contextPath}/browse" class="nav-item active">
-                <span>🌐</span><span>Browse</span>
-            </a>
-            <a href="${pageContext.request.contextPath}/collections" class="nav-item">
-                <span>📚</span><span>Collections</span>
-            </a>
-            <a href="#" class="nav-item">
-                <span>📤</span><span>My Uploads</span>
-            </a>
-        </nav>
+<div class="main student-main">
 
-        <div class="sidebar-logout">
-            <a href="${pageContext.request.contextPath}/logout" class="logout-btn">
-                <span>🚪</span><span>Sign Out</span>
-            </a>
-        </div>
-    </aside>
+    <jsp:include page="template/student-header.jsp">
+        <jsp:param name="pageTitle" value="Browse Resources" />
+    </jsp:include>
 
-    <%-- =========================================================
-         MAIN CONTENT AREA
-         ========================================================= --%>
-    <div class="browse-main">
+    <main class="content student-content">
 
-        <%-- TOP HEADER with page title and keyword search form --%>
-        <header class="browse-header">
-            <h1>Browse Resources</h1>
-
-            <form class="search-bar" action="${pageContext.request.contextPath}/browse" method="get" role="search">
-                <label class="visually-hidden" for="search-q">Search resources</label>
-                <input id="search-q"
-                       type="search"
-                       name="q"
-                       value="${keyword}"
-                       placeholder="Search resources..." />
-                <button type="submit">Search</button>
-            </form>
-        </header>
 
         <div class="browse-body">
 
-            <%-- =========================================================
-                 LEFT FILTER PANEL — Faculty → Subject → Topic
-                 ========================================================= --%>
+            <%-- LEFT FILTER PANEL — Faculty → Subject → Topic --%>
             <aside class="filter-panel" aria-label="Filter by category">
 
-                <%-- FACULTIES --%>
                 <p class="filter-panel__heading">Faculty</p>
                 <ul class="filter-list">
                     <li>
-                        <a href="${pageContext.request.contextPath}/browse"
+                        <a href="${pageContext.request.contextPath}/browser"
                            class="${selectedFacultyId == 0 && empty keyword ? 'active' : ''}">
                             All Faculties
                         </a>
                     </li>
                     <c:forEach var="f" items="${faculties}">
                         <li>
-                            <a href="${pageContext.request.contextPath}/browse?facultyId=${f.facultyId}"
+                            <a href="${pageContext.request.contextPath}/browser?facultyId=${f.facultyId}"
                                class="${f.facultyId == selectedFacultyId ? 'active' : ''}">
                                 ${f.facultyName}
                             </a>
@@ -101,14 +59,14 @@
                     <p class="filter-sub-heading">Subject</p>
                     <ul class="filter-list">
                         <li>
-                            <a href="${pageContext.request.contextPath}/browse?facultyId=${selectedFacultyId}"
+                            <a href="${pageContext.request.contextPath}/browser?facultyId=${selectedFacultyId}"
                                class="${selectedSubjectId == 0 ? 'active' : ''}">
                                 All Subjects
                             </a>
                         </li>
                         <c:forEach var="s" items="${subjects}">
                             <li>
-                                <a href="${pageContext.request.contextPath}/browse?facultyId=${selectedFacultyId}&subjectId=${s.subjectId}"
+                                <a href="${pageContext.request.contextPath}/browser?facultyId=${selectedFacultyId}&subjectId=${s.subjectId}"
                                    class="${s.subjectId == selectedSubjectId ? 'active' : ''}">
                                     ${s.subjectName}
                                 </a>
@@ -123,14 +81,14 @@
                     <p class="filter-sub-heading">Topic</p>
                     <ul class="filter-list">
                         <li>
-                            <a href="${pageContext.request.contextPath}/browse?facultyId=${selectedFacultyId}&subjectId=${selectedSubjectId}"
+                            <a href="${pageContext.request.contextPath}/browser?facultyId=${selectedFacultyId}&subjectId=${selectedSubjectId}"
                                class="${selectedTopicId == 0 ? 'active' : ''}">
                                 All Topics
                             </a>
                         </li>
                         <c:forEach var="t" items="${topics}">
                             <li>
-                                <a href="${pageContext.request.contextPath}/browse?facultyId=${selectedFacultyId}&subjectId=${selectedSubjectId}&topicId=${t.topicId}"
+                                <a href="${pageContext.request.contextPath}/browser?facultyId=${selectedFacultyId}&subjectId=${selectedSubjectId}&topicId=${t.topicId}"
                                    class="${t.topicId == selectedTopicId ? 'active' : ''}">
                                     ${t.topicName}
                                 </a>
@@ -141,9 +99,7 @@
 
             </aside>
 
-            <%-- =========================================================
-                 RIGHT RESULTS AREA
-                 ========================================================= --%>
+            <%-- RIGHT RESULTS AREA --%>
             <main class="results-area">
 
                 <div class="results-header">
@@ -151,11 +107,14 @@
                     <span class="results-count">${resources.size()} found</span>
                 </div>
 
-                <%-- Show active keyword bar when searching --%>
+                <%-- Active keyword bar --%>
                 <c:if test="${not empty keyword}">
                     <div class="keyword-bar">
-                        🔍 Showing results for: <strong>${keyword}</strong>
-                        <a href="${pageContext.request.contextPath}/browse">Clear search</a>
+                        <img src="${pageContext.request.contextPath}/images/home-icons/search.png"
+                             alt="" width="14" height="14"
+                             style="vertical-align:middle;margin-right:5px;opacity:0.7;">
+                        Showing results for: <strong>${keyword}</strong>
+                        <a href="${pageContext.request.contextPath}/browser">Clear search</a>
                     </div>
                 </c:if>
 
@@ -163,7 +122,8 @@
                 <c:choose>
                     <c:when test="${empty resources}">
                         <div class="empty-state">
-                            <span class="empty-state__icon">📭</span>
+                            <img src="${pageContext.request.contextPath}/images/home-icons/folder-open.png"
+                                 alt="" class="empty-state__icon-img" />
                             <p class="empty-state__title">No resources found</p>
                             <p class="empty-state__msg">
                                 Try selecting a different category or use a different keyword.
@@ -188,7 +148,9 @@
 
         </div><%-- end .browse-body --%>
 
-    </div><%-- end .browse-main --%>
+    </main>
+</div>
 
+<script src="${pageContext.request.contextPath}/js/student-dashboard.js"></script>
 </body>
 </html>

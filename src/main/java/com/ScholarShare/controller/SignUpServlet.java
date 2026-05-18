@@ -37,7 +37,7 @@ public class SignUpServlet extends HttpServlet {
         String password = req.getParameter("password");
         String phone = req.getParameter("phone");
         String confirmPassword = req.getParameter("confirmPassword");
-        boolean pledgeAgreed = req.getParameter("pledgeAgreed").equals("yes");
+        boolean pledgeAgreed = "yes".equals(req.getParameter("pledgeAgreed"));
 
         String error = authService.register(fullName, email, phone, password, confirmPassword, pledgeAgreed);
         if (error == null) {

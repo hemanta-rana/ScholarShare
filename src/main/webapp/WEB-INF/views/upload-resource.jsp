@@ -17,7 +17,9 @@
 </head>
 <body>
 
-<jsp:include page="template/student-sidebar.jsp"/>
+<jsp:include page="template/student-sidebar.jsp">
+    <jsp:param name="activePage" value="upload" />
+</jsp:include>
 
 <div class="main student-main">
     <jsp:include page="template/student-upload-header.jsp"/>

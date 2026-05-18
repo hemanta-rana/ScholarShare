@@ -13,7 +13,7 @@ target/
 *.iml
 *.ipr
 rupantask6.md
-
+.trae/documents/ScholarShare_Full_Project_Plan.md
 ### Eclipse ###
 .apt_generated
 .classpath
@@ -38,3 +38,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/.trae/
+/src/main/webapp/uploads/resources/20260518_192723_seencasestudydescription2026_89406.pdf
+/src/main/webapp/uploads/profile_pics/13_360_F_95762728_evEO7cqfuBAxDvKsJn2XG5nTfXh4NLAr.jpg
+/src/main/webapp/uploads/profile_pics/admin_1_business-team-discussing-business-issues-sitting-behind-desk-business-team-discussing-business-issues-sitting-behind-desk-129795702.webp
+/src/main/webapp/uploads/profile_pics/admin_1_Hemanta.png
+/src/main/webapp/uploads/profile_pics/admin_1_logo.webp

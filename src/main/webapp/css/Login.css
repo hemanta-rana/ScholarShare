@@ -288,3 +288,27 @@ body {
 .container:hover .right {
     transform: translateY(-3px);
 }
+
+/* ── EXTRA SMALL SCREEN FIXES ── */
+@media (max-width: 400px) {
+    .login-wrapper {
+        padding: 0.75rem;
+    }
+
+    .left {
+        height: 160px;
+        min-height: unset;
+    }
+
+    .login-card {
+        padding: 1.4rem 1.2rem;
+    }
+
+    .login-card h2 {
+        font-size: 1.4rem;
+    }
+
+    .login-submit-btn {
+        font-size: 0.9rem;
+    }
+}

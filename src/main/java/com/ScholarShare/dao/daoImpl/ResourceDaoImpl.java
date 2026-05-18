@@ -5,6 +5,7 @@ import com.ScholarShare.entity.Resource;
 import com.ScholarShare.entity.Topic;
 import com.ScholarShare.util.DatabaseConnection;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,16 +16,87 @@ import java.util.List;
 public class ResourceDaoImpl implements ResourceDao {
     @Override
     public boolean uploadResource(Resource resource) {
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "INSERT INTO resources (user_id, topic_id, title, description, file_path, "
+                    + "resource_type, status, self_declaration) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, resource.getUserId());
+            ps.setInt(2, resource.getTopicId());
+            ps.setString(3, resource.getTitle());
+            ps.setString(4, resource.getDescription());
+            ps.setString(5, resource.getFilePath());
+            ps.setString(6, resource.getResourceType());
+            ps.setString(7, resource.getStatus() != null ? resource.getStatus() : "pending");
+            ps.setBoolean(8, resource.isSelfDeclaration());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Cannot upload resource " + e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(connection);
+        }
         return false;
     }
 
     @Override
-    public boolean deleteResource(int resourceId) {
+    public boolean deleteResource(int resourceId, int userId, String webappRealPath) {
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sel = "SELECT user_id, file_path FROM resources WHERE resource_id = ?";
+            PreparedStatement ps = connection.prepareStatement(sel);
+            ps.setInt(1, resourceId);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.next()) {
+                return false;
+            }
+            if (rs.getInt("user_id") != userId) {
+                return false;
+            }
+            String relativePath = rs.getString("file_path");
+            rs.close();
+            ps.close();
+
+            String del = "DELETE FROM resources WHERE resource_id = ? AND user_id = ?";
+            PreparedStatement delPs = connection.prepareStatement(del);
+            delPs.setInt(1, resourceId);
+            delPs.setInt(2, userId);
+            int rows = delPs.executeUpdate();
+            delPs.close();
+
+            if (rows > 0 && relativePath != null && !relativePath.isBlank() && webappRealPath != null
+                    && !webappRealPath.isBlank()) {
+                File f = new File(webappRealPath, relativePath.replace("/", File.separator));
+                if (f.exists() && f.isFile()) {
+                    f.delete();
+                }
+            }
+            return rows > 0;
+        } catch (SQLException e) {
+            System.out.println("Cannot delete resource " + resourceId + " " + e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(connection);
+        }
         return false;
     }
 
     @Override
     public boolean rateResource(int resourceId, int userId, int score) {
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "INSERT INTO ratings (resource_id, user_id, score) VALUES (?, ?, ?)";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, resourceId);
+            ps.setInt(2, userId);
+            ps.setInt(3, score);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Failed to save rating " + e.getMessage());
+        } finally {
+            DatabaseConnection.closeConnection(connection);
+        }
         return false;
     }
 
@@ -66,8 +138,8 @@ public class ResourceDaoImpl implements ResourceDao {
         try {
             connection = DatabaseConnection.getConnection();
             String sql ="SELECT r.* FROM resources r " +
-                    "JOIN topics t ON r.topic_id = t.topic_id" +
-                    "JOIN subjects s ON t.subject_id = s.subject_id" +
+                    "JOIN topics t ON r.topic_id = t.topic_id " +
+                    "JOIN subjects s ON t.subject_id = s.subject_id " +
                     "WHERE s.faculty_id = ? AND r.status = 'approved' " +
                     "ORDER BY r.upload_date DESC";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -101,9 +173,9 @@ public class ResourceDaoImpl implements ResourceDao {
         Connection connection = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String sql = "SELECT r.* FROM resources r" +
-                    "JOIN topics t ON r.topic_id = t.topic_id" +
-                    "WHERE t.subject_id = ? AND r.status = 'approved'" +
+            String sql = "SELECT r.* FROM resources r " +
+                    "JOIN topics t ON r.topic_id = t.topic_id " +
+                    "WHERE t.subject_id = ? AND r.status = 'approved' " +
                     "ORDER BY r.upload_date DESC";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, subjectId);
@@ -209,7 +281,7 @@ public class ResourceDaoImpl implements ResourceDao {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, resourceId);
             ResultSet rs = statement.executeQuery();
-            while (rs.next()){
+            if (rs.next()){
                 Resource resource = new Resource();
                 resource.setResourceId(rs.getInt("resource_id"));
                 resource.setUserId(rs.getInt("user_id"));

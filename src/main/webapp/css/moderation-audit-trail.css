@@ -241,4 +241,21 @@
         flex-direction: column;
         align-items: stretch;
     }
+    .audit-search,
+    .audit-filter {
+        min-width: 0;
+        width: 100%;
+    }
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .audit-header {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .audit-action-badge {
+        align-self: flex-start;
+    }
 }

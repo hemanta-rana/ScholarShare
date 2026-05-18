@@ -4,6 +4,7 @@ import com.ScholarShare.dao.daoImpl.CollectionDaoImpl;
 import com.ScholarShare.dao.daoImpl.ResourceDaoImpl;
 import com.ScholarShare.entity.Resource;
 import com.ScholarShare.entity.User;
+import com.ScholarShare.service.StudentDashboardService;
 import com.ScholarShare.util.SessionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,6 +16,8 @@ import java.io.IOException;
 
 @WebServlet("/resource")
 public class ResourceDetailServlet extends HttpServlet {
+
+    private final StudentDashboardService dashboardService = new StudentDashboardService();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -35,13 +38,22 @@ public class ResourceDetailServlet extends HttpServlet {
         }
         request.setAttribute("resource", resource);
 
-        // Load user's collections for "Add to Collection" dropdown
         User user = (User) SessionUtil.getAttribute(request, "user");
         if (user != null) {
             CollectionDaoImpl collectionDao = new CollectionDaoImpl();
             request.setAttribute("collections", collectionDao.getByUser(user.getUserId()));
-        }
 
-        request.getRequestDispatcher("/WEB-INF/views/resource-detail.jsp").forward(request, response);
+            if (user.isStudent()) {
+                // Student view — includes student sidebar, header, and profile modal
+                request.setAttribute("profile", dashboardService.getProfile(user.getUserId(), request.getContextPath()));
+                request.getRequestDispatcher("/WEB-INF/views/resource-detail.jsp").forward(request, response);
+            } else {
+                // Admin (or any non-student) view — uses admin layout, no student modal
+                request.getRequestDispatcher("/WEB-INF/views/admin-resource-detail.jsp").forward(request, response);
+            }
+        } else {
+            // Unauthenticated — send to student view (login guard will redirect)
+            request.getRequestDispatcher("/WEB-INF/views/resource-detail.jsp").forward(request, response);
+        }
     }
 }

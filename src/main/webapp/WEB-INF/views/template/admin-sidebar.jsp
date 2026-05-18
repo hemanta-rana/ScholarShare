@@ -73,6 +73,14 @@
             <span>Audit Trail</span>
         </a>
 
+        <a class="nav-item ${param.activePage eq 'profile' ? 'active' : ''}"
+           href="${pageContext.request.contextPath}/admin/profile">
+            <img class="nav-icon"
+                 src="${pageContext.request.contextPath}/images/home-icons/user-check.png"
+                 alt="">
+            <span>My Profile</span>
+        </a>
+
     </nav>
 
     <div class="sidebar-logout">
@@ -87,3 +95,6 @@
     </div>
 
 </aside>
+
+<%-- Mobile overlay — closes sidebar when tapped outside --%>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>

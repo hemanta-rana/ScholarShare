@@ -31,42 +31,52 @@
     </div>
 
     <nav class="sidebar-nav">
-        <a class="nav-item ${activePage eq 'dashboard' ? 'active' : ''}"
+        <a class="nav-item ${param.activePage eq 'dashboard' ? 'active' : ''}"
            href="${pageContext.request.contextPath}/student/dashboard">
             <img class="nav-icon" src="${pageContext.request.contextPath}/images/icons-admin/dashboard.png" alt="">
             <span>Dashboard</span>
         </a>
-        <a class="nav-item" href="${pageContext.request.contextPath}/home#categories">
+        <a class="nav-item ${param.activePage eq 'browse' ? 'active' : ''}"
+           href="${pageContext.request.contextPath}/browser">
             <img class="nav-icon" src="${pageContext.request.contextPath}/images/home-icons/discover.png" alt="">
-            <span>Resources</span>
+            <span>Browse Resources</span>
         </a>
-        <a class="nav-item" href="${pageContext.request.contextPath}/student/dashboard#submissions">
+        <a class="nav-item ${param.activePage eq 'collections' ? 'active' : ''}"
+           href="${pageContext.request.contextPath}/collections">
+            <img class="nav-icon" src="${pageContext.request.contextPath}/images/home-icons/save-to-collection.png" alt="">
+            <span>My Collections</span>
+        </a>
+        <a class="nav-item ${param.activePage eq 'myuploads' ? 'active' : ''}"
+           href="${pageContext.request.contextPath}/student/uploads">
             <img class="nav-icon" src="${pageContext.request.contextPath}/images/home-icons/upload.png" alt="">
             <span>My Uploads</span>
         </a>
-        <a class="nav-item" href="${pageContext.request.contextPath}/student/dashboard#reputation">
+        <a class="nav-item ${param.activePage eq 'reputation' ? 'active' : ''}"
+           href="${pageContext.request.contextPath}/student/reputation">
             <img class="nav-icon" src="${pageContext.request.contextPath}/images/home-icons/reputation-score.png" alt="">
             <span>Reputation</span>
         </a>
-        <a class="nav-item" href="${pageContext.request.contextPath}/student/dashboard#recent-resources">
+        <a class="nav-item ${param.activePage eq 'recent-resources' ? 'active' : ''}"
+           href="${pageContext.request.contextPath}/student/recent-resources">
             <img class="nav-icon" src="${pageContext.request.contextPath}/images/icons-admin/analytics.png" alt="">
-            <span>Analytics</span>
+            <span>Recent Resources</span>
+        </a>
+        <a class="nav-item ${param.activePage eq 'profile' ? 'active' : ''}"
+           href="${pageContext.request.contextPath}/student/profile">
+            <img class="nav-icon" src="${pageContext.request.contextPath}/images/home-icons/user-check.png" alt="">
+            <span>My Profile</span>
         </a>
     </nav>
 
     <div class="sidebar-actions">
         <a href="${pageContext.request.contextPath}/student/upload-resource"
-           class="sidebar-upload-btn ${activePage eq 'upload' ? 'active' : ''}">
+           class="sidebar-upload-btn ${param.activePage eq 'upload' ? 'active' : ''}">
             <img src="${pageContext.request.contextPath}/images/home-icons/upload.png" alt="">
             Upload Resource
         </a>
     </div>
 
     <div class="sidebar-footer-links">
-        <a class="nav-item" href="${pageContext.request.contextPath}/home#footer">
-            <img class="nav-icon" src="${pageContext.request.contextPath}/images/home-icons/mail.png" alt="">
-            <span>Support</span>
-        </a>
         <form action="${pageContext.request.contextPath}/logout" method="post" class="sidebar-logout-form">
             <button type="submit" class="logout-btn">
                 <img class="nav-icon" src="${pageContext.request.contextPath}/images/icons-admin/log-out.png" alt="">
@@ -75,3 +85,6 @@
         </form>
     </div>
 </aside>
+
+<%-- Mobile overlay — closes sidebar when tapped outside --%>
+<div class="student-sidebar-overlay" id="studentSidebarOverlay"></div>

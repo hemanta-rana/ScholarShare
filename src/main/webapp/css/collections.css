@@ -112,6 +112,17 @@ body {
     display: block;
 }
 
+.empty-state__icon-img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    opacity: 0.45;
+    margin-bottom: 16px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .empty-state__title {
     font-size: 17px;
     font-weight: 600;
@@ -200,8 +211,9 @@ body {
 
 .resource-row__info {
     display: flex;
-    flex-direction: column;
-    gap: 3px;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
     flex: 1;
     min-width: 0;
 }
@@ -259,5 +271,17 @@ body {
     .collections-main  { margin-left: 0; }
     .collections-body  { padding: 20px 16px; }
     .create-form-card  { flex-direction: column; align-items: stretch; }
+    .create-form-card input[type="text"] { min-width: 0; }
     .collection-panel__head { flex-wrap: wrap; }
+    .collections-header { padding: 14px 16px; }
+}
+
+@media (max-width: 480px) {
+    .resource-row { flex-wrap: wrap; gap: 8px; }
+    .resource-row__info { flex-wrap: wrap; }
+    .resource-row__title {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+    }
 }

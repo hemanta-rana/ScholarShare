@@ -86,7 +86,7 @@
     border-radius: 10px;
     font-size: 14px;
     margin-bottom: 1rem;
-    text-align: center; ">${error}</p>
+    text-align: center; "><c:out value="${error}"/></p>
                     </c:if>
                     <form action="${pageContext.request.contextPath}/login" method="post">
                         <!-- Email field -->
@@ -103,7 +103,7 @@
 
 
                         <button type="submit" class="login-submit-btn">
-                            <svg class="material-symbols-outlined" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1rem;height:1rem;"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg> 
+                            <img src="${pageContext.request.contextPath}/images/home-icons/link.png" alt="" width="16" height="16" style="vertical-align:middle;margin-right:0.35rem;">
                             Sign In
                         </button>
                     </form>

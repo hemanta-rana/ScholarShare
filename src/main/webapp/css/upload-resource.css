@@ -496,3 +496,48 @@
         display: none;
     }
 }
+
+@media (max-width: 480px) {
+    .upload-page-header h2 {
+        font-size: 24px;
+    }
+
+    .upload-stepper {
+        gap: 0;
+    }
+
+    .stepper-item {
+        padding: 10px 6px;
+        font-size: 10px;
+    }
+
+    .stepper-num {
+        width: 22px;
+        height: 22px;
+        font-size: 11px;
+    }
+
+    .drop-zone {
+        min-height: 180px;
+    }
+
+    .drop-zone-content h3 {
+        font-size: 16px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .review-list > div {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+
+    .review-list dt {
+        margin-bottom: 0;
+    }
+}

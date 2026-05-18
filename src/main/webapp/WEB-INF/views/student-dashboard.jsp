@@ -16,10 +16,14 @@
 </head>
 <body>
 
-<jsp:include page="template/student-sidebar.jsp"/>
+<jsp:include page="template/student-sidebar.jsp">
+    <jsp:param name="activePage" value="dashboard" />
+</jsp:include>
 
 <div class="main student-main">
-    <jsp:include page="template/student-header.jsp"/>
+    <jsp:include page="template/student-header.jsp">
+        <jsp:param name="pageTitle" value="Dashboard" />
+    </jsp:include>
 
     <main class="content student-content">
 
@@ -90,7 +94,7 @@
             <article class="card submissions-card" id="submissions">
                 <div class="card-header">
                     <h3>Recent Submissions</h3>
-                    <a href="${pageContext.request.contextPath}/student/dashboard">View All</a>
+                    <a href="${pageContext.request.contextPath}/student/uploads">View All</a>
                 </div>
 
                 <c:choose>

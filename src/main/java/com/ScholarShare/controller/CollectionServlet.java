@@ -2,6 +2,7 @@ package com.ScholarShare.controller;
 
 import com.ScholarShare.dao.daoImpl.CollectionDaoImpl;
 import com.ScholarShare.entity.User;
+import com.ScholarShare.service.StudentDashboardService;
 import com.ScholarShare.util.SessionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,6 +14,9 @@ import java.io.IOException;
 
 @WebServlet("/collections")
 public class CollectionServlet extends HttpServlet {
+
+    private final StudentDashboardService dashboardService = new StudentDashboardService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException{
@@ -25,6 +29,7 @@ public class CollectionServlet extends HttpServlet {
 
         CollectionDaoImpl collectionDao = new CollectionDaoImpl();
         request.setAttribute("collections", collectionDao.getByUser(user.getUserId()));
+        request.setAttribute("profile", dashboardService.getProfile(user.getUserId(), request.getContextPath()));
 
         request.getRequestDispatcher("/WEB-INF/views/collections.jsp").forward(request, response);
     }

@@ -18,7 +18,7 @@
 <body>
 
 <jsp:include page="template/admin-sidebar.jsp">
-    <jsp:param name="activePage" value="audit-trail" />
+    <jsp:param name="activePage" value="audit" />
 </jsp:include>
 
 <div class="main">
@@ -30,13 +30,7 @@
         <div class="page-header">
             <div>
                 <div class="page-title">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                        <polyline points="10 9 9 9 8 9"></polyline>
-                    </svg>
+                    
                     Moderation Audit Trail
                 </div>
                 <div class="page-sub">Complete history of moderation decisions, actions taken, and moderator notes.</div>
@@ -60,126 +54,44 @@
         </div>
 
         <div class="audit-list">
-            <!-- Sample Audit Log 1 -->
-            <div class="audit-card">
-                <div class="audit-header">
-                    <div class="audit-meta">
-                        <span class="audit-id">AUDIT-8924</span>
-                        <div class="audit-title">Flag Upheld: "Introduction to Quantum Physics"</div>
-                        <div class="audit-date">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                            Oct 24, 2023 at 14:30 PM
-                        </div>
+            <c:choose>
+                <c:when test="${empty auditLogs}">
+                    <div class="empty-state" style="text-align:center;padding:2rem;">
+                        <img src="${pageContext.request.contextPath}/images/icons-admin/audit.png" alt="" width="48" height="48">
+                        <p>No moderation actions recorded yet.</p>
                     </div>
-                    <span class="audit-action-badge action-upheld">Upheld</span>
-                </div>
-                <div class="audit-body">
-                    <div class="audit-section">
-                        <div class="section-label">Reported Issue</div>
-                        <div class="section-content">
-                            <strong>Reason:</strong> Plagiarism<br/>
-                            <strong>User Context:</strong> This document copies extensively from Chapter 4 of Griffiths without citation.
-                        </div>
-                    </div>
-                    <div class="audit-section">
-                        <div class="section-label">Moderation Rationale</div>
-                        <div class="section-content">
-                            Verified that the content indeed matches the textbook verbatim without proper attribution. Upheld the flag and temporarily suspended the uploader's privileges pending review.
-                        </div>
-                    </div>
-                </div>
-                <div class="moderator-info">
-                    <div class="mod-avatar">AD</div>
-                    <div class="mod-details">
-                        <span class="mod-name">Admin User</span>
-                        <span class="mod-role">System Administrator</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sample Audit Log 2 -->
-            <div class="audit-card">
-                <div class="audit-header">
-                    <div class="audit-meta">
-                        <span class="audit-id">AUDIT-8923</span>
-                        <div class="audit-title">Flag Dismissed: "Calculus 101 Notes"</div>
-                        <div class="audit-date">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                            Oct 23, 2023 at 09:15 AM
-                        </div>
-                    </div>
-                    <span class="audit-action-badge action-dismissed">Dismissed</span>
-                </div>
-                <div class="audit-body">
-                    <div class="audit-section">
-                        <div class="section-label">Reported Issue</div>
-                        <div class="section-content">
-                            <strong>Reason:</strong> Inappropriate Content<br/>
-                            <strong>User Context:</strong> Contains offensive language on page 3.
-                        </div>
-                    </div>
-                    <div class="audit-section">
-                        <div class="section-label">Moderation Rationale</div>
-                        <div class="section-content">
-                            Reviewed the document up to page 10. Could not find any offensive language. The notes appear to be standard calculus formulas. Dismissed the flag as invalid.
-                        </div>
-                    </div>
-                </div>
-                <div class="moderator-info">
-                    <div class="mod-avatar" style="background: #8e44ad;">SM</div>
-                    <div class="mod-details">
-                        <span class="mod-name">Sarah Moderator</span>
-                        <span class="mod-role">Content Moderator</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sample Audit Log 3 -->
-            <div class="audit-card">
-                <div class="audit-header">
-                    <div class="audit-meta">
-                        <span class="audit-id">AUDIT-8921</span>
-                        <div class="audit-title">Resource Deleted: "Final Exam Answers 2023"</div>
-                        <div class="audit-date">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                            Oct 20, 2023 at 16:45 PM
-                        </div>
-                    </div>
-                    <span class="audit-action-badge action-deleted">Deleted</span>
-                </div>
-                <div class="audit-body">
-                    <div class="audit-section">
-                        <div class="section-label">Action Trigger</div>
-                        <div class="section-content">
-                            Direct administrative action (No prior flag).<br/>
-                            <strong>Resource:</strong> Final Exam Answers 2023 (ID: RES-4402)
-                        </div>
-                    </div>
-                    <div class="audit-section">
-                        <div class="section-label">Moderation Rationale</div>
-                        <div class="section-content">
-                            Resource violates academic integrity policies by sharing current semester's final exam solutions. Resource permanently removed and user account banned.
-                        </div>
-                    </div>
-                </div>
-                <div class="moderator-info">
-                    <div class="mod-avatar">AD</div>
-                    <div class="mod-details">
-                        <span class="mod-name">Admin User</span>
-                        <span class="mod-role">System Administrator</span>
-                    </div>
-                </div>
-            </div>
-
+                </c:when>
+                <c:otherwise>
+                    <c:forEach var="log" items="${auditLogs}">
+                        <article class="audit-card">
+                            <div class="audit-header">
+                                <div class="audit-meta">
+                                    <span class="audit-id">LOG-<c:out value="${log.id}"/></span>
+                                    <div class="audit-title"><c:out value="${log.resourceTitle}"/></div>
+                                    <div class="audit-date">
+                                        <img src="${pageContext.request.contextPath}/images/home-icons/file-text.png" alt="" width="14" height="14">
+                                        <c:out value="${log.actionedAt}"/>
+                                    </div>
+                                </div>
+                                <span class="audit-action-badge action-${log.actionClass}"><c:out value="${log.action}"/></span>
+                            </div>
+                            <div class="audit-body">
+                                <div class="audit-section">
+                                    <div class="section-label">Moderation Note</div>
+                                    <div class="section-content"><c:out value="${log.note}"/></div>
+                                </div>
+                            </div>
+                            <div class="moderator-info">
+                                <div class="mod-avatar"><c:out value="${log.adminInitials}"/></div>
+                                <div class="mod-details">
+                                    <span class="mod-name"><c:out value="${log.adminName}"/></span>
+                                    <span class="mod-role">Administrator</span>
+                                </div>
+                            </div>
+                        </article>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
         </div>
 
     </main>

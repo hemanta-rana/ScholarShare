@@ -110,84 +110,8 @@ public class StudentServlet extends HttpServlet {
     private void handleDashboard(HttpServletRequest req,
                                  HttpServletResponse resp,
                                  HttpSession session)
-            throws ServletException, IOException {
-
-        int userId = getSessionUserId(session);
-
-        User student = studentDao.getUserById(userId);
-        if (student == null) {
-            System.out.println("StudentServlet: user not found for id " + userId);
-            session.invalidate();
-            resp.sendRedirect(req.getContextPath() + "/login");
-            return;
-        }
-
-        int    score  = studentDao.getContributorReputationScore(userId);
-        String status = studentDao.getContributorStatus(userId);
-
-        req.setAttribute("student", student);
-        req.setAttribute("reputationScore",  score);
-        req.setAttribute("contributorStatus", status);
-
-        // Serve data for the student portal
-        java.util.Map<String, Integer> stats = new java.util.HashMap<>();
-        stats.put("total", 5);
-        stats.put("pending", 1);
-        stats.put("underReview", 1);
-        stats.put("approved", 2);
-        stats.put("rejected", 1);
-
-        java.util.List<java.util.Map<String, Object>> resources = new java.util.ArrayList<>();
-        
-        java.util.Map<String, Object> r1 = new java.util.HashMap<>();
-        r1.put("id", 1);
-        r1.put("fileType", "PDF");
-        r1.put("title", "Introduction to Calculus");
-        r1.put("subject", "Mathematics");
-        r1.put("fileSize", "2.4 MB");
-        r1.put("uploadDate", new java.util.Date());
-        r1.put("status", "APPROVED");
-        r1.put("reviewNote", true);
-        r1.put("reviewerNote", "Great explanation of limits.");
-        resources.add(r1);
-
-        java.util.Map<String, Object> r2 = new java.util.HashMap<>();
-        r2.put("id", 2);
-        r2.put("fileType", "DOCX");
-        r2.put("title", "History of Ancient Rome");
-        r2.put("subject", "History");
-        r2.put("fileSize", "1.1 MB");
-        r2.put("uploadDate", new java.util.Date(System.currentTimeMillis() - 86400000L));
-        r2.put("status", "PENDING");
-        resources.add(r2);
-
-        java.util.Map<String, Object> r3 = new java.util.HashMap<>();
-        r3.put("id", 3);
-        r3.put("fileType", "PPTX");
-        r3.put("title", "Cellular Biology Presentation");
-        r3.put("subject", "Biology");
-        r3.put("fileSize", "5.2 MB");
-        r3.put("uploadDate", new java.util.Date(System.currentTimeMillis() - 172800000L));
-        r3.put("status", "UNDER_REVIEW");
-        resources.add(r3);
-
-        java.util.Map<String, Object> r4 = new java.util.HashMap<>();
-        r4.put("id", 4);
-        r4.put("fileType", "PDF");
-        r4.put("title", "Physics Midterm Answers");
-        r4.put("subject", "Physics");
-        r4.put("fileSize", "0.8 MB");
-        r4.put("uploadDate", new java.util.Date(System.currentTimeMillis() - 259200000L));
-        r4.put("status", "REJECTED");
-        r4.put("reviewNote", true);
-        r4.put("reviewerNote", "Violates academic integrity. Contains direct answers.");
-        resources.add(r4);
-
-        req.setAttribute("stats", stats);
-        req.setAttribute("resources", resources);
-
-        req.getRequestDispatcher("/WEB-INF/views/student-dashboard.jsp")
-                .forward(req, resp);
+            throws IOException {
+        resp.sendRedirect(req.getContextPath() + "/student/dashboard");
     }
 
 
@@ -199,23 +123,15 @@ public class StudentServlet extends HttpServlet {
         int userId = getSessionUserId(session);
         int score  = studentDao.getContributorReputationScore(userId);
 
-        req.setAttribute("reputationScore", score);
-        req.getRequestDispatcher("/WEB-INF/views/student-dashboard.jsp")
-                .forward(req, resp);
+        resp.sendRedirect(req.getContextPath() + "/student/dashboard");
     }
 
 
     private void handleGetStatus(HttpServletRequest req,
                                  HttpServletResponse resp,
                                  HttpSession session)
-            throws ServletException, IOException {
-
-        int    userId = getSessionUserId(session);
-        String status = studentDao.getContributorStatus(userId);
-
-        req.setAttribute("contributorStatus", status);
-        req.getRequestDispatcher("/WEB-INF/views/student-dashboard.jsp")
-                .forward(req, resp);
+            throws IOException {
+        resp.sendRedirect(req.getContextPath() + "/student/dashboard");
     }
 
 
@@ -239,7 +155,7 @@ public class StudentServlet extends HttpServlet {
             System.out.println("StudentServlet: integrity pledge failed for user id " + userId);
         }
 
-        resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
+        resp.sendRedirect(req.getContextPath() + "/student/dashboard");
     }
 
 
@@ -254,7 +170,7 @@ public class StudentServlet extends HttpServlet {
 
         if (resourceIdParam == null || reason == null || reason.trim().isEmpty()) {
             session.setAttribute("flashError", "Resource ID and reason are required to flag plagiarism.");
-            resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
+            resp.sendRedirect(req.getContextPath() + "/student/dashboard");
             return;
         }
 
@@ -264,7 +180,7 @@ public class StudentServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             System.out.println("StudentServlet: invalid resourceId for flag — " + resourceIdParam);
             session.setAttribute("flashError", "Invalid resource ID.");
-            resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
+            resp.sendRedirect(req.getContextPath() + "/student/dashboard");
             return;
         }
 
@@ -278,7 +194,7 @@ public class StudentServlet extends HttpServlet {
             System.out.println("StudentServlet: flag failed — resource " + resourceId + " user " + userId);
         }
 
-        resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
+        resp.sendRedirect(req.getContextPath() + "/student/dashboard");
     }
 
 
@@ -292,7 +208,7 @@ public class StudentServlet extends HttpServlet {
         Part filePart = req.getPart("profilePic");
         if (filePart == null || filePart.getSize() == 0) {
             session.setAttribute("flashError", "Please select a file to upload.");
-            resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
+            resp.sendRedirect(req.getContextPath() + "/student/dashboard");
             return;
         }
 
@@ -300,7 +216,7 @@ public class StudentServlet extends HttpServlet {
         String contentType = filePart.getContentType();
         if (contentType == null || !contentType.startsWith("image/")) {
             session.setAttribute("flashError", "Only image files are allowed.");
-            resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
+            resp.sendRedirect(req.getContextPath() + "/student/dashboard");
             return;
         }
 
@@ -320,7 +236,8 @@ public class StudentServlet extends HttpServlet {
         }
 
 
-        boolean success = studentDao.uploadProfilePicture(userId, userId);
+        String relativePath = "uploads/profile_pics/" + savedFileName.replace("\\", "/");
+        boolean success = studentDao.uploadProfilePicture(userId, relativePath);
 
         if (success) {
             // Keep the fresh path in session so JSP can update the avatar immediately
@@ -332,7 +249,7 @@ public class StudentServlet extends HttpServlet {
             System.out.println("StudentServlet: DB update failed for profile picture, user id " + userId);
         }
 
-        resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
+        resp.sendRedirect(req.getContextPath() + "/student/profile");
     }
 
 
@@ -345,7 +262,7 @@ public class StudentServlet extends HttpServlet {
 
         if (contributorIdParam == null) {
             session.setAttribute("flashError", "Contributor ID is required.");
-            resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
+            resp.sendRedirect(req.getContextPath() + "/student/dashboard");
             return;
         }
 
@@ -364,7 +281,7 @@ public class StudentServlet extends HttpServlet {
             session.setAttribute("flashError", "Invalid contributor ID.");
         }
 
-        resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
+        resp.sendRedirect(req.getContextPath() + "/student/dashboard");
     }
 
 
@@ -377,7 +294,7 @@ public class StudentServlet extends HttpServlet {
 
         if (contributorIdParam == null) {
             session.setAttribute("flashError", "Contributor ID is required.");
-            resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
+            resp.sendRedirect(req.getContextPath() + "/student/dashboard");
             return;
         }
 
@@ -395,7 +312,7 @@ public class StudentServlet extends HttpServlet {
         }
 
         // Redirect to the actual resource file (update path to match your resource serving URL)
-        resp.sendRedirect(req.getContextPath() + "/student?action=dashboard");
+        resp.sendRedirect(req.getContextPath() + "/student/dashboard");
     }
 
 

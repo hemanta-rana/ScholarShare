@@ -27,18 +27,12 @@
     </jsp:include>
 
   <div class="content">
-    <div class="page-header">
-      <div>
-        <div class="page-title">Category Management</div>
-        <div class="page-sub">Manage the three-level resource taxonomy: Faculty → Subject → Topic</div>
-      </div>
-    </div>
 
     <!-- STATS BAR -->
     <div class="stats-bar">
       <div class="stat-card">
         <div class="stat-icon orange">
-          <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3H8a2 2 0 0 0-2 2v2h12V5a2 2 0 0 0-2-2z"/></svg>
+          <img src="${pageContext.request.contextPath}/images/home-icons/landmark.png" alt="" width="22" height="22">
         </div>
         <div>
           <div class="stat-val" id="statFaculty">${facultyCount != null ? facultyCount : 0}</div>
@@ -47,7 +41,7 @@
       </div>
       <div class="stat-card">
         <div class="stat-icon blue">
-          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <img src="${pageContext.request.contextPath}/images/home-icons/book-open.png" alt="" width="22" height="22">
         </div>
         <div>
           <div class="stat-val" id="statSubject">${subjectCount != null ? subjectCount : 0}</div>
@@ -56,7 +50,7 @@
       </div>
       <div class="stat-card">
         <div class="stat-icon purple">
-          <svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <img src="${pageContext.request.contextPath}/images/home-icons/discover.png" alt="" width="22" height="22">
         </div>
         <div>
           <div class="stat-val" id="statTopic">${topicCount != null ? topicCount : 0}</div>
@@ -103,7 +97,7 @@
                   </div>
                   <div class="cat-item-actions" onclick="event.preventDefault();">
                     <button class="icon-btn del" title="Delete" onclick="openDeleteModal('deleteFaculty', ${faculty.facultyId}, null, null, '${faculty.facultyName}')">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                      <img src="${pageContext.request.contextPath}/images/home-icons/trash_9915690.png" alt="Delete" width="16" height="16">
                     </button>
                   </div>
                 </a>
@@ -137,7 +131,7 @@
                           </div>
                           <div class="cat-item-actions" onclick="event.preventDefault();">
                             <button class="icon-btn del" title="Delete" onclick="openDeleteModal('deleteSubject', ${subject.subjectId}, ${selectedFacultyId}, null, '${subject.subjectName}')">
-                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                              <img src="${pageContext.request.contextPath}/images/home-icons/trash_9915690.png" alt="Delete" width="16" height="16">
                             </button>
                           </div>
                         </a>
@@ -152,7 +146,7 @@
             <c:otherwise>
                 <div class="items-list" id="subjectList">
                   <div class="panel-empty">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    <img src="${pageContext.request.contextPath}/images/home-icons/book-open.png" alt="" width="32" height="32">
                     <p>Select a Faculty to browse and manage its subjects</p>
                   </div>
                 </div>
@@ -187,7 +181,7 @@
                           </div>
                           <div class="cat-item-actions">
                             <button class="icon-btn del" title="Delete" onclick="openDeleteModal('deleteTopic', ${topic.topicId}, ${selectedFacultyId}, ${selectedSubjectId}, '${topic.topicName}')">
-                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                              <img src="${pageContext.request.contextPath}/images/home-icons/trash_9915690.png" alt="Delete" width="16" height="16">
                             </button>
                           </div>
                         </div>
@@ -202,7 +196,7 @@
             <c:otherwise>
                 <div class="items-list" id="topicList">
                   <div class="panel-empty">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <img src="${pageContext.request.contextPath}/images/home-icons/discover.png" alt="" width="32" height="32">
                     <p>Select a Subject to browse and manage its topics</p>
                   </div>
                 </div>

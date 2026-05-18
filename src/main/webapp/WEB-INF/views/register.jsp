@@ -85,7 +85,7 @@
                     font-size: 14px;
                     margin-bottom: 1rem;
                     text-align: center; "
-                >${error}</p>
+                ><c:out value="${error}"/></p>
             </c:if>
             <form id="registerForm" action="${pageContext.request.contextPath}/register" method="post">
 

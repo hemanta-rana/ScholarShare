@@ -35,7 +35,7 @@ public class ModerationLogDaoImpl implements ModerationLogDao {
         String query = "SELECT m.*, u.full_name, r.title FROM moderation_logs m " +
                        "LEFT JOIN users u ON m.admin_id = u.user_id " +
                        "LEFT JOIN resources r ON m.resource_id = r.resource_id " +
-                       "ORDER BY m.action_at DESC";
+                       "ORDER BY m.actioned_at DESC";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
@@ -46,7 +46,7 @@ public class ModerationLogDaoImpl implements ModerationLogDao {
                 log.setAdminId(rs.getInt("admin_id"));
                 log.setAction(rs.getString("action"));
                 log.setNote(rs.getString("note"));
-                log.setActionAt(rs.getTimestamp("action_at"));
+                log.setActionAt(rs.getTimestamp("actioned_at"));
                 
                 log.setAdminName(rs.getString("full_name"));
                 log.setResourceTitle(rs.getString("title"));

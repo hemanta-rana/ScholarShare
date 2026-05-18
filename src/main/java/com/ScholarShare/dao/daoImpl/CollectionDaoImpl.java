@@ -56,18 +56,23 @@ public class CollectionDaoImpl implements CollectionDao {
     @Override
     public boolean addResourceToCollection(int userId, int resourceId) {
         Connection connection = null;
-        try{
+        try {
             connection = DatabaseConnection.getConnection();
-            String sql = "INSERT INTO collections (user_id, resource_id) VALUES (?, ?)";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, userId);
-            ps.setInt(2, resourceId);
-            ps.execute();
-            return true;
-
-        }catch (SQLException e){
-            System.out.println("failed to add resource to collection" + userId+e.getMessage());
-        }finally {
+            String findSql = "SELECT collection_id FROM collections WHERE user_id = ? "
+                    + "ORDER BY created_at DESC LIMIT 1";
+            PreparedStatement findPs = connection.prepareStatement(findSql);
+            findPs.setInt(1, userId);
+            ResultSet rs = findPs.executeQuery();
+            if (!rs.next()) {
+                return false;
+            }
+            int collectionId = rs.getInt("collection_id");
+            rs.close();
+            findPs.close();
+            return addResource(collectionId, resourceId);
+        } catch (SQLException e) {
+            System.out.println("failed to add resource to collection" + userId + e.getMessage());
+        } finally {
             DatabaseConnection.closeConnection(connection);
         }
         return false;
@@ -75,22 +80,7 @@ public class CollectionDaoImpl implements CollectionDao {
 
     @Override
     public boolean deleteResourceFromCollection(int collectionId, int resourceId) {
-        Connection connection = null;
-        try{
-            connection = DatabaseConnection.getConnection();
-            String sql = "DELETE FROM collections WHERE collection_id = ? AND resource_id = ?";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, collectionId);
-            ps.setInt(2, resourceId);
-            ps.execute();
-            return true;
-
-        }catch (SQLException e){
-            System.out.println("failed to delete resource from collection id "+collectionId+e.getMessage());
-        }finally {
-            DatabaseConnection.closeConnection(connection);
-        }
-        return false;
+        return removeResource(collectionId, resourceId);
     }
     @Override
     public List<Collection> getStudentCollections(int userId) {

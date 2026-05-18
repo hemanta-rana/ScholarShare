@@ -18,4 +18,17 @@ public interface AdminDao {
     List<Flag> getRecentFlags();
     Map<String, Integer> getWeeklySubmissionCounts();
 
+    List<User> getAllPendingRegistrations();
+    boolean updateUserStatus(int userId, String status);
+    List<Resource> getPipelineResources();
+    boolean updateResourceStatus(int resourceId, String status);
+    List<Flag> getAllFlags();
+    boolean updateFlagStatus(int flagId, String status);
+    List<Map<String, Object>> getTopContributors(int limit);
+    List<Map<String, Object>> getMostFlaggedResources(int limit);
+
+    // ── Admin profile ──
+    User getAdminById(int userId);
+    boolean updateAdminProfile(int userId, String fullName, String phone);
+    boolean uploadAdminProfilePicture(int userId, String relativePath);
 }

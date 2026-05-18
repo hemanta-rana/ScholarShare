@@ -222,4 +222,131 @@ public class AdminService {
         LocalDate date = LocalDate.parse(peakDate);
         return date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
     }
+
+    public List<Map<String, Object>> getPendingApprovals() {
+        List<User> users = adminDao.getAllPendingRegistrations();
+        List<Map<String, Object>> result = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
+        for (User u : users) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", u.getUserId());
+            map.put("fullName", u.getFullName());
+            map.put("email", u.getEmail());
+            map.put("phone", u.getPhone());
+            map.put("initials", buildInitials(u.getFullName()));
+            map.put("requestedOn", u.getCreatedAt() != null ? sdf.format(u.getCreatedAt()) : "Unknown");
+            result.add(map);
+        }
+        return result;
+    }
+
+    public List<Map<String, Object>> getPipelineSubmissions() {
+        List<Resource> resources = adminDao.getPipelineResources();
+        List<Map<String, Object>> result = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
+        for (Resource r : resources) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", r.getResourceId());
+            map.put("title", r.getTitle());
+            map.put("type", r.getResourceType());
+            map.put("submitterName", r.getSubmitterName());
+            map.put("category", r.getTopicName());
+            map.put("subject", r.getSubjectName());
+            map.put("submissionDate", r.getUploadDate() != null ? sdf.format(r.getUploadDate()) : "Unknown");
+            map.put("status", r.getStatus());
+            map.put("statusClass", statusClassFor(r.getStatus()));
+            result.add(map);
+        }
+        return result;
+    }
+
+    public List<Map<String, Object>> getFlagsForManagement() {
+        List<Flag> flags = adminDao.getAllFlags();
+        List<Map<String, Object>> result = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
+        for (Flag f : flags) {
+            Map<String, Object> map = new HashMap<>();
+            String status = f.getStatus() != null ? f.getStatus() : "open";
+            map.put("id", f.getFlagId());
+            map.put("resourceId", f.getResourceId());
+            map.put("resourceTitle", f.getResourceTitle() != null ? f.getResourceTitle() : "Unknown");
+            map.put("resourceType", "Resource");
+            map.put("resourceCategory", "General");
+            map.put("reason", f.getReason());
+            map.put("description", f.getReason());
+            map.put("status", status.toUpperCase(Locale.ENGLISH));
+            map.put("flaggedDate", f.getCreatedAt() != null ? sdf.format(f.getCreatedAt()) : "");
+            map.put("reporterName", f.getFlaggedByName() != null ? f.getFlaggedByName() : "Student");
+            map.put("reporterInitials", buildInitials(f.getFlaggedByName()));
+            map.put("submitterName", "Uploader");
+            map.put("reportContext", "Community report");
+            result.add(map);
+        }
+        return result;
+    }
+
+    public List<Map<String, Object>> getAuditLogs() {
+        com.ScholarShare.dao.ModerationLogDao logDao = new com.ScholarShare.dao.daoImpl.ModerationLogDaoImpl();
+        List<com.ScholarShare.entity.ModerationLog> logs = logDao.getAllLogs();
+        List<Map<String, Object>> result = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy 'at' HH:mm");
+        for (com.ScholarShare.entity.ModerationLog log : logs) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", log.getLogId());
+            map.put("action", log.getAction());
+            map.put("actionClass", actionClassFor(log.getAction()));
+            map.put("resourceTitle", log.getResourceTitle() != null ? log.getResourceTitle() : "Resource #" + log.getResourceId());
+            map.put("adminName", log.getAdminName() != null ? log.getAdminName() : "Admin");
+            map.put("adminInitials", buildInitials(log.getAdminName()));
+            map.put("note", log.getNote() != null ? log.getNote() : "");
+            map.put("actionedAt", log.getActionAt() != null ? sdf.format(log.getActionAt()) : "");
+            result.add(map);
+        }
+        return result;
+    }
+
+    public Map<String, Object> getAnalyticsData() {
+        Map<String, Object> data = new HashMap<>();
+        data.put("stats", getDashboardStats());
+        data.put("weeklyData", getWeeklyChartData());
+        data.put("weeklyPeakDay", getWeeklyPeakDay());
+        data.put("topContributors", adminDao.getTopContributors(5));
+        data.put("mostFlagged", adminDao.getMostFlaggedResources(5));
+        return data;
+    }
+
+    private String buildInitials(String fullName) {
+        if (fullName == null || fullName.trim().isEmpty()) {
+            return "U";
+        }
+        String[] parts = fullName.trim().split("\\s+");
+        String initials = String.valueOf(parts[0].charAt(0));
+        if (parts.length > 1) {
+            initials += parts[parts.length - 1].charAt(0);
+        }
+        return initials.toUpperCase(Locale.ENGLISH);
+    }
+
+    private String statusClassFor(String rawStatus) {
+        if (rawStatus == null) {
+            return "pending";
+        }
+        return switch (rawStatus) {
+            case "approved" -> "approved";
+            case "rejected" -> "rejected";
+            case "under_review" -> "review";
+            default -> "pending";
+        };
+    }
+
+    private String actionClassFor(String action) {
+        if (action == null) {
+            return "pending";
+        }
+        return switch (action) {
+            case "approved", "flag_dismissed" -> "approved";
+            case "rejected", "flag_upheld" -> "rejected";
+            default -> "review";
+        };
+    }
 }

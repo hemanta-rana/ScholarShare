@@ -10,6 +10,14 @@
         <welcome-file>home</welcome-file>
     </welcome-file-list>
 
-
+    <!--
+        Absolute path to the webapp source directory.
+        Files written here are served directly by Tomcat and survive redeployments.
+        Adjust this path if you move the project.
+    -->
+    <context-param>
+        <param-name>uploadBasePath</param-name>
+        <param-value>d:\BIT academic year 2\Advance programming and Technologies\courseWork\SholarShare\src\main\webapp</param-value>
+    </context-param>
 
 </web-app>

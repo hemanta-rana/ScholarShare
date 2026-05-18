@@ -920,3 +920,46 @@
 .score-tier img {
   filter: none;
 }
+
+/* ── EXTRA SMALL SCREEN FIXES ── */
+@media (max-width: 480px) {
+    #hero {
+        padding: 80px 16px 60px;
+    }
+
+    .hero-btns {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .hero-btns .btn-sky,
+    .hero-btns .btn-gold {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .hero-img-wrap img {
+        height: 200px;
+    }
+
+    #how-it-works,
+    #features,
+    #categories,
+    #reputation {
+        padding: 60px 16px;
+    }
+
+    .section-header {
+        margin-bottom: 36px;
+    }
+
+    .cat-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .rep-score-widget {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+}
