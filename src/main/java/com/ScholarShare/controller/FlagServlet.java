@@ -31,7 +31,20 @@ public class FlagServlet extends HttpServlet {
             return;
         }
 
-        int resourceId = Integer.parseInt(req.getParameter("resourceId"));
+        String resourceIdParam = req.getParameter("resourceId");
+        if (resourceIdParam == null || resourceIdParam.isBlank()) {
+            resp.sendRedirect(req.getContextPath() + "/home");
+            return;
+        }
+
+        int resourceId;
+        try {
+            resourceId = Integer.parseInt(resourceIdParam.trim());
+        } catch (NumberFormatException e) {
+            resp.sendRedirect(req.getContextPath() + "/home");
+            return;
+        }
+
         String reason = req.getParameter("reason");
 
         if (ValidationUtil.isNullOrEmpty(reason)) {

@@ -32,7 +32,7 @@ public class RatingServlet extends HttpServlet {
             if (resultMessage != null) {
                 session.setAttribute("resultMessage", resultMessage);
             }
-            response.sendRedirect(request.getContextPath() + "resource-details?resourceId=" + resourceId);
+            response.sendRedirect(request.getContextPath() + "/resource-detail?id=" + resourceId);
         } catch (NumberFormatException e) {
             session.setAttribute("error", "invalid rating");
             response.sendRedirect(request.getContextPath() + "/home");

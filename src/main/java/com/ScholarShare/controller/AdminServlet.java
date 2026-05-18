@@ -23,6 +23,11 @@ public class AdminServlet extends HomeServlet{
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        User user = (User) SessionUtil.getAttribute(request, "user");
+        if (user == null || !user.isAdmin()) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
 
         // Set all the aggregated and mapped data from the Service layer into the Request object
         request.setAttribute("stats", adminService.getDashboardStats());
@@ -93,6 +98,12 @@ public class AdminServlet extends HomeServlet{
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = (User) SessionUtil.getAttribute(request, "user");
+        if (user == null || !user.isAdmin()) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
         String pathInfo = request.getPathInfo();
         if ("/categories".equals(pathInfo)) {
             handleCategoryPost(request, response);

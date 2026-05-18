@@ -17,7 +17,20 @@ public class ResourceDetailServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int resourceId = Integer.parseInt(req.getParameter("id"));
+        String idParam = req.getParameter("id");
+        if (idParam == null || idParam.isBlank()) {
+            resp.sendRedirect(req.getContextPath() + "/home");
+            return;
+        }
+
+        int resourceId;
+        try {
+            resourceId = Integer.parseInt(idParam.trim());
+        } catch (NumberFormatException e) {
+            resp.sendRedirect(req.getContextPath() + "/home");
+            return;
+        }
+
         Resource resource = resourceService.getResourceById(resourceId);
 
         if (resource == null) {

@@ -112,6 +112,7 @@ public class Resource {
     // --- Transient fields for JOIN queries ---
     private String submitterName;
     private String topicName;
+    private String subjectName;
 
     public String getSubmitterName() {
         return submitterName;
@@ -127,5 +128,13 @@ public class Resource {
 
     public void setTopicName(String topicName) {
         this.topicName = topicName;
+    }
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
     }
 }
