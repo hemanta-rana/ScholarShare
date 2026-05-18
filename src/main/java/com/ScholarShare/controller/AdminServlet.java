@@ -96,6 +96,8 @@ public class AdminServlet extends HomeServlet{
         String pathInfo = request.getPathInfo();
         if ("/categories".equals(pathInfo)) {
             handleCategoryPost(request, response);
+        } else if ("/moderate".equals(pathInfo)) {
+            handleModerationPost(request, response);
         } else {
             super.doPost(request, response);
         }
@@ -158,5 +160,36 @@ public class AdminServlet extends HomeServlet{
         }
         
         response.sendRedirect(redirectUrl);
+    }
+
+    private void handleModerationPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String action = request.getParameter("action");
+        String resourceIdStr = request.getParameter("resourceId");
+        String note = request.getParameter("note");
+
+        User admin = (User) SessionUtil.getAttribute(request, "user");
+        if (admin == null || !admin.isAdmin()) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized access");
+            return;
+        }
+
+        if (action != null && resourceIdStr != null && !resourceIdStr.trim().isEmpty()) {
+            try {
+                int resourceId = Integer.parseInt(resourceIdStr);
+                com.ScholarShare.dao.ModerationLogDao modLogDao = new com.ScholarShare.dao.daoImpl.ModerationLogDaoImpl();
+                com.ScholarShare.entity.ModerationLog log = new com.ScholarShare.entity.ModerationLog();
+                log.setAdminId(admin.getUserId());
+                log.setResourceId(resourceId);
+                log.setAction(action);
+                log.setNote(note != null ? note : "");
+
+                modLogDao.addLog(log);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String referer = request.getHeader("Referer");
+        response.sendRedirect(referer != null ? referer : request.getContextPath() + "/admin/dashboard");
     }
 }
