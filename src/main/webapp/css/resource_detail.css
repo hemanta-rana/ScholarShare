@@ -304,3 +304,220 @@ a.btn-save-collection:hover {
     .detail-card__info-label { min-width: 0; }
     .btn-download { width: 100%; justify-content: center; }
 }
+
+/* ── ALERT MESSAGES ── */
+.alert {
+    padding: 12px 16px;
+    border-radius: 9px;
+    font-size: 13.5px;
+    font-weight: 500;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.alert--success {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+
+.alert--error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+
+/* ── RATING SUMMARY ── */
+.rating-summary {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.rating-avg-score {
+    font-size: 28px;
+    font-weight: 700;
+    color: #f59e0b;
+    line-height: 1;
+}
+
+.rating-avg-label {
+    font-size: 13.5px;
+    color: #6b7a99;
+}
+
+.rating-already-done {
+    font-size: 13.5px;
+    color: #065f46;
+    background: #d1fae5;
+    border: 1px solid #a7f3d0;
+    border-radius: 8px;
+    padding: 10px 14px;
+}
+
+/* ── STAR RATING FORM ── */
+.star-rating-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.star-fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.star-legend {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #3d4f6e;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* Hide the actual radio inputs */
+.star-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Star container — reversed so CSS sibling trick works */
+.stars {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 4px;
+}
+
+.star-label {
+    font-size: 32px;
+    color: #d1d9e8;
+    cursor: pointer;
+    transition: color 0.15s, transform 0.1s;
+    line-height: 1;
+    user-select: none;
+}
+
+/* Highlight hovered star and all stars before it (to the right in reversed flex) */
+.stars:hover .star-label {
+    color: #d1d9e8;
+}
+
+.star-label:hover,
+.star-label:hover ~ .star-label {
+    color: #f59e0b;
+    transform: scale(1.15);
+}
+
+/* Highlight checked star and all stars before it */
+.star-input:checked ~ .star-label {
+    color: #f59e0b;
+}
+
+/* Keyboard focus ring */
+.star-input:focus-visible + .star-label {
+    outline: 2px solid #3a7bd5;
+    outline-offset: 2px;
+    border-radius: 3px;
+}
+
+.btn-submit-rating {
+    align-self: flex-start;
+    padding: 9px 22px;
+    background: #3a7bd5;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+}
+
+.btn-submit-rating:hover {
+    background: #2c63b5;
+    transform: translateY(-1px);
+}
+
+.btn-submit-rating:disabled {
+    background: #a0aec0;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ── FLAG FORM ── */
+.flag-description {
+    font-size: 13.5px;
+    color: #6b7a99;
+    margin-bottom: 14px;
+    line-height: 1.55;
+}
+
+.flag-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.flag-label {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #3d4f6e;
+}
+
+.required-mark {
+    color: #e53e3e;
+    margin-left: 2px;
+}
+
+.flag-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d1d9e8;
+    border-radius: 9px;
+    font-size: 13.5px;
+    color: #1b2332;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 90px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.flag-textarea:focus {
+    border-color: #3a7bd5;
+    box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.12);
+}
+
+.btn-submit-flag {
+    align-self: flex-start;
+    padding: 9px 22px;
+    background: #e53e3e;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+}
+
+.btn-submit-flag:hover {
+    background: #c53030;
+    transform: translateY(-1px);
+}
+
+.flag-already-done {
+    font-size: 13.5px;
+    color: #1e40af;
+    background: #dbeafe;
+    border: 1px solid #93c5fd;
+    border-radius: 8px;
+    padding: 10px 14px;
+}

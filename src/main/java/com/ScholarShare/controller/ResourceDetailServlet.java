@@ -1,6 +1,8 @@
 package com.ScholarShare.controller;
 
 import com.ScholarShare.dao.daoImpl.CollectionDaoImpl;
+import com.ScholarShare.dao.daoImpl.FlagDaoImpl;
+import com.ScholarShare.dao.daoImpl.RatingDaoImpl;
 import com.ScholarShare.dao.daoImpl.ResourceDaoImpl;
 import com.ScholarShare.entity.Resource;
 import com.ScholarShare.entity.User;
@@ -14,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/resource")
+@WebServlet({"/resource", "/resource-detail"})
 public class ResourceDetailServlet extends HttpServlet {
 
     private final StudentDashboardService dashboardService = new StudentDashboardService();
@@ -29,8 +31,16 @@ public class ResourceDetailServlet extends HttpServlet {
             return;
         }
 
+        int resourceId;
+        try {
+            resourceId = Integer.parseInt(idStr.trim());
+        } catch (NumberFormatException e) {
+            response.sendRedirect(request.getContextPath() + "/browser");
+            return;
+        }
+
         ResourceDaoImpl resourceDao = new ResourceDaoImpl();
-        Resource resource = resourceDao.getById(Integer.parseInt(idStr));
+        Resource resource = resourceDao.getById(resourceId);
 
         if(resource == null){
             response.sendRedirect(request.getContextPath() + "/browser");
@@ -44,6 +54,20 @@ public class ResourceDetailServlet extends HttpServlet {
             request.setAttribute("collections", collectionDao.getByUser(user.getUserId()));
 
             if (user.isStudent()) {
+                // Populate rating data for approved resources
+                if (resource.isApproved()) {
+                    RatingDaoImpl ratingDao = new RatingDaoImpl();
+                    double avg = ratingDao.averageRating(resourceId);
+                    boolean hasRated = ratingDao.hasUserRated(resourceId, user.getUserId());
+                    request.setAttribute("averageRating", avg);
+                    request.setAttribute("hasRated", hasRated);
+
+                    // Populate flag data
+                    FlagDaoImpl flagDao = new FlagDaoImpl();
+                    boolean hasAlreadyFlagged = flagDao.hasStudentAlreadyFlagged(resourceId, user.getUserId());
+                    request.setAttribute("hasAlreadyFlagged", hasAlreadyFlagged);
+                }
+
                 // Student view — includes student sidebar, header, and profile modal
                 request.setAttribute("profile", dashboardService.getProfile(user.getUserId(), request.getContextPath()));
                 request.getRequestDispatcher("/WEB-INF/views/resource-detail.jsp").forward(request, response);

@@ -49,13 +49,13 @@ public class FlagServlet extends HttpServlet {
 
         if (ValidationUtil.isNullOrEmpty(reason)) {
             req.getSession().setAttribute("flagError", "Reason is required.");
-            resp.sendRedirect(req.getContextPath() + "/resource-detail?id=" + resourceId);
+            resp.sendRedirect(req.getContextPath() + "/resource?id=" + resourceId);
             return;
         }
 
         if (flagDao.hasStudentAlreadyFlagged(resourceId, user.getUserId())) {
             req.getSession().setAttribute("flagError", "You have already flagged this resource.");
-            resp.sendRedirect(req.getContextPath() + "/resource-detail?id=" + resourceId);
+            resp.sendRedirect(req.getContextPath() + "/resource?id=" + resourceId);
             return;
         }
 
@@ -77,6 +77,6 @@ public class FlagServlet extends HttpServlet {
             req.getSession().setAttribute("flagError", "Failed to submit the flag.");
         }
 
-        resp.sendRedirect(req.getContextPath() + "/resource-detail?id=" + resourceId);
+        resp.sendRedirect(req.getContextPath() + "/resource?id=" + resourceId);
     }
 }

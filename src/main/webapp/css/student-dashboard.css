@@ -756,6 +756,8 @@ body {
     border-radius: 14px;
     padding: 20px;
     box-shadow: var(--student-shadow);
+    /* prevent any child from bleeding outside the card */
+    overflow: hidden;
 }
 
 .recent-resources-header {
@@ -764,6 +766,7 @@ body {
     justify-content: space-between;
     gap: 16px;
     margin-bottom: 16px;
+    flex-wrap: wrap;
 }
 
 .recent-resources-header h3 {
@@ -808,37 +811,102 @@ body {
     display: flex;
     gap: 14px;
     overflow-x: auto;
+    overflow-y: hidden;          /* prevent vertical bleed */
     scroll-behavior: smooth;
-    padding-bottom: 6px;
+    padding-bottom: 8px;
+    /* hide scrollbar on webkit while keeping scroll functionality */
+    scrollbar-width: thin;
+    scrollbar-color: var(--student-border) transparent;
+}
+
+.resource-carousel::-webkit-scrollbar {
+    height: 4px;
+}
+
+.resource-carousel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.resource-carousel::-webkit-scrollbar-thumb {
+    background: var(--student-border);
+    border-radius: 999px;
 }
 
 .resource-tile {
     min-width: 220px;
     max-width: 220px;
+    width: 220px;
     border: 1px solid var(--student-border);
     border-radius: 12px;
     padding: 14px;
     background: #fafbfd;
     flex-shrink: 0;
+    /* make all tiles the same height so the row never overflows vertically */
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.resource-tile:hover {
+    border-color: var(--student-blue);
+    box-shadow: 0 4px 14px rgba(58, 123, 213, 0.1);
 }
 
 .resource-tile-icon {
     width: 28px;
     height: 28px;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
+    flex-shrink: 0;
 }
 
 .resource-tile h4 {
-    font-size: 14px;
-    margin-bottom: 6px;
+    font-size: 13.5px;
     line-height: 1.35;
+    /* clamp to 2 lines so no tile grows taller than its siblings */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0;
+    flex-shrink: 0;
 }
 
-.resource-tile-meta,
+.resource-tile-meta {
+    font-size: 11.5px;
+    color: var(--student-muted);
+    /* clamp to 1 line */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: auto;
+}
+
 .resource-tile-date,
 .resource-tile-author {
-    font-size: 12px;
+    font-size: 11.5px;
     color: var(--student-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.resource-tile-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--student-blue);
+    text-decoration: none;
+    padding: 5px 0 0;
+    border-top: 1px solid var(--student-border);
+    width: 100%;
+    transition: color 0.15s;
+}
+
+.resource-tile-link:hover {
+    color: #2c63b5;
 }
 
 .empty-panel {
@@ -907,6 +975,13 @@ body {
     .user-info {
         display: none;
     }
+
+    /* ── Recently Added Resources — tablet ── */
+    .resource-tile {
+        min-width: 180px;
+        max-width: 180px;
+        width: 180px;
+    }
 }
 
 @media (max-width: 600px) {
@@ -915,6 +990,38 @@ body {
     }
 
     .student-topbar .search-wrap {
+        display: none;
+    }
+
+    /* ── Recently Added Resources — mobile ── */
+    .recent-resources-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .carousel-controls {
+        align-self: flex-end;
+    }
+
+    /* On very small screens switch from horizontal scroll to a
+       2-column wrapping grid so tiles are readable without scrolling */
+    .resource-carousel {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        overflow-x: visible;
+        overflow-y: visible;
+        gap: 10px;
+        padding-bottom: 0;
+    }
+
+    .resource-tile {
+        min-width: 0;
+        max-width: none;
+        width: 100%;
+    }
+
+    /* Hide carousel arrow buttons — not needed for grid layout */
+    .carousel-controls {
         display: none;
     }
 }

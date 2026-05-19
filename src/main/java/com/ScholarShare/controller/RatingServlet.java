@@ -30,11 +30,13 @@ public class RatingServlet extends HttpServlet {
 
             String resultMessage = ratingService.submitRating(user, resourceId, score);
             if (resultMessage != null) {
-                session.setAttribute("resultMessage", resultMessage);
+                session.setAttribute("ratingError", resultMessage);
+            } else {
+                session.setAttribute("ratingSuccess", "Your rating has been submitted.");
             }
-            response.sendRedirect(request.getContextPath() + "/resource-detail?id=" + resourceId);
+            response.sendRedirect(request.getContextPath() + "/resource?id=" + resourceId);
         } catch (NumberFormatException e) {
-            session.setAttribute("error", "invalid rating");
+            session.setAttribute("ratingError", "Invalid rating input.");
             response.sendRedirect(request.getContextPath() + "/home");
         }
 

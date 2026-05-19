@@ -198,6 +198,8 @@
                                 <p class="resource-tile-meta"><c:out value="${item.type}"/> · <c:out value="${item.subject}"/></p>
                                 <p class="resource-tile-date"><c:out value="${item.uploadDate}"/></p>
                                 <p class="resource-tile-author">By <c:out value="${item.author}"/></p>
+                                <a href="${pageContext.request.contextPath}/resource?id=${item.id}"
+                                   class="resource-tile-link" aria-label="View ${item.title}">View</a>
                             </article>
                         </c:forEach>
                     </div>

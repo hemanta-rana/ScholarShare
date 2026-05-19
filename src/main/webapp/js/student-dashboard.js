@@ -23,7 +23,8 @@
     const nextBtn  = document.getElementById('carouselNext');
 
     if (carousel && prevBtn && nextBtn) {
-        const scrollAmount = 240;
+        // scroll by one tile width + gap (220px tile + 14px gap)
+        const scrollAmount = 234;
         prevBtn.addEventListener('click', function () {
             carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
         });
