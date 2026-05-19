@@ -91,11 +91,15 @@ public class StudentDashboardService {
     }
 
     public List<Map<String, Object>> getRecentSubmissions(int userId, String searchQuery) {
+        return getRecentSubmissions(userId, searchQuery, 3);
+    }
+
+    public List<Map<String, Object>> getRecentSubmissions(int userId, String searchQuery, int limit) {
         List<Resource> resources;
         if (searchQuery != null && !searchQuery.isBlank()) {
-            resources = studentDao.searchStudentSubmissions(userId, searchQuery.trim(), 10);
+            resources = studentDao.searchStudentSubmissions(userId, searchQuery.trim(), limit);
         } else {
-            resources = studentDao.getRecentSubmissionsByUser(userId, 10);
+            resources = studentDao.getRecentSubmissionsByUser(userId, limit);
         }
 
         List<Map<String, Object>> result = new ArrayList<>();
@@ -108,7 +112,7 @@ public class StudentDashboardService {
     }
 
     public List<Map<String, Object>> getRecentlyAddedResources(int userId) {
-        List<Resource> resources = studentDao.getRecentlyAddedApprovedResources(userId, 8);
+        List<Resource> resources = studentDao.getRecentlyAddedApprovedResources(userId, 3);
         List<Map<String, Object>> result = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
 

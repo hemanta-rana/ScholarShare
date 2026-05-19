@@ -20,4 +20,20 @@
         <param-value>d:\BIT academic year 2\Advance programming and Technologies\courseWork\SholarShare\src\main\webapp</param-value>
     </context-param>
 
+    <!-- ── Error pages ── -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/views/error-404.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/views/error-500.jsp</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/WEB-INF/views/error-500.jsp</location>
+    </error-page>
+
 </web-app>

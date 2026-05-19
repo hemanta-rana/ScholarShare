@@ -19,6 +19,9 @@ body {
     color: var(--student-navy);
     min-height: 100vh;
     display: flex;
+    /* prevent any child from creating a horizontal scrollbar
+       that makes the page appear cut in half on mobile */
+    overflow-x: hidden;
 }
 
 .student-sidebar {
@@ -137,6 +140,9 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    /* ensure content never bleeds wider than the available viewport */
+    min-width: 0;
+    overflow-x: hidden;
 }
 
 /* ── TOPBAR (admin-style) ── */
@@ -505,6 +511,9 @@ body {
     text-decoration: none;
     white-space: nowrap;
     flex-shrink: 0;
+    /* prevent the button from ever overflowing its container */
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .welcome-upload-btn img {
@@ -936,6 +945,7 @@ body {
     }
 }
 
+/* ── TABLET (≤900px) ── */
 @media (max-width: 900px) {
     .student-topbar {
         padding: 0 16px;
@@ -948,15 +958,6 @@ body {
 
     .student-topbar .hamburger {
         display: flex;
-    }
-
-    .welcome-banner {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .summary-row {
-        grid-template-columns: 1fr 1fr;
     }
 
     .student-main {
@@ -976,38 +977,137 @@ body {
         display: none;
     }
 
-    /* ── Recently Added Resources — tablet ── */
+    /* Welcome banner stacks on tablet */
+    .welcome-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 22px 24px;
+    }
+
+    .welcome-upload-btn {
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+
+    .summary-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* Carousel tiles slightly narrower on tablet */
     .resource-tile {
-        min-width: 180px;
-        max-width: 180px;
-        width: 180px;
+        min-width: 190px;
+        max-width: 190px;
+        width: 190px;
     }
 }
 
+/* ── MOBILE (≤600px) ── */
 @media (max-width: 600px) {
-    .summary-row {
-        grid-template-columns: 1fr;
+    .student-content {
+        padding: 14px;
+        gap: 14px;
     }
 
+    /* Search bar hidden — too cramped */
     .student-topbar .search-wrap {
         display: none;
     }
 
-    /* ── Recently Added Resources — mobile ── */
-    .recent-resources-header {
-        flex-direction: column;
+    /* Welcome banner */
+    .welcome-banner {
+        padding: 18px 16px;
+        gap: 14px;
+        border-radius: 12px;
+    }
+
+    .welcome-banner h2 {
+        font-size: 22px;
+        margin-bottom: 6px;
+    }
+
+    .welcome-banner p {
+        font-size: 13px;
+    }
+
+    /* Upload button full-width, never overflows */
+    .welcome-upload-btn {
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+        white-space: normal;
+        text-align: center;
+        padding: 11px 14px;
+        font-size: 13.5px;
+    }
+
+    /* Summary cards: 2 columns on mobile */
+    .summary-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px;
     }
 
-    .carousel-controls {
-        align-self: flex-end;
+    .summary-value {
+        font-size: 24px;
     }
 
-    /* On very small screens switch from horizontal scroll to a
-       2-column wrapping grid so tiles are readable without scrolling */
+    /* Dashboard grid single column */
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    /* Card padding tighter */
+    .card {
+        padding: 16px;
+    }
+
+    .card-header h3 {
+        font-size: 17px;
+    }
+
+    /* Submissions table: hide Type and Date columns, keep Title + Status */
+    .submissions-table th:nth-child(2),
+    .submissions-table td:nth-child(2),
+    .submissions-table th:nth-child(3),
+    .submissions-table td:nth-child(3) {
+        display: none;
+    }
+
+    .submissions-table td {
+        padding: 12px 10px;
+    }
+
+    /* Reputation ring smaller */
+    .reputation-ring {
+        width: 140px;
+        height: 140px;
+    }
+
+    .reputation-ring-inner {
+        width: 100px;
+        height: 100px;
+    }
+
+    .reputation-ring-inner strong {
+        font-size: 22px;
+    }
+
+    /* Recently Added Resources: switch to single-column grid */
+    .recent-resources-header {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    /* Hide carousel arrows — not needed for grid */
+    .carousel-controls {
+        display: none;
+    }
+
     .resource-carousel {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
         overflow-x: visible;
         overflow-y: visible;
         gap: 10px;
@@ -1020,8 +1120,34 @@ body {
         width: 100%;
     }
 
-    /* Hide carousel arrow buttons — not needed for grid layout */
-    .carousel-controls {
+    /* Page title smaller */
+    .page-title {
+        font-size: 15px;
+    }
+}
+
+/* ── SMALL MOBILE (≤400px) ── */
+@media (max-width: 400px) {
+    .student-content {
+        padding: 10px;
+        gap: 12px;
+    }
+
+    /* Summary cards: single column on very small phones */
+    .summary-row {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome-banner {
+        padding: 14px 12px;
+    }
+
+    .welcome-banner h2 {
+        font-size: 19px;
+    }
+
+    /* Hide icon buttons in topbar to save space */
+    .topbar-right .icon-btn {
         display: none;
     }
 }
@@ -1750,107 +1876,7 @@ body.sidebar-open .student-sidebar-overlay {
 }
 
 /* ── EXTRA MOBILE FIXES ── */
-@media (max-width: 480px) {
-    .welcome-banner {
-        padding: 20px;
-    }
-
-    /* Student content padding */
-    .student-content {
-        padding: 16px;
-        gap: 16px;
-    }
-
-    /* Summary cards single column */
-    .summary-row {
-        grid-template-columns: 1fr;
-    }
-
-    /* Topbar: hide icon buttons on very small screens */
-    .topbar-right .icon-btn {
-        display: none;
-    }
-
-    /* Scale down large text on tiny screens */
-    .page-title {
-        font-size: 15px;
-    }
-
-    .summary-value {
-        font-size: 22px;
-    }
-
-    .card-header h3 {
-        font-size: 18px;
-    }
-
-    .welcome-banner h2 {
-        font-size: 22px;
-    }
-
-    .welcome-banner p {
-        font-size: 13px;
-    }
-
-    .welcome-upload-btn {
-        width: 100%;
-        justify-content: center;
-    }
-
-    /* Resource tiles narrower on small phones */
-    .resource-tile {
-        min-width: 170px;
-        max-width: 170px;
-    }
-
-    /* Reputation ring smaller on mobile */
-    .reputation-ring {
-        width: 140px;
-        height: 140px;
-    }
-
-    .reputation-ring-inner {
-        width: 100px;
-        height: 100px;
-    }
-
-    .reputation-ring-inner strong {
-        font-size: 22px;
-    }
-
-    /* Uploads page header stacks on tiny screens */
-    .uploads-page-header {
-        flex-direction: column;
-    }
-
-    .uploads-page-header .welcome-upload-btn {
-        width: 100%;
-        justify-content: center;
-    }
-
-    /* Uploads table: hide type and date columns, keep title + status + view */
-    .uploads-table th:nth-child(2),
-    .uploads-table td:nth-child(2),
-    .uploads-table th:nth-child(4),
-    .uploads-table td:nth-child(4) {
-        display: none;
-    }
-
-    /* Recent Resources grid — single column on mobile */
-    .recent-resources-grid {
-        grid-template-columns: 1fr;
-    }
-
-    /* Reputation detail grid single column */
-    .reputation-detail-grid {
-        grid-template-columns: 1fr;
-    }
-
-    /* Reputation summary cards */
-    .reputation-summary-row {
-        grid-template-columns: 1fr;
-    }
-}
+/* (handled by the consolidated breakpoints above) */
 
 /* ═══════════════════════════════════════════════════
    REPUTATION PAGE  (student-reputation.jsp)
