@@ -25,11 +25,7 @@ public interface StudentDao {
     List<Resource> getRecentSubmissionsByUser(int userId, int limit);
     List<Resource> getRecentlyAddedApprovedResources(int userId, int limit);
 
-    // -- new reputation methods --
     String getContributorStatus(int userId);
-    boolean addReputationEventOnUpload(int userId);
-    boolean addReputationEventOnDownload(int contributorUserId);
-    boolean addReputationEventOnLike(int contributorUserId);
 
     // -- profile update --
     boolean updateProfile(int userId, String fullName, String phone);

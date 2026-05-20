@@ -93,8 +93,7 @@ public class StudentServlet extends HttpServlet {
             case "agreeToIntegrityPledge" -> handleIntegrityPledge(req, resp, session);
             case "flagPlagiarism"         -> handleFlagPlagiarism(req, resp, session);
             case "uploadProfilePicture"   -> handleUploadProfilePicture(req, resp, session);
-            case "likeResource"           -> handleLikeResource(req, resp, session);
-            case "downloadResource"       -> handleDownloadResource(req, resp, session);
+
 
             default -> {
                 System.out.println("StudentServlet: unknown POST action — " + action);
@@ -253,67 +252,7 @@ public class StudentServlet extends HttpServlet {
     }
 
 
-    private void handleLikeResource(HttpServletRequest req,
-                                    HttpServletResponse resp,
-                                    HttpSession session)
-            throws IOException {
 
-        String contributorIdParam = req.getParameter("contributorId");
-
-        if (contributorIdParam == null) {
-            session.setAttribute("flashError", "Contributor ID is required.");
-            resp.sendRedirect(req.getContextPath() + "/student/dashboard");
-            return;
-        }
-
-        try {
-            int contributorId = Integer.parseInt(contributorIdParam);
-            boolean success   = studentDao.addReputationEventOnLike(contributorId);
-
-            if (success) {
-                session.setAttribute("flashMessage", "Resource liked!");
-                System.out.println("StudentServlet: like event recorded for contributor " + contributorId);
-            } else {
-                session.setAttribute("flashError", "Could not record like. Please try again.");
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("StudentServlet: invalid contributorId for like — " + contributorIdParam);
-            session.setAttribute("flashError", "Invalid contributor ID.");
-        }
-
-        resp.sendRedirect(req.getContextPath() + "/student/dashboard");
-    }
-
-
-    private void handleDownloadResource(HttpServletRequest req,
-                                        HttpServletResponse resp,
-                                        HttpSession session)
-            throws IOException {
-
-        String contributorIdParam = req.getParameter("contributorId");
-
-        if (contributorIdParam == null) {
-            session.setAttribute("flashError", "Contributor ID is required.");
-            resp.sendRedirect(req.getContextPath() + "/student/dashboard");
-            return;
-        }
-
-        try {
-            int contributorId = Integer.parseInt(contributorIdParam);
-            boolean success   = studentDao.addReputationEventOnDownload(contributorId);
-
-            if (success) {
-                System.out.println("StudentServlet: download event recorded for contributor " + contributorId);
-            } else {
-                System.out.println("StudentServlet: download event failed for contributor " + contributorId);
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("StudentServlet: invalid contributorId for download — " + contributorIdParam);
-        }
-
-        // Redirect to the actual resource file (update path to match your resource serving URL)
-        resp.sendRedirect(req.getContextPath() + "/student/dashboard");
-    }
 
 
     //  Utility

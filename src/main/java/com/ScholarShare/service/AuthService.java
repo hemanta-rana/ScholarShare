@@ -1,4 +1,5 @@
 package com.ScholarShare.service;
+
 import com.ScholarShare.dao.StudentDao;
 import com.ScholarShare.dao.UserDao;
 import com.ScholarShare.dao.daoImpl.StudentDaoImpl;
@@ -7,13 +8,13 @@ import com.ScholarShare.entity.User;
 import com.ScholarShare.util.ValidationUtil;
 import com.ScholarShare.util.PasswordUtil;
 
-
 public class AuthService {
     private static final UserDao userDao = new UserDaoImpl();
-    private static  final StudentDao  studentDao = new StudentDaoImpl();
+    private static final StudentDao studentDao = new StudentDaoImpl();
 
-    //Register
-    public String register(String fullName, String email, String phone, String password, String confirmPassword, Boolean pledgeAgreed) {
+    // Register
+    public String register(String fullName, String email, String phone, String password, String confirmPassword,
+            Boolean pledgeAgreed) {
 
         if (ValidationUtil.isNullOrEmpty(email) ||
                 ValidationUtil.isNullOrEmpty(password) ||
@@ -36,14 +37,13 @@ public class AuthService {
             return "Passwords do not match.";
 
         if (!pledgeAgreed) {
-            System.out.println("pledge agreed"+pledgeAgreed);
+            System.out.println("pledge agreed" + pledgeAgreed);
             return "You must agree to the Academic Integrity Pledge to register.";
 
         }
 
         if (userDao.getUserByEmail(email) != null)
             return "Email already exists.";
-
 
         User user = new User();
         user.setFullName(fullName);
@@ -57,11 +57,13 @@ public class AuthService {
         user.setCreatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
 
         boolean saved = userDao.addUser(user);
-        System.out.println("saved "+saved);
+        System.out.println("saved " + saved);
         User savedNotActive = userDao.getPendingUserByEmail(email);
-       boolean agreed = studentDao.agreeToIntegrityPledge(savedNotActive.getUserId());
-        if (saved && agreed) return null;
-        else return "registration failed.";
+        boolean agreed = studentDao.agreeToIntegrityPledge(savedNotActive.getUserId());
+        if (saved && agreed)
+            return null;
+        else
+            return "registration failed.";
     }
 
     // login
@@ -81,7 +83,8 @@ public class AuthService {
         return user;
     }
 
-    // takes email and password as parameter. returns String used in the UI to show message
+    // takes email and password as parameter. returns String used in the UI to show
+    // message
     public String getLoginErrorMessage(String email, String password) {
         if (email == null || email.isEmpty()) {
             return "Email is required";
@@ -93,7 +96,3 @@ public class AuthService {
     }
 
 }
-
-
-
-

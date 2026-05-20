@@ -81,8 +81,8 @@
           </p>
 
           <div class="hero-btns">
-            <a href="#categories" class="btn-sky">Browse Resources</a>
-            <a href="#how-it-works" class="btn-gold">Upload a Resource</a>
+            <a href="${pageContext.request.contextPath}/login" class="btn-sky">Browse Resources</a>
+            <a href="${pageContext.request.contextPath}/login" class="btn-gold">Upload a Resource</a>
           </div>
 
         </div>

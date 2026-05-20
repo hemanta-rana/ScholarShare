@@ -156,20 +156,7 @@ public class StudentDaoImpl  implements StudentDao {
         if (score >= THRESHOLD_SILVER)   return "SILVER";
         return "BRONZE";
     }
-    @Override
-    public boolean addReputationEventOnUpload(int userId) {
-        return true;
-    }
 
-    @Override
-    public boolean addReputationEventOnDownload(int contributorUserId) {
-        return true;
-    }
-
-    @Override
-    public boolean addReputationEventOnLike(int contributorUserId) {
-        return true;
-    }
 
     @Override
     public boolean updateProfile(int userId, String fullName, String phone) {
